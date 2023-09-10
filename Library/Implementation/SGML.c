@@ -289,8 +289,10 @@ PRIVATE HTTag * find_tag ARGS2(CONST SGML_dtd*, dtd, char *, string)
 
 PUBLIC void SGML_free  ARGS1(HTStream *, context)
 {
+	int i;
     (*context->actions->free)(context->target);
     HTChunkFree(context->string);
+	for(i = 0; i < MAX_ATTRIBUTES; ++i) free(context->value[i]);
     free(context);
 }
 
