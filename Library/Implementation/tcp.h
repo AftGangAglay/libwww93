@@ -279,8 +279,8 @@ IBM-PC running Windows NT
  */
 #ifdef _WINDOWS
 #include "fcntl.h"                      /* For HTFile.c */
-#include "sys\types.h"                  /* For HTFile.c */
-#include "sys\stat.h"                   /* For HTFile.c */
+#include "sys/types.h"                  /* For HTFile.c */
+#include "sys/stat.h"                   /* For HTFile.c */
 
 #undef NETREAD
 #undef NETWRITE
