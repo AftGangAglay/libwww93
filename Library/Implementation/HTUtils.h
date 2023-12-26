@@ -15,12 +15,20 @@
 #define HTUTILS_H
 
 #ifdef _WINDOWS                         /* SCW */
-#include "windef.h"
+#include <windows.h>
 #define BOOLEAN_DEFINED
 #endif
 
 #ifdef SHORT_NAMES
 #define WWW_TraceFlag HTTrFlag
+#endif
+
+
+#ifdef _MSC_VER
+typedef unsigned long u_long;
+typedef unsigned int u_int;
+typedef unsigned short u_short;
+typedef unsigned char u_char;
 #endif
 
 /*

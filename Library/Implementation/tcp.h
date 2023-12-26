@@ -453,10 +453,12 @@ Regular BSD unix versions
 #include <string.h>
 
 #include <errno.h>          /* independent */
-#include <sys/time.h>       /* independent */
 #include <sys/stat.h>
+#ifndef _MSC_VER
+#include <sys/time.h>       /* independent */
 #include <sys/param.h>
 #include <sys/file.h>       /* For open() etc */
+#endif
 #define INCLUDES_DONE
 #endif  /* Normal includes */
 
@@ -484,12 +486,16 @@ Defaults
   
  */
 #ifndef TCP_INCLUDES_DONE
+#ifndef _MSC_VER
 #include <sys/socket.h>
 #include <netinet/in.h>
 #ifndef __hpux /* this may or may not be good -marc */
 #include <arpa/inet.h>      /* Must be after netinet/in.h */
 #endif
 #include <netdb.h>
+#else
+#include <winsock.h>
+#endif
 #endif  /* TCP includes */
 
 

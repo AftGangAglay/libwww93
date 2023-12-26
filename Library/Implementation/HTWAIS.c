@@ -1,3 +1,5 @@
+#ifndef _MSC_VER
+
 /*	WorldWideWeb - Wide Area Informaion Server Access	HTWAIS.c
 **	==================================================
 **
@@ -853,4 +855,4 @@ PUBLIC int HTLoadWAIS ARGS4(
 
 PUBLIC HTProtocol HTWAIS = { "wais", HTLoadWAIS, NULL };
 
-
+#endif
