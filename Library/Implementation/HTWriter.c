@@ -128,7 +128,7 @@ PRIVATE void HTWriter_free ARGS1(HTStream *, me)
     free(me);
 }
 
-PRIVATE void HTWriter_abort ARGS1(HTStream *, me)
+PRIVATE void HTWriter_abort ARGS2(HTStream *, me, HTError, e)
 {
     HTWriter_free(me);
 }
