@@ -277,7 +277,7 @@ IBM-PC running Windows NT
    These parameters providede by  Susan C. Weber <sweber@kyle.eitech.com>.
    
  */
-#ifdef _WINDOWS
+#ifdef _WIN32
 #include "fcntl.h"                      /* For HTFile.c */
 #include "sys/types.h"                  /* For HTFile.c */
 #include "sys/stat.h"                   /* For HTFile.c */

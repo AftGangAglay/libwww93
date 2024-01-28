@@ -32,7 +32,7 @@ typedef enum _MIME_state {
 	CHECK,			/* check against check_pointer */
 	MIME_NET_ASCII,		/* Translate from net ascii */
 	MIME_IGNORE		/* ignore entire file */
-	/* TRANSPARENT and IGNORE are defined as stg else in _WINDOWS */
+	/* TRANSPARENT and IGNORE are defined as stg else in _WIN32 */
 } MIME_state;
 
 #define VALUE_SIZE 128		/* @@@@@@@ Arbitrary? */

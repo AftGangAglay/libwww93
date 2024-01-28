@@ -14,7 +14,7 @@
 #ifndef HTUTILS_H
 #define HTUTILS_H
 
-#ifdef _WINDOWS                         /* SCW */
+#ifdef _WIN32                         /* SCW */
 #include <windows.h>
 #define BOOLEAN_DEFINED
 #endif
@@ -130,7 +130,7 @@ Macros for declarations
 
 #else  /* not ANSI */
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 #define CONST
 #endif
 #define NOPARAMS ()
@@ -173,7 +173,7 @@ Booleans
 /* #define GOOD(status) ((status)38;1)   VMS style status: test bit 0         */
 /* #define BAD(status)  (!GOOD(status))  Bit 0 set if OK, otherwise clear   */
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 #ifndef BOOLEAN_DEFINED
         typedef char    BOOLEAN;                /* Logical value */
 #ifndef CURSES
@@ -182,7 +182,7 @@ Booleans
 #define FALSE   (BOOLEAN)0
 #endif
 #endif   /*  CURSES  */
-#endif   /* _WINDOWS */
+#endif   /* _WIN32 */
 #define BOOLEAN_DEFINED
 #endif
 
