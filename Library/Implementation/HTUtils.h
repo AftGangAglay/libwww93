@@ -6,10 +6,6 @@
    See also: the system dependent file "tcp.h"
    
  */
-
-#ifndef DEBUG
-#define DEBUG   /* Noone ever turns this off as trace is too important */
-#endif          /* Keeep option for really small memory applications tho */
                 
 #ifndef HTUTILS_H
 #define HTUTILS_H
@@ -41,7 +37,7 @@ Debug message control.
 #define STDIO_H
 #endif
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #define TRACE (WWW_TraceFlag)
 #define PROGRESS(str) printf(str)
         extern int WWW_TraceFlag;
