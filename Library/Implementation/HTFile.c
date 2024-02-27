@@ -514,13 +514,16 @@ PUBLIC float HTFileValue ARGS1 (CONST char *,filename)
 #ifdef PCNFS
 #define NO_GROUPS
 #endif
+#ifdef _WIN32
+#define NO_GROUPS
+#endif
 
 PUBLIC BOOL HTEditable ARGS1 (CONST char *,filename)
 {
 #ifdef NO_GROUPS
     return NO;		/* Safe answer till we find the correct algorithm */
 #else
-    int 	groups[NGROUPS];	
+    int 	groups[NGROUPS];
     uid_t	myUid;
     int		ngroups;			/* The number of groups  */
     struct stat	fileStatus;
