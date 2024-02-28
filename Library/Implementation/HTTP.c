@@ -252,9 +252,9 @@ PUBLIC int HTLoadHTTP ARGS4 (CONST char *, arg,
 		HTAtom* encoding = HTAtom_for("7bit");
 		int buffer_length = INIT_LINE_SIZE;    /* Why not? */
 
-		binary_buffer = (char*) malloc(buffer_length * sizeof(char));
+		binary_buffer = malloc(buffer_length * sizeof(char));
 		if(!binary_buffer) outofmem(__FILE__, "HTLoadHTTP");
-		text_buffer = (char*) malloc(buffer_length * sizeof(char));
+		text_buffer = malloc(buffer_length * sizeof(char));
 		if(!text_buffer) outofmem(__FILE__, "HTLoadHTTP");
 		length = 0;
 
@@ -413,7 +413,7 @@ PUBLIC int HTLoadHTTP ARGS4 (CONST char *, arg,
 				case 5:        /* I think you goofed */
 				{
 					char* p1 = HTParse(gate ? gate : arg, "", PARSE_HOST);
-					char* message = (char*) malloc(
+					char* message = malloc(
 							strlen(text_buffer) + strlen(p1) + 100);
 					if(!message) outofmem(__FILE__, "HTTP 5xx status");
 					sprintf(

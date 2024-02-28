@@ -174,7 +174,7 @@ char * HTParse(aName, relatedName, wanted)
 	/* Make working copies of input strings to cut up:
 	*/
 	len = strlen(aName) + strlen(relatedName) + 10;
-	result = (char*) malloc(len);        /* Lots of space: more than enough */
+	result = malloc(len);        /* Lots of space: more than enough */
 	if(result == NULL) outofmem(__FILE__, "HTParse");
 
 	StrAllocCopy(name, aName);
@@ -390,7 +390,7 @@ char * HTRelative(aName, relatedName)
 	else {                    /* Some path in common */
 		int levels = 0;
 		for(; *q && (*q != '#'); q++) if(*q == '/') levels++;
-		result = (char*) malloc(3 * levels + strlen(last_slash) + 1);
+		result = malloc(3 * levels + strlen(last_slash) + 1);
 		if(result == NULL) outofmem(__FILE__, "HTRelative");
 		result[0] = 0;
 		for(; levels; levels--)strcat(result, "../");
@@ -450,7 +450,7 @@ PUBLIC char* HTEscape ARGS2 (CONST char *, str, unsigned char, mask) {
 			unacceptable++;
 		}
 	}
-	result = (char*) malloc(p - str + unacceptable + unacceptable + 1);
+	result = malloc(p - str + unacceptable + unacceptable + 1);
 	if(result == NULL) outofmem(__FILE__, "HTEscape");
 	for(q = result, p = str; *p; p++) {
 		unsigned char a = TOASCII(*p);

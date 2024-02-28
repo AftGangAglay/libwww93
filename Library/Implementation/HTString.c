@@ -63,7 +63,7 @@ PUBLIC char* HTSACopy ARGS2 (char **, dest, CONST char *, src) {
 		*dest = NULL;
 	}
 	else {
-		*dest = (char*) malloc(strlen(src) + 1);
+		*dest = malloc(strlen(src) + 1);
 		if(*dest == NULL) outofmem(__FILE__, "HTSACopy");
 		strcpy(*dest, src);
 	}
@@ -81,7 +81,7 @@ PUBLIC char* HTSACat ARGS2 (char **, dest, CONST char *, src) {
 			strcpy(*dest + length, src);
 		}
 		else {
-			*dest = (char*) malloc(strlen(src) + 1);
+			*dest = malloc(strlen(src) + 1);
 			if(*dest == NULL) outofmem(__FILE__, "HTSACat");
 			strcpy(*dest, src);
 		}

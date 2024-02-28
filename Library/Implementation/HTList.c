@@ -11,7 +11,7 @@
 #include <stdio.h>                /* joe@athena, TBL 921019 */
 
 HTList* HTList_new NOARGS {
-	HTList* newList = (HTList*) malloc(sizeof(HTList));
+	HTList* newList = malloc(sizeof(HTList));
 	if(newList == NULL) outofmem(__FILE__, "HTList_new");
 	newList->object = NULL;
 	newList->next = NULL;
@@ -28,7 +28,7 @@ void HTList_delete ARGS1(HTList *, me) {
 
 void HTList_addObject ARGS2(HTList *, me, void *, newObject) {
 	if(me) {
-		HTList* newNode = (HTList*) malloc(sizeof(HTList));
+		HTList* newNode = malloc(sizeof(HTList));
 		if(newNode == NULL) outofmem(__FILE__, "HTList_addObject");
 		newNode->object = newObject;
 		newNode->next = me->next;

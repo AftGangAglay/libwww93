@@ -267,7 +267,7 @@ PUBLIC char* HTCacheFileName ARGS1(CONST char *, name) {
 	char* path = HTParse(name, "", PARSE_PATH + PARSE_PUNCTUATION);
 
 	char* result;
-	result = (char*) malloc(
+	result = malloc(
 			strlen(HTCacheRoot) + strlen(access) + strlen(host) + strlen(path) +
 			6 + 1);
 	if(result == NULL) outofmem(__FILE__, "HTCacheFileName");
@@ -318,7 +318,7 @@ PUBLIC char* HTLocalName ARGS1(CONST char *, name) {
 			return (path);
 		}
 		else {
-			char* result = (char*) malloc(
+			char* result = malloc(
 					strlen("/Net/") + strlen(host) + strlen(path) + 1);
 			if(result == NULL) outofmem(__FILE__, "HTLocalName");
 			sprintf(result, "%s%s%s", "/Net/", host, path);
@@ -335,7 +335,7 @@ PUBLIC char* HTLocalName ARGS1(CONST char *, name) {
 		char* result;
 		CONST char* home = (CONST char*) getenv("HOME");
 		if(!home) home = "/tmp";
-		result = (char*) malloc(
+		result = malloc(
 				strlen(home) + strlen(access) + strlen(host) + strlen(path) +
 				6 + 1);
 		if(result == NULL) outofmem(__FILE__, "HTLocalName");
@@ -366,12 +366,12 @@ PUBLIC char* WWW_nameOfFile ARGS1 (CONST char *, name) {
 	} else
 #endif
 	if(0 == strncmp(HTMountRoot, name, 5)) {
-		result = (char*) malloc(7 + strlen(name + 5) + 1);
+		result = malloc(7 + strlen(name + 5) + 1);
 		if(result == NULL) outofmem(__FILE__, "WWW_nameOfFile");
 		sprintf(result, "file://%s", name + 5);
 	}
 	else {
-		result = (char*) malloc(7 + strlen(HTHostName()) + strlen(name) + 1);
+		result = malloc(7 + strlen(HTHostName()) + strlen(name) + 1);
 		if(result == NULL) outofmem(__FILE__, "WWW_nameOfFile");
 		sprintf(result, "file://%s%s", HTHostName(), name);
 	}
@@ -597,7 +597,7 @@ HTDirEntry ARGS3(HTStructured *, target, CONST char *, tail, CONST char *,
 	char* escaped = HTEscape(entry, URL_XPALPHAS);
 
 	/* If empty tail, gives absolute ref below */
-	relative = (char*) malloc(
+	relative = malloc(
 			strlen(tail) + strlen(escaped) + 2);
 	if(relative == NULL) outofmem(__FILE__, "DirRead");
 	sprintf(relative, "%s/%s", tail, escaped);
@@ -645,7 +645,7 @@ PUBLIC void HTDirTitles ARGS2(HTStructured *, target, HTAnchor *, anchor) {
 		*current++ = 0;
 		parent = strrchr(path, '/');  /* penultimate slash */
 
-		relative = (char*) malloc(strlen(current) + 4);
+		relative = malloc(strlen(current) + 4);
 		if(relative == NULL) outofmem(__FILE__, "DirRead");
 		sprintf(relative, "%s/..", current);
 		HTStartAnchor(target, "", relative);

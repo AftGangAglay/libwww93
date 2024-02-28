@@ -14,7 +14,7 @@
 /*	Create a new style
 */
 PUBLIC HTStyle* HTStyleNew NOARGS {
-	HTStyle* self = (HTStyle*) malloc(sizeof(*self));
+	HTStyle* self = malloc(sizeof(*self));
 	memset(self, 0, sizeof(*self));
 	self->font = (HTFont) 0;
 	self->color = 0;
@@ -281,7 +281,7 @@ HTStyleSheet* HTStyleSheetRemoveStyle ARGS2
 */
 
 HTStyleSheet* HTStyleSheetNew NOARGS {
-	HTStyleSheet* self = (HTStyleSheet*) malloc(sizeof(*self));
+	HTStyleSheet* self = malloc(sizeof(*self));
 
 	memset((void*) self, 0, sizeof(*self));    /* ANSI */
 /* Harbison c ref man says (char*)self

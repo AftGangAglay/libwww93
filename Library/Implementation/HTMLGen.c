@@ -162,7 +162,7 @@ PRIVATE CONST HTStructuredClass HTMLGeneration = /* As opposed to print etc */
 */
 
 PUBLIC HTStructured* HTMLGenerator ARGS1(HTStream *, output) {
-	HTStructured* me = (HTStructured*) malloc(sizeof(*me));
+	HTStructured* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTMLGenerator");
 	me->isa = &HTMLGeneration;
 
@@ -193,7 +193,7 @@ PRIVATE CONST HTStructuredClass PlainToHTMLConversion = {
 PUBLIC HTStream*
 HTPlainToHTML ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
 					HTStream *, sink) {
-	HTStream* me = (HTStream*) malloc(sizeof(*me));
+	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "PlainToHTML");
 	me->isa = (HTStreamClass*) &PlainToHTMLConversion;
 

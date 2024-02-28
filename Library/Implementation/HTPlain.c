@@ -99,7 +99,7 @@ PUBLIC HTStream*
 HTPlainPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
 					 HTStream *, sink) {
 
-	HTStream* me = (HTStream*) malloc(sizeof(*me));
+	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTPlain_new");
 	me->isa = &HTPlain;
 

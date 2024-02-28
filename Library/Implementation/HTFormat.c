@@ -78,7 +78,7 @@ PUBLIC void
 HTSetPresentation ARGS5(CONST char *, representation, CONST char *, command,
 						float, quality, float, secs, float, secs_per_byte) {
 
-	HTPresentation* pres = (HTPresentation*) malloc(sizeof(HTPresentation));
+	HTPresentation* pres = malloc(sizeof(HTPresentation));
 	if(pres == NULL) outofmem(__FILE__, "HTSetPresentation");
 
 	pres->rep = HTAtom_for(representation);
@@ -111,7 +111,7 @@ PUBLIC void HTSetConversion ARGS6(CONST char *, representation_in, CONST char *,
 								  float, quality, float, secs, float,
 								  secs_per_byte) {
 
-	HTPresentation* pres = (HTPresentation*) malloc(sizeof(HTPresentation));
+	HTPresentation* pres = malloc(sizeof(HTPresentation));
 	if(pres == NULL) outofmem(__FILE__, "HTSetPresentation");
 
 	pres->rep = HTAtom_for(representation_in);
@@ -600,7 +600,7 @@ PRIVATE HTStreamClass NetToTextClass = {
 /*	The creation method
 */
 PUBLIC HTStream* HTNetToText ARGS1(HTStream *, sink) {
-	HTStream* me = (HTStream*) malloc(sizeof(*me));
+	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "NetToText");
 	me->isa = &NetToTextClass;
 

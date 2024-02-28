@@ -130,7 +130,7 @@ PUBLIC HTStream* HTFWriter_new ARGS1(FILE *, fp) {
 
 	if(!fp) return NULL;
 
-	me = (HTStream*) malloc(sizeof(*me));
+	me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
 	me->isa = &HTFWriter;
 
@@ -248,7 +248,7 @@ PUBLIC HTStream* HTSaveLocally ARGS3(HTPresentation *, pres, HTParentAnchor *,
 
 	HTStream* me;
 
-	me = (HTStream*) malloc(sizeof(*me));
+	me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "SaveLocally");
 	me->isa = &HTFWriter;
 	me->end_command = NULL;
@@ -259,7 +259,7 @@ PUBLIC HTStream* HTSaveLocally ARGS3(HTPresentation *, pres, HTParentAnchor *,
 
 	suffix = HTFileSuffix(pres->rep);
 
-	fnam = (char*) malloc(L_tmpnam + 16 + strlen(suffix));
+	fnam = malloc(L_tmpnam + 16 + strlen(suffix));
 	tmpnam(fnam);
 	if(suffix) strcat(fnam, suffix);
 

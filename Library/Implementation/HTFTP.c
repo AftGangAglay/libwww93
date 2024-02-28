@@ -402,7 +402,7 @@ PRIVATE int get_connection ARGS1 (CONST char *, arg) {
 */
 	{
 		int status;
-		connection* con = (connection*) malloc(sizeof(*con));
+		connection* con = malloc(sizeof(*con));
 		if(con == NULL) outofmem(__FILE__, "get_connection");
 		con->addr = sin->sin_addr.s_addr;    /* save it */
 		con->binary = NO;
@@ -448,12 +448,12 @@ PRIVATE int get_connection ARGS1 (CONST char *, arg) {
 			if(status == 2) {        /* Send username */
 				char* command;
 				if(username) {
-					command = (char*) malloc(10 + strlen(username) + 2 + 1);
+					command = malloc(10 + strlen(username) + 2 + 1);
 					if(command == NULL) outofmem(__FILE__, "get_connection");
 					sprintf(command, "USER %s%c%c", username, CR, LF);
 				}
 				else {
-					command = (char*) malloc(25);
+					command = malloc(25);
 					if(command == NULL) outofmem(__FILE__, "get_connection");
 					sprintf(command, "USER anonymous%c%c", CR, LF);
 				}
@@ -463,7 +463,7 @@ PRIVATE int get_connection ARGS1 (CONST char *, arg) {
 			if(status == 3) {        /* Send password */
 				char* command;
 				if(password) {
-					command = (char*) malloc(10 + strlen(password) + 2 + 1);
+					command = malloc(10 + strlen(password) + 2 + 1);
 					if(command == NULL) outofmem(__FILE__, "get_connection");
 					sprintf(command, "PASS %s%c%c", password, CR, LF);
 				}
@@ -475,7 +475,7 @@ PRIVATE int get_connection ARGS1 (CONST char *, arg) {
 					   prefers a blank to a bad name */
 					if(!strchr(host, '.')) host = "";
 
-					command = (char*) malloc(20 + strlen(host) + 2 + 1);
+					command = malloc(20 + strlen(host) + 2 + 1);
 					if(command == NULL) outofmem(__FILE__, "get_connection");
 					sprintf(
 							command, "PASS %s@%s%c%c", user ? user : "WWWuser",
@@ -710,7 +710,7 @@ read_directory ARGS4 (HTParentAnchor *, parent, CONST char *, address, HTFormat,
 	}
 	else {
 		char* p = strrchr(filename, '/');  /* find lastslash */
-		lastpath = (char*) malloc(strlen(p));
+		lastpath = malloc(strlen(p));
 		if(!lastpath) outofmem(__FILE__, "read_directory");
 		strcpy(lastpath, p + 1);    /* take slash off the beginning */
 	}

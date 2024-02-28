@@ -61,9 +61,9 @@ PUBLIC HTAtom * HTAtom_for(string)
 
 	/*		Generate a new entry
 	*/
-	a = (HTAtom*) malloc(sizeof(*a));
+	a = malloc(sizeof(*a));
 	if(a == NULL) outofmem(__FILE__, "HTAtom_for");
-	a->name = (char*) malloc(strlen(string) + 1);
+	a->name = malloc(strlen(string) + 1);
 	if(a->name == NULL) outofmem(__FILE__, "HTAtom_for");
 	strcpy(a->name, string);
 	a->next = hash_table[hash];        /* Put onto the head of list */

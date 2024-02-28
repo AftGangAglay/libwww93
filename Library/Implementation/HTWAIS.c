@@ -162,7 +162,7 @@ char* WWW_from_archie ARGS1 (char *, file) {
 	char* result;
 	char* colon;
 	for(end = file; *end > ' '; end++);    /* assumes ASCII encoding*/
-	result = (char*) malloc(10 + (end - file));
+	result = malloc(10 + (end - file));
 	if(!result) return result;        /* Malloc error */
 	strcpy(result, "file://");
 	strncat(result, file, end - file);
@@ -240,7 +240,7 @@ PRIVATE char* WWW_from_WAIS ARGS1(any *, docid) {
 	*q++ = 0;            /* Terminate string */
 	if(TRACE) fprintf(stderr, "WWW form of id: %s\n", buf);
 	{
-		char* result = (char*) malloc(strlen(buf) + 1);
+		char* result = malloc(strlen(buf) + 1);
 		strcpy(result, buf);
 		return result;
 	}
@@ -274,7 +274,7 @@ PRIVATE any* WAIS_from_WWW ARGS2 (any *, docid, char *, docname) {
 		docid->size = n;
 	}
 
-	docid->bytes = (char*) malloc(docid->size); /* result record */
+	docid->bytes = malloc(docid->size); /* result record */
 	z = docid->bytes;
 
 	for(p = docname; *p;) {    /* Convert of strings */

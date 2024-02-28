@@ -746,7 +746,7 @@ HTML_new ARGS3(HTParentAnchor *, anchor, HTFormat, format_out, HTStream*,
 		exit(-99);
 	}
 
-	me = (HTStructured*) malloc(sizeof(*me));
+	me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
 
 	if(!got_styles) get_styles();

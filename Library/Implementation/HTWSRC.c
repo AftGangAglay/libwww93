@@ -440,7 +440,7 @@ HTStreamClass WSRCParserClass = {
 PUBLIC HTStream*
 HTWSRCConvert ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
 					HTStream *, sink) {
-	HTStream* me = (HTStream*) malloc(sizeof(*me));
+	HTStream* me = malloc(sizeof(*me));
 	if(!me) outofmem(__FILE__, "HTWSRCConvert");
 
 	me->isa = &WSRCParserClass;

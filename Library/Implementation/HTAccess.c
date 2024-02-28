@@ -153,7 +153,7 @@ PRIVATE int get_physical ARGS2(CONST char *, addr, HTParentAnchor *, anchor) {
 #ifdef USE_GATEWAYS
 	{
 		char* gateway_parameter, * gateway;
-		gateway_parameter = (char*) malloc(strlen(access) + 20);
+		gateway_parameter = malloc(strlen(access) + 20);
 		if(gateway_parameter == NULL) outofmem(__FILE__, "HTLoad");
 		strcpy(gateway_parameter, "WWW_");
 		strcat(gateway_parameter, access);
@@ -617,7 +617,7 @@ PUBLIC HTParentAnchor* HTHomeAnchor NOARGS {
 		FILE* fp = fopen(REMOTE_POINTER, "r");
 		char* status;
 		if(fp) {
-			my_home_document = (char*) malloc(MAX_FILE_NAME);
+			my_home_document = malloc(MAX_FILE_NAME);
 			status = fgets(my_home_document, MAX_FILE_NAME, fp);
 			if(!status) {
 				free(my_home_document);

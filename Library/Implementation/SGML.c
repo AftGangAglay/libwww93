@@ -276,7 +276,7 @@ PRIVATE void start_element(context)
 			context->target, new_tag - context->dtd->tags, context->present,
 			(CONST char**) context->value);  /* coerce type for think c */
 	if(new_tag->contents != SGML_EMPTY) {        /* i.e. tag not empty */
-		HTElement* N = (HTElement*) malloc(sizeof(HTElement));
+		HTElement* N = malloc(sizeof(HTElement));
 		if(N == NULL) outofmem(__FILE__, "start_element");
 		N->next = context->element_stack;
 		N->tag = new_tag;
@@ -695,7 +695,7 @@ PUBLIC CONST HTStreamClass SGMLParser = {
 
 PUBLIC HTStream* SGML_new ARGS2(CONST SGML_dtd *, dtd, HTStructured *, target) {
 	int i;
-	HTStream* context = (HTStream*) malloc(sizeof(*context));
+	HTStream* context = malloc(sizeof(*context));
 	if(!context) outofmem(__FILE__, "SGML_begin");
 
 	context->isa = &SGMLParser;

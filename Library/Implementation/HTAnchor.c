@@ -417,7 +417,7 @@ HTAnchor_link ARGS3(HTAnchor *, source, HTAnchor *, destination, HTLinkType *,
 		source->mainLink.type = type;
 	}
 	else {
-		HTLink* newLink = (HTLink*) malloc(sizeof(HTLink));
+		HTLink* newLink = malloc(sizeof(HTLink));
 		if(newLink == NULL) outofmem(__FILE__, "HTAnchor_link");
 		newLink->dest = destination;
 		newLink->type = type;
@@ -467,7 +467,7 @@ BOOL HTAnchor_makeMainLink ARGS2 (HTAnchor *, me, HTLink *, movingLink) {
 	}
 	else {
 		/* First push current main link onto top of links list */
-		HTLink* newLink = (HTLink*) malloc(sizeof(HTLink));
+		HTLink* newLink = malloc(sizeof(HTLink));
 		if(newLink == NULL) outofmem(__FILE__, "HTAnchor_makeMainLink");
 		memcpy(newLink, &me->mainLink, sizeof(HTLink));
 		HTList_addObject(me->links, newLink);

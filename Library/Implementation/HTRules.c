@@ -62,12 +62,12 @@ int HTAddRule(op, pattern, equiv)
 	rule* temp;
 	char* pPattern;
 
-	temp = (rule*) malloc(sizeof(*temp));
+	temp = malloc(sizeof(*temp));
 	if(temp == NULL) outofmem(__FILE__, "HTAddRule");
-	pPattern = (char*) malloc(strlen(pattern) + 1);
+	pPattern = malloc(strlen(pattern) + 1);
 	if(pPattern == NULL) outofmem(__FILE__, "HTAddRule");
 	if(equiv) {        /* Two operands */
-		char* pEquiv = (char*) malloc(strlen(equiv) + 1);
+		char* pEquiv = malloc(strlen(equiv) + 1);
 		if(pEquiv == NULL) outofmem(__FILE__, "HTAddRule");
 		temp->equiv = pEquiv;
 		strcpy(pEquiv, equiv);
@@ -149,7 +149,7 @@ char * HTTranslate(required)
 #endif
 {
 	rule* r;
-	char* current = (char*) malloc(strlen(required) + 1);
+	char* current = malloc(strlen(required) + 1);
 	if(current == NULL) outofmem(__FILE__, "HTTranslate"); /* NT */
 	strcpy(current, required);
 
@@ -189,7 +189,7 @@ char * HTTranslate(required)
 				else {
 					char* ins = strchr(r->equiv, '*');    /* Insertion point */
 					if(ins) {    /* Consistent rule!!! */
-						char* temp = (char*) malloc(
+						char* temp = malloc(
 								strlen(r->equiv) - 1 + m + 1);
 						if(temp == NULL) outofmem(__FILE__,
 												  "HTTranslate"); /* NT & AS */
@@ -209,7 +209,7 @@ char * HTTranslate(required)
 
 					}
 					else {    /* No insertion point */
-						char* temp = (char*) malloc(strlen(r->equiv) + 1);
+						char* temp = malloc(strlen(r->equiv) + 1);
 						if(temp == NULL) outofmem(__FILE__,
 												  "HTTranslate"); /* NT & AS */
 						strcpy(temp, r->equiv);
