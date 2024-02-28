@@ -157,7 +157,6 @@ Macintosh - MPW
 #endif                 /* MPW */
 
 
-
 #ifndef STDIO_H
 #include <stdio.h>
 #define STDIO_H
@@ -210,7 +209,9 @@ IBM VM-CMS, VM-XA Mainframes
 
 /*      VM doesn't have a built-in predefined token, so we cheat: */
 #ifndef VM
+
 #include <string.h>             /* For bzero etc - not  VM */
+
 #endif
 
 /*      Note:   All include file names must have 8 chars max (+".h")
@@ -278,6 +279,7 @@ IBM-PC running Windows NT
    
  */
 #ifdef _WIN32
+
 #include "fcntl.h"                      /* For HTFile.c */
 #include "sys/types.h"                  /* For HTFile.c */
 #include "sys/stat.h"                   /* For HTFile.c */
@@ -285,9 +287,10 @@ IBM-PC running Windows NT
 #undef NETREAD
 #undef NETWRITE
 #undef NETCLOSE
-#define NETREAD(s,b,l)  ((s)>10 ? recv((s),(b),(l),0) : read((s),(b),(l)))
-#define NETWRITE(s,b,l) ((s)>10 ? send((s),(b),(l),0) : write((s),(b),(l)))
+#define NETREAD(s, b, l)  ((s)>10 ? recv((s),(b),(l),0) : read((s),(b),(l)))
+#define NETWRITE(s, b, l) ((s)>10 ? send((s),(b),(l),0) : write((s),(b),(l)))
 #define NETCLOSE(s)     ((s)>10 ? closesocket(s) : close(s))
+
 #include <io.h>
 #include <string.h>
 #include <process.h>
@@ -295,6 +298,7 @@ IBM-PC running Windows NT
 #include <direct.h>
 #include <stdio.h>
 #include <winsock.h>
+
 typedef struct sockaddr_in SockA;  /* See netinet/in.h */
 #define INCLUDES_DONE
 #define TCP_INCLUDES_DONE
@@ -344,7 +348,7 @@ VAX/VMS
 #undef NETWRITE
 #define NETREAD(s,b,l)  ((s)>10 ? socket_read((s),(b),(l)) : read((s),(b),(l)))
 #define NETWRITE(s,b,l) ((s)>10 ? socket_write((s),(b),(l)) : \
-                                write((s),(b),(l)))
+								write((s),(b),(l)))
 #define NETCLOSE(s)     ((s)>10 ? socket_close(s) : close(s))
 #endif
 

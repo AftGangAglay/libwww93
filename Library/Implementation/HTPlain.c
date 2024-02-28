@@ -9,14 +9,13 @@
 */
 #include "HTPlain.h"
 
-#define BUFFER_SIZE 4096;	/* Tradeoff */
+#define BUFFER_SIZE 4096;    /* Tradeoff */
 
 #include "HTUtils.h"
 #include "HText.h"
 #include "HTStyle.h"
 
-extern HTStyleSheet * styleSheet;
-
+extern HTStyleSheet* styleSheet;
 
 
 /*		HTML Object
@@ -24,9 +23,9 @@ extern HTStyleSheet * styleSheet;
 */
 
 struct _HTStream {
-	CONST HTStreamClass *	isa;
+	CONST HTStreamClass* isa;
 
-	HText * 		text;
+	HText* text;
 };
 
 /*	Write the buffer out to the socket
@@ -43,9 +42,8 @@ struct _HTStream {
 **	------------------
 */
 
-PRIVATE void HTPlain_put_character ARGS2(HTStream *, me, char, c)
-{
-    HText_appendCharacter(me->text, c);
+PRIVATE void HTPlain_put_character ARGS2(HTStream *, me, char, c) {
+	HText_appendCharacter(me->text, c);
 }
 
 
@@ -54,17 +52,15 @@ PRIVATE void HTPlain_put_character ARGS2(HTStream *, me, char, c)
 **	---------------
 **
 */
-PRIVATE void HTPlain_put_string ARGS2(HTStream *, me, CONST char*, s)
-{
-    HText_appendText(me->text, s);
+PRIVATE void HTPlain_put_string ARGS2(HTStream *, me, CONST char*, s) {
+	HText_appendText(me->text, s);
 }
 
 
-PRIVATE void HTPlain_write ARGS3(HTStream *, me, CONST char*, s, int, l)
-{
-    CONST char* p;
-    CONST char* e = s+l;
-    for (p=s; p<e; p++) HText_appendCharacter(me->text, *p);
+PRIVATE void HTPlain_write ARGS3(HTStream *, me, CONST char*, s, int, l) {
+	CONST char* p;
+	CONST char* e = s + l;
+	for(p = s; p < e; p++) HText_appendCharacter(me->text, *p);
 }
 
 
@@ -75,17 +71,15 @@ PRIVATE void HTPlain_write ARGS3(HTStream *, me, CONST char*, s, int, l)
 **	Note that the SGML parsing context is freed, but the created object is not,
 **	as it takes on an existence of its own unless explicitly freed.
 */
-PRIVATE void HTPlain_free ARGS1(HTStream *, me)
-{
-    free(me);
+PRIVATE void HTPlain_free ARGS1(HTStream *, me) {
+	free(me);
 }
 
 /*	End writing
 */
 
-PRIVATE void HTPlain_abort ARGS2(HTStream *, me, HTError, e)
-{
-    HTPlain_free(me);
+PRIVATE void HTPlain_abort ARGS2(HTStream *, me, HTError, e) {
+	HTPlain_free(me);
 }
 
 
@@ -93,33 +87,27 @@ PRIVATE void HTPlain_abort ARGS2(HTStream *, me, HTError, e)
 /*		Structured Object Class
 **		-----------------------
 */
-PUBLIC CONST HTStreamClass HTPlain =
-{		
-	"SocketWriter",
-	HTPlain_free,
-	HTPlain_abort,
-	HTPlain_put_character, 	HTPlain_put_string, HTPlain_write,
-}; 
+PUBLIC CONST HTStreamClass HTPlain = {
+		"SocketWriter", HTPlain_free, HTPlain_abort, HTPlain_put_character,
+		HTPlain_put_string, HTPlain_write, };
 
 
 /*		New object
 **		----------
 */
-PUBLIC HTStream* HTPlainPresent ARGS3(
-	HTPresentation *,	pres,
-	HTParentAnchor *,	anchor,	
-	HTStream *,		sink)
-{
+PUBLIC HTStream*
+HTPlainPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
+					 HTStream *, sink) {
 
-    HTStream* me = (HTStream*)malloc(sizeof(*me));
-    if (me == NULL) outofmem(__FILE__, "HTPlain_new");
-    me->isa = &HTPlain;       
+	HTStream* me = (HTStream*) malloc(sizeof(*me));
+	if(me == NULL) outofmem(__FILE__, "HTPlain_new");
+	me->isa = &HTPlain;
 
-    me->text = HText_new(anchor);
-    HText_setStyle(me->text, HTStyleNamed(styleSheet, "Example"));
-    HText_beginAppend(me->text);
+	me->text = HText_new(anchor);
+	HText_setStyle(me->text, HTStyleNamed(styleSheet, "Example"));
+	HText_beginAppend(me->text);
 
-    return (HTStream*) me;
+	return (HTStream*) me;
 }
 
 

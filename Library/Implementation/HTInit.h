@@ -12,6 +12,7 @@
 #include "HTUtils.h"
 
 extern void HTFormatInit NOPARAMS;
+
 extern void HTFileInit NOPARAMS;
 /*
 

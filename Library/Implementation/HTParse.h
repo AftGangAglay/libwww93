@@ -7,6 +7,7 @@
  */
 #ifndef HTPARSE_H
 #define HTPARSE_H
+
 #include "HTUtils.h"
 
 /*
@@ -44,7 +45,8 @@ HTParse:  Parse a URL relative to another URL
                          
  */
 
-extern char * HTParse  PARAMS((const char * aName, const char * relatedName, int wanted));
+extern char*
+HTParse PARAMS((const char * aName, const char * relatedName, int wanted));
 
 
 /*
@@ -59,7 +61,9 @@ HTStrip: Strip white space off a string
    
  */
 #ifdef __STDC__
-extern char * HTStrip(char * s);
+
+extern char* HTStrip(char* s);
+
 #else
 extern char * HTStrip();
 #endif
@@ -79,7 +83,9 @@ HTSimplify: Simplify a UTL
 **              /etc/junk/./fred        becomes /etc/junk/fred
 */
 #ifdef __STDC__
-extern void HTSimplify(char * filename);
+
+extern void HTSimplify(char* filename);
+
 #else
 extern void HTSimplify();
 #endif
@@ -104,7 +110,9 @@ HTRelative:  Make Relative (Partial) URL
    
  */
 #ifdef __STDC__
-extern char * HTRelative(const char * aName, const char *relatedName);
+
+extern char* HTRelative(const char* aName, const char* relatedName);
+
 #else
 extern char * HTRelative();
 #endif
@@ -119,7 +127,7 @@ HTEscape:  Encode unacceptable characters in string
    represented in the form %xy where X and Y are two hex digits.
    
  */
-extern char * HTEscape PARAMS((CONST char * str, unsigned char mask));
+extern char* HTEscape PARAMS((CONST char* str, unsigned char mask));
 
 /*
 
@@ -140,7 +148,7 @@ HTUnEscape: Decode %xx escaped characters
    in place, as it will never grow.
    
  */
-extern char * HTUnEscape PARAMS(( char * str));
+extern char* HTUnEscape PARAMS(( char * str));
 
 
 #endif  /* HTPARSE_H */

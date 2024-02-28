@@ -15,10 +15,10 @@
 **      ------------------------
 */
 extern int HTLoadHTTP PARAMS((
-        CONST char *            arg,
+		CONST char *            arg,
 /*      CONST char *            gateway, */
-        HTParentAnchor *        anAnchor,
-        int diag));
+		HTParentAnchor *        anAnchor,
+		int diag));
 #endif
 
 extern HTProtocol HTTP;

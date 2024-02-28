@@ -26,9 +26,11 @@
 **                it is to be kept.
 */
 #ifdef __STDC__
-        extern const char * HTInetString(struct sockaddr_in* sin);
+
+extern const char* HTInetString(struct sockaddr_in* sin);
+
 #else
-        extern char * HTInetString();
+extern char * HTInetString();
 #endif
 
 
@@ -43,16 +45,18 @@
 **      returns a negative status in the unix way.
 */
 #ifdef __STDC__
-        extern int HTInetStatus(char *where);
+
+extern int HTInetStatus(char* where);
+
 #else
-        extern int HTInetStatus();
+extern int HTInetStatus();
 #endif
 
 /*      Publicly accessible variables
 */
 /* extern struct sockaddr_in HTHostAddress; */
-                        /* The internet address of the host */
-                        /* Valid after call to HTHostName() */
+/* The internet address of the host */
+/* Valid after call to HTHostName() */
 
 
 /*      Parse a cardinal value                                 parse_cardinal()
@@ -70,8 +74,8 @@
 */
 
 extern unsigned int HTCardinal PARAMS((int *pstatus,
-                char            **pp,
-                unsigned int    max_value));
+											  char            **pp,
+											  unsigned int max_value));
 
 
 /*      Parse an internet node address and port
@@ -87,10 +91,11 @@ extern unsigned int HTCardinal PARAMS((int *pstatus,
 **               field is left unchanged in *sin.
 */
 #ifdef __STDC__
-        extern int HTParseInet(struct sockaddr_in * sin, CONST char * str);
-        /*!! had to change this to get it to compile. CTB */
+
+extern int HTParseInet(struct sockaddr_in* sin, CONST char* str);
+/*!! had to change this to get it to compile. CTB */
 #else
-        extern int HTParseInet();
+extern int HTParseInet();
 #endif
 
 /*      Get Name of This Machine
@@ -98,7 +103,7 @@ extern unsigned int HTCardinal PARAMS((int *pstatus,
 **
 */
 
-extern CONST char * HTHostName NOPARAMS;
+extern CONST char* HTHostName NOPARAMS;
 
 #endif   /* HTTCP_H */
 /*

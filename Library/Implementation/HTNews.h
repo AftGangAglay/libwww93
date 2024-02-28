@@ -12,15 +12,18 @@
 
 #include "HTAccess.h"
 #include "HTAnchor.h"
+
 /* extern int HTLoadNews PARAMS((const char *arg,
         HTParentAnchor * anAnchor,
         int diag));
 */
 extern HTProtocol HTNews;
 
-extern void HTSetNewsHost PARAMS((CONST char *value));
-extern CONST char * HTGetNewsHost NOPARAMS;
-extern char * HTNewsHost;
+extern void HTSetNewsHost PARAMS((CONST char* value));
+
+extern CONST char* HTGetNewsHost NOPARAMS;
+
+extern char* HTNewsHost;
 
 #endif /* HTNEWS_H */
 

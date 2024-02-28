@@ -26,8 +26,8 @@ HTPrompt: Display a message and get the input
   Return value            is malloc'd string which must be freed.
                          
  */
-                
-extern char * HTPrompt PARAMS((CONST char * Msg, CONST char * deflt));
+
+extern char* HTPrompt PARAMS((CONST char* Msg, CONST char* deflt));
 
 
 /*
@@ -40,7 +40,7 @@ Display a message, don't wait for input
                          
  */
 
-extern void HTAlert PARAMS((CONST char * Msg));
+extern void HTAlert PARAMS((CONST char* Msg));
 
 
 /*
@@ -52,7 +52,7 @@ Display a progress message for information (and diagnostics) only
    The input is a list of parameters for printf.
    
  */
-extern void HTProgress PARAMS((CONST char * Msg));
+extern void HTProgress PARAMS((CONST char* Msg));
 
 
 /*
@@ -70,7 +70,7 @@ Display a message, then wait for 'yes' or 'no'.
                          
  */
 
-extern BOOL HTConfirm PARAMS ((CONST char * Msg));
+extern BOOL HTConfirm PARAMS ((CONST char* Msg));
 
 
 

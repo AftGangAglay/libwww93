@@ -27,25 +27,52 @@ Element Numbers
    
  */
 typedef enum _HTMLElement {
-        HTML_A,         HTML_ADDRESS,
-        HTML_B,         HTML_BLOCKQUOTE,        HTML_BODY,
-        HTML_CITE,      HTML_CODE,      HTML_COMMENT,
-        HTML_DD,        HTML_DFN,       HTML_DIR,
-        HTML_DL,        HTML_DLC,       HTML_DT,
-        HTML_EM,
-        HTML_HEAD,
-        HTML_H1,        HTML_H2,        HTML_H3,
-        HTML_H4,        HTML_H5,        HTML_H6,        HTML_H7,
-        HTML_HTML,
-        HTML_I,         HTML_IMG,       HTML_ISINDEX,
-        HTML_KBD,
-        HTML_LI,        HTML_LINK,      HTML_LISTING,
-        HTML_MENU,      HTML_NEXTID,
-        HTML_OL,        HTML_P,         HTML_PLAINTEXT, HTML_PRE,
-        HTML_SAMP,      HTML_STRONG,
-        HTML_TITLE,     HTML_TT,
-        HTML_U,         HTML_UL,
-        HTML_VAR,       HTML_XMP } HTMLElement;
+	HTML_A,
+	HTML_ADDRESS,
+	HTML_B,
+	HTML_BLOCKQUOTE,
+	HTML_BODY,
+	HTML_CITE,
+	HTML_CODE,
+	HTML_COMMENT,
+	HTML_DD,
+	HTML_DFN,
+	HTML_DIR,
+	HTML_DL,
+	HTML_DLC,
+	HTML_DT,
+	HTML_EM,
+	HTML_HEAD,
+	HTML_H1,
+	HTML_H2,
+	HTML_H3,
+	HTML_H4,
+	HTML_H5,
+	HTML_H6,
+	HTML_H7,
+	HTML_HTML,
+	HTML_I,
+	HTML_IMG,
+	HTML_ISINDEX,
+	HTML_KBD,
+	HTML_LI,
+	HTML_LINK,
+	HTML_LISTING,
+	HTML_MENU,
+	HTML_NEXTID,
+	HTML_OL,
+	HTML_P,
+	HTML_PLAINTEXT,
+	HTML_PRE,
+	HTML_SAMP,
+	HTML_STRONG,
+	HTML_TITLE,
+	HTML_TT,
+	HTML_U,
+	HTML_UL,
+	HTML_VAR,
+	HTML_XMP
+} HTMLElement;
 
 #define HTML_ELEMENTS 45
 
@@ -92,10 +119,8 @@ Start anchor element
    name and href point to attribute strings or are NULL if the attribute is to be omitted.
    
  */
-extern void HTStartAnchor PARAMS((
-                HTStructured * targetstream,
-                CONST char *    name,
-                CONST char *    href));
+extern void HTStartAnchor PARAMS((HTStructured * targetstream, CONST char* name,
+										 CONST char* href));
 
 
 #endif /* HTMLDTD_H */

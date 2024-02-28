@@ -13,8 +13,8 @@
 typedef struct _HTList HTList;
 
 struct _HTList {
-  void * object;
-  HTList * next;
+	void* object;
+	HTList* next;
 };
 
 #ifdef SHORT_NAMES
@@ -29,23 +29,31 @@ struct _HTList {
 #define HTList_objectAt                 HTLiObAt
 #endif
 
-extern HTList * HTList_new NOPARAMS;
-extern void     HTList_delete PARAMS((HTList *me));
+extern HTList* HTList_new NOPARAMS;
+
+extern void HTList_delete PARAMS((HTList * me));
 
 /*      Add object to START of list
 */
-extern void     HTList_addObject PARAMS((HTList *me, void *newObject));
+extern void HTList_addObject PARAMS((HTList * me, void* newObject));
 
 
-extern BOOL     HTList_removeObject PARAMS((HTList *me, void *oldObject));
-extern void *   HTList_removeLastObject PARAMS((HTList *me));
-extern void *   HTList_removeFirstObject PARAMS((HTList *me));
+extern BOOL HTList_removeObject PARAMS((HTList * me, void* oldObject));
+
+extern void* HTList_removeLastObject PARAMS((HTList * me));
+
+extern void* HTList_removeFirstObject PARAMS((HTList * me));
+
 #define         HTList_isEmpty(me) (me ? me->next == NULL : YES)
-extern int      HTList_count PARAMS((HTList *me));
-extern int      HTList_indexOf PARAMS((HTList *me, void *object));
+
+extern int HTList_count PARAMS((HTList * me));
+
+extern int HTList_indexOf PARAMS((HTList * me, void* object));
+
 #define         HTList_lastObject(me) \
   (me && me->next ? me->next->object : NULL)
-extern void *   HTList_objectAt PARAMS((HTList *me, int position));
+
+extern void* HTList_objectAt PARAMS((HTList * me, int position));
 
 /* Fast macro to traverse the list. Call it first with copy of list header :
    it returns the first object and increments the passed list pointer.

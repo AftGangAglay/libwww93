@@ -28,20 +28,20 @@
 SGML content types
 
  */
-typedef enum _SGMLContent{
-  SGML_EMPTY,    /* no content */
-  SGML_LITTERAL, /* character data. Recognised excat close tag only. litteral
+typedef enum _SGMLContent {
+	SGML_EMPTY,    /* no content */
+	SGML_LITTERAL, /* character data. Recognised excat close tag only. litteral
                     Old www server compatibility only! Not SGML */
-  SGML_CDATA,    /* character data. recognize </ only */
-  SGML_RCDATA,   /* replaceable character data. recognize </ and &ref; */
-  SGML_MIXED,    /* elements and parsed character data. recognize all markup */
-  SGML_ELEMENT   /* any data found will be returned as an error*/
-  } SGMLContent;
+	SGML_CDATA,    /* character data. recognize </ only */
+	SGML_RCDATA,   /* replaceable character data. recognize </ and &ref; */
+	SGML_MIXED,    /* elements and parsed character data. recognize all markup */
+	SGML_ELEMENT   /* any data found will be returned as an error*/
+} SGMLContent;
 
 
 typedef struct {
-    char *      name;           /* The (constant) name of the attribute */
-                                /* Could put type info in here */
+	char* name;           /* The (constant) name of the attribute */
+	/* Could put type info in here */
 } attr;
 
 
@@ -60,14 +60,12 @@ typedef struct {
 **
 */
 typedef struct _tag HTTag;
-struct _tag{
-    char *      name;                   /* The name of the tag */
-    attr *      attributes;             /* The list of acceptable attributes */
-    int         number_of_attributes;   /* Number of possible attributes */
-    SGMLContent contents;               /* End only on end tag @@ */
+struct _tag {
+	char* name;                   /* The name of the tag */
+	attr* attributes;             /* The list of acceptable attributes */
+	int number_of_attributes;   /* Number of possible attributes */
+	SGMLContent contents;               /* End only on end tag @@ */
 };
-
-
 
 
 /*              DTD Information
@@ -76,16 +74,16 @@ struct _tag{
 ** Not the whole DTD, but all this parser usues of it.
 */
 typedef struct {
-    HTTag *             tags;           /* Must be in strcmp order by name */
-    int                 number_of_tags;
-    CONST char **       entity_names;   /* Must be in strcmp order by name */
-    int                 number_of_entities;
+	HTTag* tags;           /* Must be in strcmp order by name */
+	int number_of_tags;
+	CONST char** entity_names;   /* Must be in strcmp order by name */
+	int number_of_entities;
 } SGML_dtd;
 
 
 /*      SGML context passed to parsers
 */
-typedef struct _HTSGMLContext *HTSGMLContext;   /* Hidden */
+typedef struct _HTSGMLContext* HTSGMLContext;   /* Hidden */
 
 
 /*__________________________________________________________________________
@@ -116,46 +114,34 @@ typedef struct _HTSGMLContext *HTSGMLContext;   /* Hidden */
 
 typedef struct _HTStructured HTStructured;
 
-typedef struct _HTStructuredClass{
+typedef struct _HTStructuredClass {
 
-        char*  name;                            /* Just for diagnostics */
+	char* name;                            /* Just for diagnostics */
 
-        void (*free) PARAMS((
-                HTStructured*   me));
+	void (* free)PARAMS((HTStructured * me));
 
-        void (*abort) PARAMS((
-                HTStructured*   me,
-                HTError         e));
-                
-        void (*put_character) PARAMS((
-                HTStructured*   me,
-                char            ch));
-                                
-        void (*put_string) PARAMS((
-                HTStructured*   me,
-                CONST char *    str));
-                
-        void (*write) PARAMS((
-                HTStructured*   me,
-                CONST char *    str,
-                int             len));
-                
-        void (*start_element) PARAMS((
-                HTStructured*   me,
-                int             element_number,
-                CONST BOOL*             attribute_present,
-                CONST char**            attribute_value));
-                
-        void (*end_element) PARAMS((
-                HTStructured*   me,
-                int             element_number));
+	void (* abort)PARAMS((HTStructured * me, HTError e));
 
-        void (*put_entity) PARAMS((
-                HTStructured*   me,
-                int             entity_number));
-                
-}HTStructuredClass;
+	void (* put_character)PARAMS((HTStructured * me,
+										 char ch));
 
+	void (* put_string)PARAMS((HTStructured * me, CONST char* str));
+
+	void (* write)PARAMS((HTStructured * me, CONST char* str,
+								 int len));
+
+	void (* start_element)PARAMS((HTStructured * me,
+										 int element_number,
+										 CONST BOOL* attribute_present,
+										 CONST char** attribute_value));
+
+	void (* end_element)PARAMS((HTStructured * me,
+									   int element_number));
+
+	void (* put_entity)PARAMS((HTStructured * me,
+									  int entity_number));
+
+} HTStructuredClass;
 
 
 /*      Create an SGML parser
@@ -169,9 +155,8 @@ typedef struct _HTStructuredClass{
 */
 
 
-extern HTStream* SGML_new PARAMS((
-        CONST SGML_dtd *                dtd,
-        HTStructured *          target));
+extern HTStream* SGML_new PARAMS((CONST SGML_dtd* dtd,
+										 HTStructured* target));
 
 extern CONST HTStreamClass SGMLParser;
 

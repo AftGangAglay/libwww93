@@ -16,7 +16,6 @@
 #include "HTML.h"               /* SCW */
 
 
-
 /*
 
 Controlling globals
@@ -34,7 +33,7 @@ extern int HTDirAccess;         /* Directory access level */
 #define HT_DIR_ENABLE_FILE      ".www_browsable" /* If exists, can browse */
 
 extern int HTDirReadme;         /* Include readme files in listing? */
-                                        /* Values: */
+/* Values: */
 #define HT_DIR_README_NONE      0       /* No */
 #define HT_DIR_README_TOP       1       /* Yes, first */
 #define HT_DIR_README_BOTTOM    2       /* Yes, at the end */
@@ -47,7 +46,7 @@ extern int HTDirReadme;         /* Include readme files in listing? */
 Convert filenames between local and WWW formats
 
  */
-extern char * HTLocalName PARAMS((CONST char * name));
+extern char* HTLocalName PARAMS((CONST char* name));
 
 
 /*
@@ -55,7 +54,7 @@ extern char * HTLocalName PARAMS((CONST char * name));
 Make a WWW name from a full local path name
 
  */
-extern char * WWW_nameOfFile PARAMS((const char * name));
+extern char* WWW_nameOfFile PARAMS((const char * name));
 
 
 /*
@@ -63,7 +62,7 @@ extern char * WWW_nameOfFile PARAMS((const char * name));
 Generate the name of a cache file
 
  */
-extern char * HTCacheFileName PARAMS((CONST char * name));
+extern char* HTCacheFileName PARAMS((CONST char* name));
 
 
 /*
@@ -74,9 +73,7 @@ Output directory titles
    heading 1 and the parent directory link for any anchor.
    
  */
-extern void HTDirTitles PARAMS((
-        HTStructured *  target,
-        HTAnchor *      anchor));
+extern void HTDirTitles PARAMS((HTStructured * target, HTAnchor * anchor));
 
 /*
 
@@ -86,10 +83,10 @@ Output a directory entry
    directory entry.
    
  */
-extern void HTDirEntry PARAMS((
-        HTStructured *  target,         /* in which to put the linked text */
-        CONST char *    tail,           /* last part of directory name */
-        CONST char *    entry));        /* name of this entry */
+extern void HTDirEntry PARAMS(
+		(HTStructured * target,         /* in which to put the linked text */
+				CONST char* tail,           /* last part of directory name */
+		CONST char* entry));        /* name of this entry */
 
 /*
 
@@ -113,12 +110,11 @@ HTSetSuffix: Define the representation for a file suffix
 **
 */
 
-extern void HTSetSuffix PARAMS((
-        CONST char *    suffix,
-        CONST char *    representation,
-        CONST char *    encoding,
-        float           quality));
-        
+extern void HTSetSuffix PARAMS((CONST char* suffix,
+									   CONST char* representation,
+									   CONST char* encoding,
+									   float quality));
+
 
 /*
 
@@ -131,9 +127,8 @@ HTFileFormat: Get Representation and Encoding from file name
   *pEncoding             The encoding (binary, 7bit, etc). See HTSetSuffix.
                          
  */
-extern HTFormat HTFileFormat PARAMS((
-                CONST char *    filename,
-                HTAtom **       pEncoding));
+extern HTFormat HTFileFormat PARAMS((CONST char* filename,
+											HTAtom** pEncoding));
 
 
 /*
@@ -143,8 +138,7 @@ Determine file value from file name
  */
 
 
-extern float HTFileValue PARAMS((
-                CONST char * filename));
+extern float HTFileValue PARAMS((CONST char* filename));
 
 
 /*
@@ -166,7 +160,7 @@ Determine write access to a file
  */
 
 
-extern BOOL HTEditable PARAMS((CONST char * filename));
+extern BOOL HTEditable PARAMS((CONST char* filename));
 
 
 /*
@@ -183,9 +177,7 @@ Determine a suitable suffix, given the representation
                          else NULL.
                          
  */
-extern CONST char * HTFileSuffix PARAMS((
-                HTAtom* rep));
-
+extern CONST char* HTFileSuffix PARAMS((HTAtom * rep));
 
 
 /*

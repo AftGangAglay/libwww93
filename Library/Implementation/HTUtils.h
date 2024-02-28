@@ -6,12 +6,14 @@
    See also: the system dependent file "tcp.h"
    
  */
-                
+
 #ifndef HTUTILS_H
 #define HTUTILS_H
 
 #ifdef _WIN32                         /* SCW */
+
 #include <windows.h>
+
 #define BOOLEAN_DEFINED
 #endif
 
@@ -33,14 +35,16 @@ Debug message control.
 
  */
 #ifndef STDIO_H
+
 #include <stdio.h>
+
 #define STDIO_H
 #endif
 
 #ifdef _DEBUG
 #define TRACE (WWW_TraceFlag)
 #define PROGRESS(str) printf(str)
-        extern int WWW_TraceFlag;
+extern int WWW_TraceFlag;
 #else
 #define TRACE 0
 #define PROGRESS(str) /* nothing for now */
@@ -58,7 +62,7 @@ Debug message control.
    placeholder for something more sophisticated.
    
  */
-typedef void * HTError;                 /* Unused at present -- best definition? */
+typedef void* HTError;                 /* Unused at present -- best definition? */
 
 /*
 
@@ -77,7 +81,9 @@ Standard C library for malloc() etc
 #include <libc.h>       /* NeXT */
 #endif
 #ifndef MACH /* Vincent.Cate@furmint.nectar.cs.cmu.edu */
+
 #include <stdlib.h>     /* ANSI */
+
 #endif
 #else /* ultrix */
 #include <malloc.h>
@@ -103,25 +109,25 @@ Macros for declarations
 #define NOPARAMS (void)
 #define PARAMS(parameter_list) parameter_list
 #define NOARGS (void)
-#define ARGS1(t,a) \
+#define ARGS1(t, a) \
                 (t a)
-#define ARGS2(t,a,u,b) \
+#define ARGS2(t, a, u, b) \
                 (t a, u b)
-#define ARGS3(t,a,u,b,v,c) \
+#define ARGS3(t, a, u, b, v, c) \
                 (t a, u b, v c)
-#define ARGS4(t,a,u,b,v,c,w,d) \
+#define ARGS4(t, a, u, b, v, c, w, d) \
                 (t a, u b, v c, w d)
-#define ARGS5(t,a,u,b,v,c,w,d,x,e) \
+#define ARGS5(t, a, u, b, v, c, w, d, x, e) \
                 (t a, u b, v c, w d, x e)
-#define ARGS6(t,a,u,b,v,c,w,d,x,e,y,f) \
+#define ARGS6(t, a, u, b, v, c, w, d, x, e, y, f) \
                 (t a, u b, v c, w d, x e, y f)
-#define ARGS7(t,a,u,b,v,c,w,d,x,e,y,f,z,g) \
+#define ARGS7(t, a, u, b, v, c, w, d, x, e, y, f, z, g) \
                 (t a, u b, v c, w d, x e, y f, z g)
-#define ARGS8(t,a,u,b,v,c,w,d,x,e,y,f,z,g,s,h) \
+#define ARGS8(t, a, u, b, v, c, w, d, x, e, y, f, z, g, s, h) \
                 (t a, u b, v c, w d, x e, y f, z g, s h)
-#define ARGS9(t,a,u,b,v,c,w,d,x,e,y,f,z,g,s,h,r,i) \
+#define ARGS9(t, a, u, b, v, c, w, d, x, e, y, f, z, g, s, h, r, i) \
                 (t a, u b, v c, w d, x e, y f, z g, s h, r i)
-#define ARGS10(t,a,u,b,v,c,w,d,x,e,y,f,z,g,s,h,r,i,q,j) \
+#define ARGS10(t, a, u, b, v, c, w, d, x, e, y, f, z, g, s, h, r, i, q, j) \
                 (t a, u b, v c, w d, x e, y f, z g, s h, r i, q j)
 
 #else  /* not ANSI */
@@ -133,27 +139,27 @@ Macros for declarations
 #define PARAMS(parameter_list) ()
 #define NOARGS ()
 #define ARGS1(t,a) (a) \
-                t a;
+				t a;
 #define ARGS2(t,a,u,b) (a,b) \
-                t a; u b;
+				t a; u b;
 #define ARGS3(t,a,u,b,v,c) (a,b,c) \
-                t a; u b; v c;
+				t a; u b; v c;
 #define ARGS4(t,a,u,b,v,c,w,d) (a,b,c,d) \
-                t a; u b; v c; w d;
+				t a; u b; v c; w d;
 #define ARGS5(t,a,u,b,v,c,w,d,x,e) (a,b,c,d,e) \
-                t a; u b; v c; w d; x e;
+				t a; u b; v c; w d; x e;
 #define ARGS6(t,a,u,b,v,c,w,d,x,e,y,f) (a,b,c,d,e,f) \
-                t a; u b; v c; w d; x e; y f;
+				t a; u b; v c; w d; x e; y f;
 #define ARGS7(t,a,u,b,v,c,w,d,x,e,y,f,z,g) (a,b,c,d,e,f,g) \
-                t a; u b; v c; w d; x e; y f; z g;
+				t a; u b; v c; w d; x e; y f; z g;
 #define ARGS8(t,a,u,b,v,c,w,d,x,e,y,f,z,g,s,h) (a,b,c,d,e,f,g,h) \
-                t a; u b; v c; w d; x e; y f; z g; s h;
+				t a; u b; v c; w d; x e; y f; z g; s h;
 #define ARGS9(t,a,u,b,v,c,w,d,x,e,y,f,z,g,s,h,r,i) (a,b,c,d,e,f,g,h,i) \
-                t a; u b; v c; w d; x e; y f; z g; s h; r i;
+				t a; u b; v c; w d; x e; y f; z g; s h; r i;
 #define ARGS10(t,a,u,b,v,c,w,d,x,e,y,f,z,g,s,h,r,i,q,j) (a,b,c,d,e,f,g,h,i,j) \
-                t a; u b; v c; w d; x e; y f; z g; s h; r i; q j;
-                
-        
+				t a; u b; v c; w d; x e; y f; z g; s h; r i; q j;
+
+
 #endif /* __STDC__ (ANSI) */
 
 #ifndef NULL
@@ -171,7 +177,7 @@ Booleans
 
 #ifndef _WIN32
 #ifndef BOOLEAN_DEFINED
-        typedef char    BOOLEAN;                /* Logical value */
+typedef char    BOOLEAN;                /* Logical value */
 #ifndef CURSES
 #ifndef TRUE
 #define TRUE    (BOOLEAN)1
@@ -198,7 +204,7 @@ Booleans
 #define TCP_PORT 80     /* Allocated to http by Jon Postel/ISI 24-Jan-92 */
 #define OLD_TCP_PORT 2784       /* Try the old one if no answer on 80 */
 #define DNP_OBJ 80      /* This one doesn't look busy, but we must check */
-                        /* That one was for decnet */
+/* That one was for decnet */
 
 /*      Inline Function WHITE: Is character c white space? */
 /*      For speed, include all control characters */
@@ -223,22 +229,24 @@ Sucess (>=0) and failure (<0) codes
 #include "HTString.h"   /* String utilities */
 
 #ifdef __STDC__
+
 #include <stdarg.h>
+
 #else
 #include <varargs.h>
 #endif
 
 #ifdef CURSES
-        /* htbrowse.c; */
+/* htbrowse.c; */
 #ifdef ULTRIX      /* or DECSTATION */
 #include <cursesX.h>    /* Extended curses under X. Only decent one :lou. */
 #else
 #include <curses.h>
 #endif /* ULTRIX */
-        extern        WINDOW  *w_top, *w_text, *w_prompt;
-        extern        void    user_message PARAMS((const char *fmt, ...));
-        extern        void    prompt_set PARAMS((CONST char * msg));
-        extern        void    prompt_count PARAMS((long kb));
+extern        WINDOW  *w_top, *w_text, *w_prompt;
+extern        void    user_message PARAMS((const char *fmt, ...));
+extern        void    prompt_set PARAMS((CONST char * msg));
+extern        void    prompt_count PARAMS((long kb));
 #else
 #define user_message printf
 #endif
@@ -282,7 +290,7 @@ Upper- and Lowercase macros
 #include <ctype.h>
 
 #ifndef TOLOWER
-  /* Pyramid and Mips can't uppercase non-alpha */
+/* Pyramid and Mips can't uppercase non-alpha */
 #define TOLOWER(c) (isupper(c) ? tolower(c) : (c))
 #define TOUPPER(c) (islower(c) ? toupper(c) : (c))
 #endif /* ndef TOLOWER */

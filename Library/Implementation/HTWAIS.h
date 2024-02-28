@@ -24,6 +24,7 @@
  */
 #ifndef HTWAIS_H
 #define HTWAIS_H
+
 #include "HTUtils.h"
 #include "HTAccess.h"
 

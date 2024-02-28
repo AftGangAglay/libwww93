@@ -23,13 +23,15 @@
 
 typedef struct _HTAtom HTAtom;
 struct _HTAtom {
-        HTAtom *        next;
-        char *          name;
+	HTAtom* next;
+	char* name;
 }; /* struct _HTAtom */
 
 
 #ifdef __STDC__
-extern HTAtom * HTAtom_for(const char * string);
+
+extern HTAtom* HTAtom_for(const char* string);
+
 #else
 extern HTAtom * HTAtom_for();
 #endif

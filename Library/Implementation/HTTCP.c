@@ -9,7 +9,8 @@
 
 
 #include "HTUtils.h"
-#include "tcp.h"		/* Defines SHORT_NAMES if necessary */
+#include "tcp.h"        /* Defines SHORT_NAMES if necessary */
+
 #ifdef SHORT_NAMES
 #define HTInetStatus		HTInStat
 #define HTInetString 		HTInStri
@@ -19,14 +20,14 @@
 /*	Module-Wide variables
 */
 
-PRIVATE char *hostname=0;		/* The name of this host */
+PRIVATE char* hostname = 0;        /* The name of this host */
 
 
 /*	PUBLIC VARIABLES
 */
 
-/* PUBLIC SockA HTHostAddress; */	/* The internet address of the host */
-					/* Valid after call to HTHostName() */
+/* PUBLIC SockA HTHostAddress; */    /* The internet address of the host */
+/* Valid after call to HTHostName() */
 
 /*	Encode INET status (as in sys/errno.h)			  inet_status()
 **	------------------
@@ -54,54 +55,56 @@ extern int errno;
 #ifndef NeXT
 #ifndef THINK_C
 #undef sys_errlist
-extern char *sys_errlist[];		/* see man perror on cernvax */
+extern char* sys_errlist[];        /* see man perror on cernvax */
 extern int sys_nerr;
 #endif  /* think c */
-#endif	/* NeXT */
+#endif    /* NeXT */
 #endif  /* vms */
-#endif	/* VM */
+#endif    /* VM */
 
-#endif	/* PCNFS */
+#endif    /* PCNFS */
 
 /*	Report Internet Error
 **	---------------------
 */
 #ifdef __STDC__
-PUBLIC int HTInetStatus(char *where)
+PUBLIC int HTInetStatus(char* where)
 #else
 PUBLIC int HTInetStatus(where)
-    char    *where;
+	char    *where;
 #endif
 {
-    CTRACE(tfp, "TCP: Error %d in `errno' after call to %s() failed.\n\t%s\n",
-	    errno,  where,
+	CTRACE(
+				tfp,
+				"TCP: Error %d in `errno' after call to %s() failed.\n\t%s\n",
+				errno, where,
 #ifdef VM
-	    "(Error number not translated)");	/* What Is the VM equiv? */
+				"(Error number not translated)");	/* What Is the VM equiv? */
 #define ER_NO_TRANS_DONE
 #endif
 #ifdef vms
-	    "(Error number not translated)");
+				"(Error number not translated)");
 #define ER_NO_TRANS_DONE
 #endif
 #ifdef NeXT
-	    strerror(errno));
+				strerror(errno));
 #define ER_NO_TRANS_DONE
 #endif
 #ifdef THINK_C
-	    strerror(errno));
+				strerror(errno));
 #define ER_NO_TRANS_DONE
 #endif
 
 #ifndef ER_NO_TRANS_DONE
-	    errno < sys_nerr ? sys_errlist[errno] : "Unknown error" );
+				errno < sys_nerr ? sys_errlist[errno] : "Unknown error");
 #endif
 
 
 #ifdef vms
-    CTRACE(tfp, "         Unix error number (uerrno) = %ld dec\n", uerrno);
-    CTRACE(tfp, "         VMS error (vmserrno)       = %lx hex\n", vmserrno);
+	CTRACE(tfp, "         Unix error number (uerrno) = %ld dec\n", uerrno);
+	CTRACE(tfp, "         VMS error (vmserrno)       = %lx hex\n", vmserrno);
 #endif
-    return -errno;
+	return -errno;
 }
 
 
@@ -120,25 +123,22 @@ PUBLIC int HTInetStatus(where)
 */
 
 PUBLIC unsigned int HTCardinal ARGS3
-	(int *,		pstatus,
-	char **,	pp,
-	unsigned int,	max_value)
-{
-    int   n;
-    if ( (**pp<'0') || (**pp>'9')) {	    /* Null string is error */
-	*pstatus = -3;  /* No number where one expeceted */
-	return 0;
-    }
+(int *, pstatus, char **, pp, unsigned int, max_value) {
+	int n;
+	if((**pp < '0') || (**pp > '9')) {        /* Null string is error */
+		*pstatus = -3;  /* No number where one expeceted */
+		return 0;
+	}
 
-    n=0;
-    while ((**pp>='0') && (**pp<='9')) n = n*10 + *((*pp)++) - '0';
+	n = 0;
+	while((**pp >= '0') && (**pp <= '9')) n = n * 10 + *((*pp)++) - '0';
 
-    if (n>max_value) {
-	*pstatus = -4;  /* Cardinal outside range */
-	return 0;
-    }
+	if(n > max_value) {
+		*pstatus = -4;  /* Cardinal outside range */
+		return 0;
+	}
 
-    return n;
+	return n;
 }
 
 
@@ -152,16 +152,17 @@ PUBLIC unsigned int HTCardinal ARGS3
 **		it is to be kept.
 */
 
-PUBLIC CONST char * HTInetString ARGS1(SockA*,sin)
-{
-    static char string[16];
-    sprintf(string, "%d.%d.%d.%d",
-	    (int)*((unsigned char *)(&sin->sin_addr)+0),
-	    (int)*((unsigned char *)(&sin->sin_addr)+1),
-	    (int)*((unsigned char *)(&sin->sin_addr)+2),
-	    (int)*((unsigned char *)(&sin->sin_addr)+3));
-    return string;
+PUBLIC CONST char* HTInetString ARGS1(SockA*, sin) {
+	static char string[16];
+	sprintf(
+			string, "%d.%d.%d.%d",
+			(int) *((unsigned char*) (&sin->sin_addr) + 0),
+			(int) *((unsigned char*) (&sin->sin_addr) + 1),
+			(int) *((unsigned char*) (&sin->sin_addr) + 2),
+			(int) *((unsigned char*) (&sin->sin_addr) + 3));
+	return string;
 }
+
 #endif /* Decnet */
 
 
@@ -177,86 +178,94 @@ PUBLIC CONST char * HTInetString ARGS1(SockA*,sin)
 **	*sin	is filled in. If no port is specified in str, that
 **		field is left unchanged in *sin.
 */
-PUBLIC int HTParseInet ARGS2(SockA *,sin, CONST char *,str)
-{
-    char *port;
-    char host[256];
-    struct hostent  *phost;	/* Pointer to host - See netdb.h */
-    strcpy(host, str);		/* Take a copy we can mutilate */
+PUBLIC int HTParseInet ARGS2(SockA *, sin, CONST char *, str) {
+	char* port;
+	char host[256];
+	struct hostent* phost;    /* Pointer to host - See netdb.h */
+	strcpy(host, str);        /* Take a copy we can mutilate */
 
 
 
 /*	Parse port number if present
-*/    
-    if (port=strchr(host, ':')) {
-    	*port++ = 0;		/* Chop off port */
-        if (port[0]>='0' && port[0]<='9') {
+*/
+	if(port = strchr(host, ':')) {
+		*port++ = 0;        /* Chop off port */
+		if(port[0] >= '0' && port[0] <= '9') {
 
 #ifdef unix
-	    sin->sin_port = htons(atol(port));
+			sin->sin_port = htons(atol(port));
 #else /* VMS */
 #ifdef DECNET
-	    sin->sdn_objnum = (unsigned char) (strtol(port, (char**)0 , 10));
+			sin->sdn_objnum = (unsigned char) (strtol(port, (char**)0 , 10));
 #else
-	    sin->sin_port = htons(strtol(port, (char**)0 , 10));
+			sin->sin_port = htons(strtol(port, (char**) 0, 10));
 #endif /* Decnet */
 #endif /* Unix vs. VMS */
 
-	} else {
+		}
+		else {
 
-#ifdef SUPPRESS		/* 1. crashes!?!.  2. Not recommended */
-	    struct servent * serv = getservbyname(port, (char*)0);
-	    if (serv) sin->sin_port = serv->s_port;
-	    else if (TRACE) fprintf(stderr, "TCP: Unknown service %s\n", port);
+#ifdef SUPPRESS        /* 1. crashes!?!.  2. Not recommended */
+			struct servent * serv = getservbyname(port, (char*)0);
+			if (serv) sin->sin_port = serv->s_port;
+			else if (TRACE) fprintf(stderr, "TCP: Unknown service %s\n", port);
 #endif
+		}
 	}
-      }
 
 #ifdef DECNET
-    /* read Decnet node name. @@ Should know about DECnet addresses, but it's
-       probably worth waiting until the Phase transition from IV to V. */
+	/* read Decnet node name. @@ Should know about DECnet addresses, but it's
+	   probably worth waiting until the Phase transition from IV to V. */
 
-    sin->sdn_nam.n_len = min(DN_MAXNAML, strlen(host));  /* <=6 in phase 4 */
-    strncpy (sin->sdn_nam.n_name, host, sin->sdn_nam.n_len + 1);
+	sin->sdn_nam.n_len = min(DN_MAXNAML, strlen(host));  /* <=6 in phase 4 */
+	strncpy (sin->sdn_nam.n_name, host, sin->sdn_nam.n_len + 1);
 
-    if (TRACE) fprintf(stderr,  
+	if (TRACE) fprintf(stderr,
 	"DECnet: Parsed address as object number %d on host %.6s...\n",
-		      sin->sdn_objnum, host);
+			  sin->sdn_objnum, host);
 
 #else  /* parse Internet host */
 
 /*	Parse host number if present.
-*/  
-    if (*host>='0' && *host<='9') {   /* Numeric node address: */
-	sin->sin_addr.s_addr = inet_addr(host); /* See arpa/inet.h */
+*/
+	if(*host >= '0' && *host <= '9') {   /* Numeric node address: */
+		sin->sin_addr.s_addr = inet_addr(host); /* See arpa/inet.h */
 
-    } else {		    /* Alphanumeric node name: */
-#ifdef MVS	/* Oustanding problem with crash in MVS gethostbyname */
-	if(TRACE)fprintf(stderr, "HTTCP: Calling gethostbyname(%s)\n", host);
-#endif
-	phost=gethostbyname(host);	/* See netdb.h */
-#ifdef MVS
-	if(TRACE)fprintf(stderr, "HTTCP: gethostbyname() returned %d\n", phost);
-#endif
-	if (!phost) {
-	    if (TRACE) fprintf(stderr, 
-		    "HTTPAccess: Can't find internet node name `%s'.\n",host);
-	    return -1;  /* Fail? */
 	}
-	memcpy(&sin->sin_addr, phost->h_addr, phost->h_length);
-    }
+	else {            /* Alphanumeric node name: */
+#ifdef MVS    /* Oustanding problem with crash in MVS gethostbyname */
+		if(TRACE)fprintf(stderr, "HTTCP: Calling gethostbyname(%s)\n", host);
+#endif
+		phost = gethostbyname(host);    /* See netdb.h */
+#ifdef MVS
+		if(TRACE)fprintf(stderr, "HTTCP: gethostbyname() returned %d\n", phost);
+#endif
+		if(!phost) {
+			if(TRACE) {
+				fprintf(
+						stderr,
+						"HTTPAccess: Can't find internet node name `%s'.\n",
+						host);
+			}
+			return -1;  /* Fail? */
+		}
+		memcpy(&sin->sin_addr, phost->h_addr, phost->h_length);
+	}
 
-    if (TRACE) fprintf(stderr,  
-	"TCP: Parsed address as port %d, IP address %d.%d.%d.%d\n",
-		(int)ntohs(sin->sin_port),
-		(int)*((unsigned char *)(&sin->sin_addr)+0),
-		(int)*((unsigned char *)(&sin->sin_addr)+1),
-		(int)*((unsigned char *)(&sin->sin_addr)+2),
-		(int)*((unsigned char *)(&sin->sin_addr)+3));
+	if(TRACE) {
+		fprintf(
+				stderr,
+				"TCP: Parsed address as port %d, IP address %d.%d.%d.%d\n",
+				(int) ntohs(sin->sin_port),
+				(int) *((unsigned char*) (&sin->sin_addr) + 0),
+				(int) *((unsigned char*) (&sin->sin_addr) + 1),
+				(int) *((unsigned char*) (&sin->sin_addr) + 2),
+				(int) *((unsigned char*) (&sin->sin_addr) + 3));
+	}
 
 #endif  /* Internet vs. Decnet */
 
-    return 0;	/* OK */
+	return 0;    /* OK */
 }
 
 
@@ -265,52 +274,53 @@ PUBLIC int HTParseInet ARGS2(SockA *,sin, CONST char *,str)
 **
 */
 #ifdef __STDC__
+
 PRIVATE void get_host_details(void)
 #else
 PRIVATE void get_host_details()
 #endif
 
 #ifndef MAXHOSTNAMELEN
-#define MAXHOSTNAMELEN 64		/* Arbitrary limit */
+#define MAXHOSTNAMELEN 64        /* Arbitrary limit */
 #endif
 
 {
-    char name[MAXHOSTNAMELEN+1];	/* The name of this host */
-#ifdef NEED_HOST_ADDRESS		/* no -- needs name server! */
-    struct hostent * phost;		/* Pointer to host -- See netdb.h */
+	char name[MAXHOSTNAMELEN + 1];    /* The name of this host */
+#ifdef NEED_HOST_ADDRESS        /* no -- needs name server! */
+	struct hostent * phost;		/* Pointer to host -- See netdb.h */
 #endif
-    int namelength = sizeof(name);
-    
-    if (hostname) return;		/* Already done */
-    gethostname(name, namelength);	/* Without domain */
-    CTRACE(tfp, "TCP: Local host name is %s\n", name);
-    StrAllocCopy(hostname, name);
+	int namelength = sizeof(name);
+
+	if(hostname) return;        /* Already done */
+	gethostname(name, namelength);    /* Without domain */
+	CTRACE(tfp, "TCP: Local host name is %s\n", name);
+	StrAllocCopy(hostname, name);
 
 #ifndef DECNET  /* Decnet ain't got no damn name server 8#OO */
-#ifdef NEED_HOST_ADDRESS		/* no -- needs name server! */
-    phost=gethostbyname(name);		/* See netdb.h */
-    if (!phost) {
-	if (TRACE) fprintf(stderr, 
+#ifdef NEED_HOST_ADDRESS        /* no -- needs name server! */
+	phost=gethostbyname(name);		/* See netdb.h */
+	if (!phost) {
+	if (TRACE) fprintf(stderr,
 		"TCP: Can't find my own internet node address for `%s'!!\n",
 		name);
 	return;  /* Fail! */
-    }
-    StrAllocCopy(hostname, phost->h_name);
-    memcpy(&HTHostAddress, &phost->h_addr, phost->h_length);
-    if (TRACE) fprintf(stderr, "     Name server says that I am `%s' = %s\n",
-	    hostname, HTInetString(&HTHostAddress));
+	}
+	StrAllocCopy(hostname, phost->h_name);
+	memcpy(&HTHostAddress, &phost->h_addr, phost->h_length);
+	if (TRACE) fprintf(stderr, "     Name server says that I am `%s' = %s\n",
+		hostname, HTInetString(&HTHostAddress));
 #endif
 
 #endif /* not Decnet */
 }
 
 #ifdef __STDC__
-PUBLIC const char * HTHostName(void)
+PUBLIC const char* HTHostName(void)
 #else
 PUBLIC char * HTHostName()
 #endif
 {
-    get_host_details();
-    return hostname;
+	get_host_details();
+	return hostname;
 }
 

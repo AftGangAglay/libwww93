@@ -24,12 +24,8 @@ Retrieve File from Server
                          
  */
 extern int HTFTPLoad PARAMS
-((
-  CONST char *          name,
-  HTParentAnchor *      anchor,
-  HTFormat              format_out,
-  HTStream*             sink
-));
+((CONST char* name, HTParentAnchor *anchor, HTFormat format_out, HTStream * sink
+ ));
 
 
 /*
@@ -37,7 +33,7 @@ extern int HTFTPLoad PARAMS
 Return Host Name
 
  */
-extern CONST char * HTHostName NOPARAMS;
+extern CONST char* HTHostName NOPARAMS;
 
 #endif
 

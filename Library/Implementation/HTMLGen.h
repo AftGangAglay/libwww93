@@ -15,12 +15,10 @@
 
 /* Special Creation:
 */
-extern HTStructured * HTMLGenerator PARAMS((HTStream * output));
+extern HTStructured* HTMLGenerator PARAMS((HTStream * output));
 
-extern HTStream * HTPlainToHTML PARAMS((
-        HTPresentation *        pres,
-        HTParentAnchor *        anchor,
-        HTStream *              sink));
+extern HTStream* HTPlainToHTML PARAMS(
+		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink));
 
 
 #endif

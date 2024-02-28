@@ -8,10 +8,10 @@
    
  */
 typedef struct {
-        int     size;           /* In bytes                     */
-        int     growby;         /* Allocation unit in bytes     */
-        int     allocated;      /* Current size of *data        */
-        char *  data;           /* Pointer to malloced area or 0 */
+	int size;           /* In bytes                     */
+	int growby;         /* Allocation unit in bytes     */
+	int allocated;      /* Current size of *data        */
+	char* data;           /* Pointer to malloced area or 0 */
 } HTChunk;
 
 
@@ -41,7 +41,7 @@ Create new chunk
                          
  */
 
-extern HTChunk * HTChunkCreate PARAMS((int growby));
+extern HTChunk* HTChunkCreate PARAMS((int growby));
 
 
 /*
@@ -131,7 +131,7 @@ Append a string to a  chunk
  */
 
 
-extern void HTChunkPuts PARAMS((HTChunk * ch, const char *str));
+extern void HTChunkPuts PARAMS((HTChunk * ch, const char* str));
 
 
 /*

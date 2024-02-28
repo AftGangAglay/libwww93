@@ -33,7 +33,7 @@
 */
 
 #define HT_NO_DATA -9999        /* return code: OK but no data was loaded */
-                                /* Typically, other app started or forked */
+/* Typically, other app started or forked */
 
 /*
 
@@ -80,8 +80,8 @@ Flags which may be set to control this module
 
  */
 extern int HTDiag;                      /* Flag: load source as plain text */
-extern char * HTClientHost;             /* Name or number of telnetting host */
-extern FILE * logfile;                  /* File to output one-liners to */
+extern char* HTClientHost;             /* Name or number of telnetting host */
+extern FILE* logfile;                  /* File to output one-liners to */
 extern BOOL HTSecure;                   /* Disable security holes? */
 extern HTStream* HTOutputStream;        /* For non-interactive, set this */
 extern HTFormat HTOutputFormat;         /* To convert on load, set this */
@@ -105,9 +105,8 @@ Load a document from relative name
   NO                      Failure
                          
  */
-extern  BOOL HTLoadRelative PARAMS((
-                CONST char *            relative_name,
-                HTParentAnchor *        here));
+extern BOOL HTLoadRelative PARAMS((CONST char* relative_name,
+										  HTParentAnchor* here));
 
 
 /*
@@ -135,7 +134,7 @@ Load a document from absolute name
   NO                      Failure
                          
  */
-extern BOOL HTLoadAbsolute PARAMS((CONST char * addr));
+extern BOOL HTLoadAbsolute PARAMS((CONST char* addr));
 
 
 /*
@@ -157,8 +156,8 @@ Load a document from absolute name to a stream
    Note: This is equivalent to HTLoadDocument
    
  */
-extern BOOL HTLoadToStream PARAMS((CONST char * addr, BOOL filter,
-                                HTStream * sink));
+extern BOOL
+HTLoadToStream PARAMS((CONST char* addr, BOOL filter, HTStream * sink));
 
 
 /*
@@ -205,7 +204,7 @@ Make a stream for Saving object back
  */
 
 
-extern HTStream * HTSaveStream PARAMS((HTParentAnchor * anchor));
+extern HTStream* HTSaveStream PARAMS((HTParentAnchor * anchor));
 
 
 /*
@@ -222,7 +221,7 @@ Search
   here                    The anchor of the object being searched
                          
  */
-extern BOOL HTSearch PARAMS((CONST char * keywords, HTParentAnchor* here));
+extern BOOL HTSearch PARAMS((CONST char* keywords, HTParentAnchor*here));
 
 
 /*
@@ -239,9 +238,8 @@ Search Given Indexname
   *indexname              is name of object search is to be done on.
                          
  */
-extern BOOL HTSearchAbsolute PARAMS((
-        CONST char *    keywords,
-        CONST char *    indexname));
+extern BOOL HTSearchAbsolute PARAMS((CONST char* keywords,
+											CONST char* indexname));
 
 
 /*
@@ -251,15 +249,14 @@ Register an access method
  */
 
 typedef struct _HTProtocol {
-        char * name;
-        
-        int (*load)PARAMS((
-                CONST char *    full_address,
-                HTParentAnchor * anchor,
-                HTFormat        format_out,
-                HTStream*       sink));
-                
-        HTStream* (*saveStream)PARAMS((HTParentAnchor * anchor));
+	char* name;
+
+	int (* load)PARAMS((CONST char* full_address,
+							   HTParentAnchor* anchor,
+							   HTFormat format_out,
+							   HTStream* sink));
+
+	HTStream* (* saveStream)PARAMS((HTParentAnchor * anchor));
 
 } HTProtocol;
 
@@ -278,7 +275,7 @@ Generate the anchor for the home page
    This is a default algorithm -- browser don't HAVE to use this.
    
  */
-extern HTParentAnchor * HTHomeAnchor NOPARAMS;
+extern HTParentAnchor* HTHomeAnchor NOPARAMS;
 
 #endif /* HTACCESS_H */
 /*

@@ -28,30 +28,22 @@ typedef struct _HTStream HTStream;
  */
 typedef struct _HTStreamClass {
 
-        char*  name;                            /* Just for diagnostics */
-                
-        void (*free) PARAMS((
-                HTStream*       me));
+	char* name;                            /* Just for diagnostics */
 
-        void (*abort) PARAMS((
-                HTStream*       me,
-                HTError         e));
-                
-        void (*put_character) PARAMS((
-                HTStream*       me,
-                char            ch));
-                                
-        void (*put_string) PARAMS((
-                HTStream*       me,
-                CONST char *    str));
-                
-        void (*put_block) PARAMS((
-                HTStream*       me,
-                CONST char *    str,
-                int             len));
-                
-                
-}HTStreamClass;
+	void (* free)PARAMS((HTStream * me));
+
+	void (* abort)PARAMS((HTStream * me, HTError e));
+
+	void (* put_character)PARAMS((HTStream * me,
+										 char ch));
+
+	void (* put_string)PARAMS((HTStream * me, CONST char* str));
+
+	void (* put_block)PARAMS((HTStream * me, CONST char* str,
+									 int len));
+
+
+} HTStreamClass;
 
 #endif /* HTSTREAM_H */
 

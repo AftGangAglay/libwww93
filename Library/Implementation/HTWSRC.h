@@ -10,14 +10,13 @@
  */
 #ifndef HTWSRC_H
 #define HTWSRC_H
+
 #include "HTUtils.h"
 
 #include "HTFormat.h"
 
-extern  HTStream* HTWSRCConvert PARAMS((
-        HTPresentation *        pres,
-        HTParentAnchor *        anchor,
-        HTStream *              sink));
+extern HTStream* HTWSRCConvert PARAMS(
+		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink));
 
 /*
 
@@ -30,9 +29,9 @@ Escaping Strings
    the caller.
    
  */
-extern char * HTDeSlash PARAMS((CONST char * str));
+extern char* HTDeSlash PARAMS((CONST char* str));
 
-extern char * HTEnSlash PARAMS((CONST char * str));
+extern char* HTEnSlash PARAMS((CONST char* str));
 
 #endif
 

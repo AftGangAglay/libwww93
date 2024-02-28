@@ -16,17 +16,15 @@
 #define HTFWriter_new   HTFWnew
 #endif
 
-extern HTStream * HTFWriter_new PARAMS((FILE * fp));
+extern HTStream* HTFWriter_new PARAMS((FILE * fp));
 
-extern HTStream * HTSaveAndExecute PARAMS((
-        HTPresentation *        pres,
-        HTParentAnchor *        anchor, /* Not used */
-        HTStream *              sink));
+extern HTStream* HTSaveAndExecute PARAMS(
+		(HTPresentation * pres, HTParentAnchor * anchor, /* Not used */
+				HTStream * sink));
 
-extern HTStream * HTSaveLocally PARAMS((
-        HTPresentation *        pres,
-        HTParentAnchor *        anchor, /* Not used */
-        HTStream *              sink));
+extern HTStream* HTSaveLocally PARAMS(
+		(HTPresentation * pres, HTParentAnchor * anchor, /* Not used */
+				HTStream * sink));
 
 #endif
 /*
