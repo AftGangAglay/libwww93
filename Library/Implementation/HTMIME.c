@@ -37,14 +37,14 @@ typedef enum _MIME_state {
 
 #define VALUE_SIZE 128        /* @@@@@@@ Arbitrary? */
 struct _HTStream {
-	CONST HTStreamClass* isa;
+	const HTStreamClass* isa;
 
 	BOOL net_ascii;    /* Is input net ascii? */
 	MIME_state state;        /* current state */
 	MIME_state if_ok;        /* got this state if match */
 	MIME_state field;        /* remember which field */
 	MIME_state fold_state;    /* state on a fold */
-	CONST char* check_pointer;    /* checking input */
+	const char* check_pointer;    /* checking input */
 
 	char* value_pointer;    /* storing values */
 	char value[VALUE_SIZE];
@@ -260,8 +260,8 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 **
 **	Strings must be smaller than this buffer size.
 */
-PRIVATE void HTMIME_put_string ARGS2(HTStream *, me, CONST char*, s) {
-	CONST char* p;
+PRIVATE void HTMIME_put_string ARGS2(HTStream *, me, const char*, s) {
+	const char* p;
 	if(me->state == MIME_TRANSPARENT) {        /* Optimisation */
 		(*me->targetClass.put_string)(me->target, s);
 	}
@@ -274,8 +274,8 @@ PRIVATE void HTMIME_put_string ARGS2(HTStream *, me, CONST char*, s) {
 /*	Buffer write.  Buffers can (and should!) be big.
 **	------------
 */
-PRIVATE void HTMIME_write ARGS3(HTStream *, me, CONST char*, s, int, l) {
-	CONST char* p;
+PRIVATE void HTMIME_write ARGS3(HTStream *, me, const char*, s, int, l) {
+	const char* p;
 	if(me->state == MIME_TRANSPARENT) {        /* Optimisation */
 		(*me->targetClass.put_block)(me->target, s, l);
 	}
@@ -309,7 +309,7 @@ PRIVATE void HTMIME_abort ARGS2(HTStream *, me, HTError, e) {
 /*	Structured Object Class
 **	-----------------------
 */
-PRIVATE CONST HTStreamClass HTMIME = {
+PRIVATE const HTStreamClass HTMIME = {
 		"MIMEParser", HTMIME_free, HTMIME_abort, HTMIME_put_character,
 		HTMIME_put_string, HTMIME_write };
 

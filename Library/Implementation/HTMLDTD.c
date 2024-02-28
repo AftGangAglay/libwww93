@@ -12,7 +12,7 @@
 **
 **	This table must be matched exactly with ALL the translation tables
 */
-static CONST char* entities[] = {
+static const char* entities[] = {
 		"AElig",    /* capital AE diphthong (ligature) */
 		"Aacute",    /* capital A, acute accent */
 		"Acirc",    /* capital A, circumflex accent */
@@ -178,7 +178,7 @@ static HTTag tags[HTML_ELEMENTS] = {
 		{ "XMP",        no_attr,       0,          SGML_LITTERAL }, };
 
 
-PUBLIC CONST SGML_dtd HTML_dtd = {
+PUBLIC const SGML_dtd HTML_dtd = {
 		tags, HTML_ELEMENTS, entities, sizeof(entities) / sizeof(char**) };
 
 /*	Utility Routine: useful for people building HTML objects */
@@ -196,10 +196,10 @@ struct _HTStructured {
 };
 
 PUBLIC void
-HTStartAnchor ARGS3(HTStructured *, obj, CONST char *, name, CONST char *,
+HTStartAnchor ARGS3(HTStructured *, obj, const char *, name, const char *,
 					href) {
 	BOOL present[HTML_A_ATTRIBUTES];
-	CONST char* value[HTML_A_ATTRIBUTES];
+	const char* value[HTML_A_ATTRIBUTES];
 
 	{
 		int i;

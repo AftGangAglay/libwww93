@@ -68,8 +68,8 @@ extern char* HTAppVersion;    /* Application version: please supply */
 **	read.
 **
 */
-PUBLIC int HTLoadHTTP ARGS4 (CONST char *, arg,
-/*	CONST char *,		gate, */
+PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
+/*	const char *,		gate, */
 							 HTParentAnchor *, anAnchor, HTFormat, format_out,
 							 HTStream*, sink) {
 	int s;                /* Socket number for returned data */
@@ -82,7 +82,7 @@ PUBLIC int HTLoadHTTP ARGS4 (CONST char *, arg,
 	HTStream* target = NULL;        /* Unconverted data */
 	HTFormat format_in;            /* Format arriving in the message */
 
-	CONST char* gate = 0;        /* disable this feature */
+	const char* gate = 0;        /* disable this feature */
 	SockA soc_address;            /* Binary network address */
 	SockA* sin = &soc_address;
 	BOOL had_header = NO;        /* Have we had at least one header? */

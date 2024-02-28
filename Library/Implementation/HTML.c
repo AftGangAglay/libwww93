@@ -45,7 +45,7 @@ typedef struct _stack_element {
 } stack_element;
 
 struct _HTStructured {
-	CONST HTStructuredClass* isa;
+	const HTStructuredClass* isa;
 	HTParentAnchor* node_anchor;
 	HText* text;
 
@@ -67,7 +67,7 @@ struct _HTStructured {
 };
 
 struct _HTStream {
-	CONST HTStreamClass* isa;
+	const HTStreamClass* isa;
 	/* .... */
 };
 
@@ -378,7 +378,7 @@ PRIVATE void HTML_put_character ARGS2(HTStructured *, me, char, c) {
 **	This is written separately from put_character becuase the loop can
 **	in some cases be promoted to a higher function call level for speed.
 */
-PRIVATE void HTML_put_string ARGS2(HTStructured *, me, CONST char*, s) {
+PRIVATE void HTML_put_string ARGS2(HTStructured *, me, const char*, s) {
 
 	switch(me->sp[0].tag_number) {
 		case HTML_COMMENT: break;                    /* Do Nothing */
@@ -399,7 +399,7 @@ PRIVATE void HTML_put_string ARGS2(HTStructured *, me, CONST char*, s) {
 
 		default:                    /* Free format text */
 		{
-			CONST char* p = s;
+			const char* p = s;
 			if(me->style_change) {
 				for(; *p && ((*p == '\n') || (*p == ' '));
 						p++) { }  /* Ignore leaders */
@@ -430,9 +430,9 @@ PRIVATE void HTML_put_string ARGS2(HTStructured *, me, CONST char*, s) {
 /*	Buffer write
 **	------------
 */
-PRIVATE void HTML_write ARGS3(HTStructured *, me, CONST char*, s, int, l) {
-	CONST char* p;
-	CONST char* e = s + l;
+PRIVATE void HTML_write ARGS3(HTStructured *, me, const char*, s, int, l) {
+	const char* p;
+	const char* e = s + l;
 	for(p = s; s < e; p++) HTML_put_character(me, *p);
 }
 
@@ -441,8 +441,8 @@ PRIVATE void HTML_write ARGS3(HTStructured *, me, CONST char*, s, int, l) {
 **	-------------
 */
 PRIVATE void
-HTML_start_element ARGS4(HTStructured *, me, int, element_number, CONST BOOL*,
-						 present, CONST char **, value) {
+HTML_start_element ARGS4(HTStructured *, me, int, element_number, const BOOL*,
+						 present, const char **, value) {
 	switch(element_number) {
 		case HTML_A: {
 			HTChildAnchor* source;
@@ -717,7 +717,7 @@ PRIVATE void get_styles NOARGS {
 /*	Structured Object Class
 **	-----------------------
 */
-PUBLIC CONST HTStructuredClass HTMLPresentation = /* As opposed to print etc */
+PUBLIC const HTStructuredClass HTMLPresentation = /* As opposed to print etc */
 		{
 				"text/html", HTML_free, HTML_abort, HTML_put_character,
 				HTML_put_string, HTML_write, HTML_start_element,
@@ -845,7 +845,7 @@ HTMLPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 */
 
 PUBLIC int
-HTLoadError ARGS3(HTStream *, sink, int, number, CONST char *, message) {
+HTLoadError ARGS3(HTStream *, sink, int, number, const char *, message) {
 	HTAlert(message);        /* @@@@@@@@@@@@@@@@@@@ */
 	return -number;
 } 

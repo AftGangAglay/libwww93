@@ -23,7 +23,7 @@ extern HTStyleSheet* styleSheet;
 */
 
 struct _HTStream {
-	CONST HTStreamClass* isa;
+	const HTStreamClass* isa;
 
 	HText* text;
 };
@@ -52,14 +52,14 @@ PRIVATE void HTPlain_put_character ARGS2(HTStream *, me, char, c) {
 **	---------------
 **
 */
-PRIVATE void HTPlain_put_string ARGS2(HTStream *, me, CONST char*, s) {
+PRIVATE void HTPlain_put_string ARGS2(HTStream *, me, const char*, s) {
 	HText_appendText(me->text, s);
 }
 
 
-PRIVATE void HTPlain_write ARGS3(HTStream *, me, CONST char*, s, int, l) {
-	CONST char* p;
-	CONST char* e = s + l;
+PRIVATE void HTPlain_write ARGS3(HTStream *, me, const char*, s, int, l) {
+	const char* p;
+	const char* e = s + l;
 	for(p = s; p < e; p++) HText_appendCharacter(me->text, *p);
 }
 
@@ -87,7 +87,7 @@ PRIVATE void HTPlain_abort ARGS2(HTStream *, me, HTError, e) {
 /*		Structured Object Class
 **		-----------------------
 */
-PUBLIC CONST HTStreamClass HTPlain = {
+PUBLIC const HTStreamClass HTPlain = {
 		"SocketWriter", HTPlain_free, HTPlain_abort, HTPlain_put_character,
 		HTPlain_put_string, HTPlain_write, };
 

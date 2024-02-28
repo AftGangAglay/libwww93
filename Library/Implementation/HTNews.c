@@ -36,7 +36,7 @@
 #define BIG 1024 /* @@@ */
 
 struct _HTStructured {
-	CONST HTStructuredClass* isa;
+	const HTStructuredClass* isa;
 	/* ... */
 };
 
@@ -66,11 +66,11 @@ PRIVATE int diagnostic;            /* level: 0=none 2=source */
 #define START(e) (*targetClass.start_element)(target, e, 0, 0)
 #define END(e) (*targetClass.end_element)(target, e)
 
-PUBLIC CONST char* HTGetNewsHost NOARGS {
+PUBLIC const char* HTGetNewsHost NOARGS {
 	return HTNewsHost;
 }
 
-PUBLIC void HTSetNewsHost ARGS1(CONST char *, value) {
+PUBLIC void HTSetNewsHost ARGS1(const char *, value) {
 	StrAllocCopy(HTNewsHost, value);
 }
 
@@ -95,7 +95,7 @@ PUBLIC void HTSetNewsHost ARGS1(CONST char *, value) {
 PRIVATE BOOL initialized = NO;
 
 PRIVATE BOOL initialize NOARGS {
-	CONST struct hostent* phost;      /* Pointer to host - See netdb.h */
+	const struct hostent* phost;      /* Pointer to host - See netdb.h */
 	struct sockaddr_in* sin = &soc_address;
 
 
@@ -187,7 +187,7 @@ PRIVATE BOOL initialize NOARGS {
 */
 
 
-PRIVATE int response ARGS1(CONST char *, command) {
+PRIVATE int response ARGS1(const char *, command) {
 	int result;
 	char* p = response_text;
 	if(command) {
@@ -196,7 +196,7 @@ PRIVATE int response ARGS1(CONST char *, command) {
 		if(TRACE) fprintf(stderr, "NNTP command to be sent: %s", command);
 #ifdef NOT_ASCII
 		{
-			CONST char  * p;
+			const char  * p;
 			char 	* q;
 			char ascii[LINE_LENGTH+1];
 			for(p = command, q=ascii; *p; p++, q++) {
@@ -245,9 +245,9 @@ PRIVATE int response ARGS1(CONST char *, command) {
 **	template must be already un upper case.
 **	unknown may be in upper or lower or mixed case to match.
 */
-PRIVATE BOOL match ARGS2 (CONST char *, unknown, CONST char *, template) {
-	CONST char* u = unknown;
-	CONST char* t = template;
+PRIVATE BOOL match ARGS2 (const char *, unknown, const char *, template) {
+	const char* u = unknown;
+	const char* t = template;
 	for(; *u && *t && (TOUPPER(*u) == *t);
 			u++, t++) { /* Find mismatch or end */ }
 	return (BOOL) (*t == 0);        /* OK if end of template */
@@ -287,9 +287,9 @@ PRIVATE char* author_name ARGS1 (char *, email) {
 /*	Start anchor element
 **	--------------------
 */
-PRIVATE void start_anchor ARGS1(CONST char *, href) {
+PRIVATE void start_anchor ARGS1(const char *, href) {
 	BOOL present[HTML_A_ATTRIBUTES];
-	CONST char* value[HTML_A_ATTRIBUTES];
+	const char* value[HTML_A_ATTRIBUTES];
 
 	{
 		int i;
@@ -312,11 +312,11 @@ PRIVATE void start_anchor ARGS1(CONST char *, href) {
 **	addr	points to the hypertext refernce address,
 **		terminated by white space, comma, NULL or '>' 
 */
-PRIVATE void write_anchor ARGS2(CONST char *, text, CONST char *, addr) {
+PRIVATE void write_anchor ARGS2(const char *, text, const char *, addr) {
 	char href[LINE_LENGTH + 1];
 
 	{
-		CONST char* p;
+		const char* p;
 		strcpy(href, "news:");
 		for(p = addr; *p && (*p != '>') && !WHITE(*p) && (*p != ','); p++);
 		strncat(
@@ -603,7 +603,7 @@ PRIVATE void read_list NOARGS {
 **	want more than one field.
 **
 */
-PRIVATE void read_group ARGS3(CONST char *, groupName, int, first_required, int,
+PRIVATE void read_group ARGS3(const char *, groupName, int, first_required, int,
 							  last_required) {
 	char line[LINE_LENGTH + 1];
 	char author[LINE_LENGTH + 1];
@@ -867,7 +867,7 @@ PRIVATE void read_group ARGS3(CONST char *, groupName, int, first_required, int,
 **		============
 */
 PUBLIC int
-HTLoadNews ARGS4(CONST char *, arg, HTParentAnchor *, anAnchor, HTFormat,
+HTLoadNews ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 				 format_out, HTStream*, stream) {
 	char command[257];            /* The whole command */
 	char groupName[GROUP_NAME_LENGTH];    /* Just the group name */
@@ -885,7 +885,7 @@ HTLoadNews ARGS4(CONST char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 	if(!initialized) return -1;    /* FAIL */
 
 	{
-		CONST char* p1 = arg;
+		const char* p1 = arg;
 
 /*	We will ask for the document, omitting the host name & anchor.
 **

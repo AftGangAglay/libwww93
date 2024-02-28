@@ -108,7 +108,7 @@ typedef struct _connection {
 #define END(e) (*targetClass.end_element)(target, e)
 #define FREE_TARGET (*targetClass.free)(target)
 struct _HTStructured {
-	CONST HTStructuredClass* isa;
+	const HTStructuredClass* isa;
 	/* ... */
 };
 
@@ -323,7 +323,7 @@ PRIVATE int response(cmd)
 **	It ensures that all connections are logged in if they exist.
 **	It ensures they have the port number transferred.
 */
-PRIVATE int get_connection ARGS1 (CONST char *, arg) {
+PRIVATE int get_connection ARGS1 (const char *, arg) {
 	struct sockaddr_in soc_address;    /* Binary network address */
 	struct sockaddr_in* sin = &soc_address;
 
@@ -469,7 +469,7 @@ PRIVATE int get_connection ARGS1 (CONST char *, arg) {
 				}
 				else {
 					char* user = getenv("USER");
-					CONST char* host = HTHostName();
+					const char* host = HTHostName();
 					if(!user) user = "WWWuser";
 					/* If not fully qualified, suppress it as ftp.uu.net
 					   prefers a blank to a bad name */
@@ -688,16 +688,13 @@ PRIVATE int get_listen_socket()
 **			<0 if error.
 */
 PRIVATE int
-read_directory ARGS4 (HTParentAnchor *, parent, CONST char *, address, HTFormat,
+read_directory ARGS4 (HTParentAnchor *, parent, const char *, address, HTFormat,
 					  format_out, HTStream *, sink) {
 	HTStructured* target = HTML_new(parent, format_out, sink);
 	HTStructuredClass targetClass;
 	char* filename = HTParse(address, "", PARSE_PATH + PARSE_PUNCTUATION);
 
-	char c = 0;
-
 	char* lastpath;  /* prefix for link, either "" (for root) or xxx  */
-	char* entry;   /* pointer into lastpath to bit after last slash */
 
 	targetClass = *(target->isa);
 
@@ -706,7 +703,7 @@ read_directory ARGS4 (HTParentAnchor *, parent, CONST char *, address, HTFormat,
 	data_read_pointer = data_write_pointer = data_buffer;
 
 	if(*filename == 0) {  /* Empty filename : use root */
-		strcpy(lastpath, "/");
+		lastpath = strdup("/");
 	}
 	else {
 		char* p = strrchr(filename, '/');  /* find lastslash */
@@ -725,7 +722,6 @@ read_directory ARGS4 (HTParentAnchor *, parent, CONST char *, address, HTFormat,
 		for(c = 0; c != (char) EOF;)   /* For each entry in the directory */
 		{
 			char* filename = NULL;
-			char* p = entry;
 			HTChunkClear(chunk);
 			/*   read directory entry
 			 */
@@ -789,7 +785,7 @@ read_directory ARGS4 (HTParentAnchor *, parent, CONST char *, address, HTFormat,
 **			<0 if bad.
 */
 PUBLIC int
-HTFTPLoad ARGS4 (CONST char *, name, HTParentAnchor *, anchor, HTFormat,
+HTFTPLoad ARGS4 (const char *, name, HTParentAnchor *, anchor, HTFormat,
 				 format_out, HTStream *, sink) {
 	BOOL isDirectory = NO;
 	int status;

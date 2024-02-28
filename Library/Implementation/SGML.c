@@ -44,9 +44,9 @@ struct _HTElement {
 */
 struct _HTStream {
 
-	CONST HTStreamClass* isa;        /* inherited from HTStream */
+	const HTStreamClass* isa;        /* inherited from HTStream */
 
-	CONST SGML_dtd* dtd;
+	const SGML_dtd* dtd;
 	HTStructuredClass* actions;    /* target class  */
 	HTStructured* target;    /* target object */
 
@@ -86,7 +86,7 @@ struct _HTStream {
 /*	Handle Attribute
 **	----------------
 */
-/* PUBLIC CONST char * SGML_default = "";   ?? */
+/* PUBLIC const char * SGML_default = "";   ?? */
 
 #ifdef __STDC__
 
@@ -168,8 +168,8 @@ PRIVATE void handle_entity(context, term)
 #endif
 {
 
-	CONST char** entities = context->dtd->entity_names;
-	CONST char* s = context->string->data;
+	const char** entities = context->dtd->entity_names;
+	const char* s = context->string->data;
 
 	int high, low, i, diff;
 	for(low = 0, high = context->dtd->number_of_entities; high > low;
@@ -187,7 +187,7 @@ PRIVATE void handle_entity(context, term)
 	}
 	PUTC('&');
 	{
-		CONST char* p;
+		const char* p;
 		for(p = s; *p; p++) {
 			PUTC(*p);
 		}
@@ -274,7 +274,7 @@ PRIVATE void start_element(context)
 	if(TRACE) fprintf(stderr, "SGML: Start <%s>\n", new_tag->name);
 	(*context->actions->start_element)(
 			context->target, new_tag - context->dtd->tags, context->present,
-			(CONST char**) context->value);  /* coerce type for think c */
+			(const char**) context->value);  /* coerce type for think c */
 	if(new_tag->contents != SGML_EMPTY) {        /* i.e. tag not empty */
 		HTElement* N = malloc(sizeof(HTElement));
 		if(N == NULL) outofmem(__FILE__, "start_element");
@@ -297,7 +297,7 @@ PRIVATE void start_element(context)
 **		NULL		tag not found
 **		else		address of tag structure in dtd
 */
-PRIVATE HTTag* find_tag ARGS2(CONST SGML_dtd*, dtd, char *, string) {
+PRIVATE HTTag* find_tag ARGS2(const SGML_dtd*, dtd, char *, string) {
 	int high, low, i, diff;
 	for(low = 0, high = dtd->number_of_tags; high > low;
 			diff < 0 ? (low = i + 1) : (high = i)) {  /* Binary serach */
@@ -353,7 +353,7 @@ PUBLIC void SGML_setCallerData ARGS2(HTStream *, context, void*, data)
 #endif
 
 PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
-	CONST SGML_dtd* dtd = context->dtd;
+	const SGML_dtd* dtd = context->dtd;
 	HTChunk* string = context->string;
 
 	switch(context->state) {
@@ -658,17 +658,17 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 }  /* SGML_character */
 
 
-PUBLIC void SGML_string ARGS2(HTStream *, context, CONST char*, str) {
-	CONST char* p;
+PUBLIC void SGML_string ARGS2(HTStream *, context, const char*, str) {
+	const char* p;
 	for(p = str; *p; p++) {
 		SGML_character(context, *p);
 	}
 }
 
 
-PUBLIC void SGML_write ARGS3(HTStream *, context, CONST char*, str, int, l) {
-	CONST char* p;
-	CONST char* e = str + l;
+PUBLIC void SGML_write ARGS3(HTStream *, context, const char*, str, int, l) {
+	const char* p;
+	const char* e = str + l;
 	for(p = str; p < e; p++) {
 		SGML_character(context, *p);
 	}
@@ -680,7 +680,7 @@ PUBLIC void SGML_write ARGS3(HTStream *, context, CONST char*, str, int, l) {
 /*	Structured Object Class
 **	-----------------------
 */
-PUBLIC CONST HTStreamClass SGMLParser = {
+PUBLIC const HTStreamClass SGMLParser = {
 		"SGMLParser", SGML_free, SGML_abort, SGML_character, SGML_string,
 		SGML_write, };
 
@@ -693,7 +693,7 @@ PUBLIC CONST HTStreamClass SGMLParser = {
 **
 */
 
-PUBLIC HTStream* SGML_new ARGS2(CONST SGML_dtd *, dtd, HTStructured *, target) {
+PUBLIC HTStream* SGML_new ARGS2(const SGML_dtd *, dtd, HTStructured *, target) {
 	int i;
 	HTStream* context = malloc(sizeof(*context));
 	if(!context) outofmem(__FILE__, "SGML_begin");

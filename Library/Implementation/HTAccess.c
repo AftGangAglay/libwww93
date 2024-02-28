@@ -127,7 +127,7 @@ PRIVATE void HTAccessInit NOARGS            /* Call me once */
 **			HT_OK			Success
 **
 */
-PRIVATE int get_physical ARGS2(CONST char *, addr, HTParentAnchor *, anchor) {
+PRIVATE int get_physical ARGS2(const char *, addr, HTParentAnchor *, anchor) {
 	char* access = 0;    /* Name of access method */
 	char* physical = 0;
 
@@ -225,7 +225,7 @@ PRIVATE int get_physical ARGS2(CONST char *, addr, HTParentAnchor *, anchor) {
 **
 */
 PRIVATE int
-HTLoad ARGS4(CONST char *, addr, HTParentAnchor *, anchor, HTFormat, format_out,
+HTLoad ARGS4(const char *, addr, HTParentAnchor *, anchor, HTFormat, format_out,
 			 HTStream *, sink) {
 	HTProtocol* p;
 	int status = get_physical(addr, anchor);
@@ -272,7 +272,7 @@ PUBLIC HTStream* HTSaveStream ARGS1(HTParentAnchor *, anchor) {
 */
 
 PRIVATE BOOL
-HTLoadDocument ARGS4(CONST char *, full_address, HTParentAnchor *, anchor,
+HTLoadDocument ARGS4(const char *, full_address, HTParentAnchor *, anchor,
 					 HTFormat, format_out, HTStream*, sink) {
 	int status;
 	HText* text;
@@ -282,7 +282,7 @@ HTLoadDocument ARGS4(CONST char *, full_address, HTParentAnchor *, anchor,
 				stderr, "HTAccess: loading document %s\n", full_address);
 	}
 
-	if(text = (HText*) HTAnchor_document(anchor)) {    /* Already loaded */
+	if((text = (HText*) HTAnchor_document(anchor))) {    /* Already loaded */
 		if(TRACE) fprintf(stderr, "HTAccess: Document already in memory.\n");
 		HText_select(text);
 		return YES;
@@ -370,7 +370,7 @@ HTLoadDocument ARGS4(CONST char *, full_address, HTParentAnchor *, anchor,
 **
 */
 
-PUBLIC BOOL HTLoadAbsolute ARGS1(CONST char *, addr) {
+PUBLIC BOOL HTLoadAbsolute ARGS1(const char *, addr) {
 	return HTLoadDocument(
 			addr, HTAnchor_parent(HTAnchor_findAddress(addr)),
 			HTOutputFormat ? HTOutputFormat : WWW_PRESENT, HTOutputStream);
@@ -392,7 +392,8 @@ PUBLIC BOOL HTLoadAbsolute ARGS1(CONST char *, addr) {
 */
 
 PUBLIC BOOL
-HTLoadToStream ARGS3(CONST char *, addr, BOOL, filter, HTStream *, sink) {
+HTLoadToStream ARGS3(const char *, addr, BOOL, filter, HTStream *, sink) {
+	(void) filter;
 	return HTLoadDocument(
 			addr, HTAnchor_parent(HTAnchor_findAddress(addr)),
 			HTOutputFormat ? HTOutputFormat : WWW_PRESENT, sink);
@@ -416,7 +417,7 @@ HTLoadToStream ARGS3(CONST char *, addr, BOOL, filter, HTStream *, sink) {
 */
 
 PUBLIC BOOL
-HTLoadRelative ARGS2(CONST char *, relative_name, HTParentAnchor *, here) {
+HTLoadRelative ARGS2(const char *, relative_name, HTParentAnchor *, here) {
 	char* full_address = 0;
 	BOOL result;
 	char* mycopy = 0;
@@ -501,18 +502,18 @@ PRIVATE char hex(i)int i;
 	return hexchars[i];
 }
 
-PUBLIC BOOL HTSearch ARGS2(CONST char *, keywords, HTParentAnchor *, here) {
+PUBLIC BOOL HTSearch ARGS2(const char *, keywords, HTParentAnchor *, here) {
 
 #define acceptable \
 "1234567890abcdefghijlkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-_"
 
 	char* q, * u;
-	CONST char* p, * s, * e;        /* Pointers into keywords */
+	const char* p, * s, * e;        /* Pointers into keywords */
 	char* address = HTAnchor_address((HTAnchor*) here);
 	BOOL result;
 	char* escaped = malloc(strlen(keywords) * 3 + 1);
 
-	static CONST BOOL isAcceptable[96] =
+	static const BOOL isAcceptable[96] =
 
 			/*   0 1 2 3 4 5 6 7 8 9 A B C D E F */
 			{
@@ -578,7 +579,7 @@ PUBLIC BOOL HTSearch ARGS2(CONST char *, keywords, HTParentAnchor *, here) {
 */
 
 PUBLIC BOOL
-HTSearchAbsolute ARGS2(CONST char *, keywords, CONST char *, indexname) {
+HTSearchAbsolute ARGS2(const char *, keywords, const char *, indexname) {
 	HTParentAnchor* anchor = (HTParentAnchor*) HTAnchor_findAddress(indexname);
 	return HTSearch(keywords, anchor);
 }
@@ -633,7 +634,7 @@ PUBLIC HTParentAnchor* HTHomeAnchor NOARGS {
 
 	if (!my_home_document) {
 	FILE * fp = NULL;
-	CONST char * home =  (CONST char*)getenv("HOME");
+	const char * home =  (const char*)getenv("HOME");
 	if (home) { 
 		my_home_document = (char *)malloc(
 		strlen(home)+1+ strlen(PERSONAL_DEFAULT)+1);

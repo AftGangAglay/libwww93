@@ -156,7 +156,7 @@ char * HTTranslate(required)
 	for(r = rules; r; r = r->next) {
 		char* p = r->pattern;
 		int m;   /* Number of characters matched against wildcard */
-		CONST char* q = current;
+		const char* q = current;
 		for(; *p && *q; p++, q++) {   /* Find first mismatch */
 			if(*p != *q) break;
 		}
@@ -246,7 +246,7 @@ char * HTTranslate(required)
 **
 ** returns	0 OK, < 0 syntax error.
 */
-PUBLIC int HTSetConfiguration ARGS1(CONST char *, config) {
+PUBLIC int HTSetConfiguration ARGS1(const char *, config) {
 	HTRuleOp op;
 	char* line = NULL;
 	char* pointer = line;
@@ -323,7 +323,7 @@ PUBLIC int HTSetConfiguration ARGS1(CONST char *, config) {
 **	The strings may not contain spaces.
 */
 
-int HTLoadRules ARGS1(CONST char *, filename) {
+int HTLoadRules ARGS1(const char *, filename) {
 	FILE* fp = fopen(filename, "r");
 	char line[LINE_LENGTH + 1];
 

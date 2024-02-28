@@ -55,11 +55,7 @@ Default values
 #define GOT_PIPE                /* Of sorts */
 #endif
 
-#ifdef DECNET
-typedef struct sockaddr_dn SockA;  /* See netdnet/dn.h or custom vms.h */
-#else /* Internet */
 typedef struct sockaddr_in SockA;  /* See netinet/in.h */
-#endif
 
 
 /*
@@ -299,11 +295,9 @@ IBM-PC running Windows NT
 #include <stdio.h>
 #include <winsock.h>
 
-typedef struct sockaddr_in SockA;  /* See netinet/in.h */
 #define INCLUDES_DONE
 #define TCP_INCLUDES_DONE
 #endif  /* WINDOWS */
-
 
 
 /*

@@ -19,7 +19,7 @@
 */
 
 struct _HTStream {
-	CONST HTStreamClass* isa;
+	const HTStreamClass* isa;
 
 	FILE* fp;
 	char* end_command;
@@ -50,7 +50,7 @@ PRIVATE void HTFWriter_put_character ARGS2(HTStream *, me, char, c) {
 **
 **	Strings must be smaller than this buffer size.
 */
-PRIVATE void HTFWriter_put_string ARGS2(HTStream *, me, CONST char*, s) {
+PRIVATE void HTFWriter_put_string ARGS2(HTStream *, me, const char*, s) {
 	fputs(s, me->fp);
 }
 
@@ -58,7 +58,7 @@ PRIVATE void HTFWriter_put_string ARGS2(HTStream *, me, CONST char*, s) {
 /*	Buffer write.  Buffers can (and should!) be big.
 **	------------
 */
-PRIVATE void HTFWriter_write ARGS3(HTStream *, me, CONST char*, s, int, l) {
+PRIVATE void HTFWriter_write ARGS3(HTStream *, me, const char*, s, int, l) {
 	fwrite(s, 1, l, me->fp);
 }
 
@@ -114,7 +114,7 @@ PRIVATE void HTFWriter_abort ARGS2(HTStream *, me, HTError, e) {
 /*	Structured Object Class
 **	-----------------------
 */
-PRIVATE CONST HTStreamClass HTFWriter = /* As opposed to print etc */
+PRIVATE const HTStreamClass HTFWriter = /* As opposed to print etc */
 		{
 				"FileWriter", HTFWriter_free, HTFWriter_abort,
 				HTFWriter_put_character, HTFWriter_put_string,
@@ -174,7 +174,7 @@ HTSaveAndExecute ARGS3(HTPresentation *, pres, HTParentAnchor *,
 #ifdef REMOVE_COMMAND
 {
 	char *fnam;
-	CONST char * suffix;
+	const char * suffix;
 
 	HTStream* me;
 
@@ -244,7 +244,7 @@ PUBLIC HTStream* HTSaveLocally ARGS3(HTPresentation *, pres, HTParentAnchor *,
 {
 	char* fnam;
 	char* answer;
-	CONST char* suffix;
+	const char* suffix;
 
 	HTStream* me;
 

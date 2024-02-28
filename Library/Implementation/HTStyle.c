@@ -23,7 +23,7 @@ PUBLIC HTStyle* HTStyleNew NOARGS {
 
 /*	Create a new style with a name
 */
-PUBLIC HTStyle* HTStyleNewNamed ARGS1 (CONST char *, name) {
+PUBLIC HTStyle* HTStyleNewNamed ARGS1 (const char *, name) {
 	HTStyle* self = HTStyleNew();
 	StrAllocCopy(self->name, name);
 	return self;
@@ -176,7 +176,7 @@ HTStyle * HTStyleDump (HTStyle * style)
 
 /*	Searching for styles:
 */
-HTStyle* HTStyleNamed ARGS2 (HTStyleSheet *, self, CONST char *, name) {
+HTStyle* HTStyleNamed ARGS2 (HTStyleSheet *, self, const char *, name) {
 	HTStyle* scan;
 	for(scan = self->styles; scan; scan = scan->next) {
 		if(0 == strcmp(scan->name, name)) return scan;

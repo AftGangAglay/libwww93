@@ -27,7 +27,7 @@
 #define HEX_ESCAPE '%'
 
 struct _HTStructured {
-	CONST HTStructuredClass* isa;
+	const HTStructuredClass* isa;
 	/* ... */
 };
 
@@ -39,7 +39,7 @@ struct _HTStructured {
 
 /*	Here are the parameters which can be specified in a  source file
 */
-PRIVATE CONST char* par_name[] = {
+PRIVATE const char* par_name[] = {
 		"version", "ip-address",
 #define PAR_IP_NAME 2
 		"ip-name",
@@ -86,7 +86,7 @@ enum tokenstate {
 */
 
 struct _HTStream {
-	CONST HTStreamClass* isa;
+	const HTStreamClass* isa;
 	HTStructured* target;
 	char* par_value[PAR_COUNT];
 	enum tokenstate state;
@@ -98,7 +98,7 @@ struct _HTStream {
 
 
 
-PUBLIC CONST char* hex = "0123456789ABCDEF";
+PUBLIC const char* hex = "0123456789ABCDEF";
 
 /*	Decode one hex character
 */
@@ -384,8 +384,8 @@ PRIVATE void WSRC_gen_html ARGS2(HTStream *, me, BOOL, source_file) {
 
 
 PRIVATE void
-WSRCParser_put_string ARGS2(HTStream *, context, CONST char*, str) {
-	CONST char* p;
+WSRCParser_put_string ARGS2(HTStream *, context, const char*, str) {
+	const char* p;
 	for(p = str; *p; p++) {
 		WSRCParser_put_character(context, *p);
 	}
@@ -393,9 +393,9 @@ WSRCParser_put_string ARGS2(HTStream *, context, CONST char*, str) {
 
 
 PRIVATE void
-WSRCParser_write ARGS3(HTStream *, context, CONST char*, str, int, l) {
-	CONST char* p;
-	CONST char* e = str + l;
+WSRCParser_write ARGS3(HTStream *, context, const char*, str, int, l) {
+	const char* p;
+	const char* e = str + l;
 	for(p = str; p < e; p++) {
 		WSRCParser_put_character(context, *p);
 	}

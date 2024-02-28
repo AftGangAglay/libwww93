@@ -31,13 +31,13 @@
 */
 
 struct _HTStream {
-	CONST HTStreamClass* isa;
+	const HTStreamClass* isa;
 	HTStream* target;
 	HTStreamClass targetClass;    /* COPY for speed */
 };
 
 struct _HTStructured {
-	CONST HTStructuredClass* isa;
+	const HTStructuredClass* isa;
 	HTStream* target;
 	HTStreamClass targetClass;    /* COPY for speed */
 };
@@ -55,11 +55,11 @@ PRIVATE void HTMLGen_put_character ARGS2(HTStructured *, me, char, c) {
 /*	String handling
 **	---------------
 */
-PRIVATE void HTMLGen_put_string ARGS2(HTStructured *, me, CONST char*, s) {
+PRIVATE void HTMLGen_put_string ARGS2(HTStructured *, me, const char*, s) {
 	PUTS(s);
 }
 
-PRIVATE void HTMLGen_write ARGS3(HTStructured *, me, CONST char*, s, int, l) {
+PRIVATE void HTMLGen_write ARGS3(HTStructured *, me, const char*, s, int, l) {
 	PUTB(s, l);
 }
 
@@ -69,7 +69,7 @@ PRIVATE void HTMLGen_write ARGS3(HTStructured *, me, CONST char*, s, int, l) {
 */
 PRIVATE void
 HTMLGen_start_element ARGS4(HTStructured *, me, int, element_number,
-							CONST BOOL*, present, CONST char **, value) {
+							const BOOL*, present, const char **, value) {
 	int i;
 
 	HTTag* tag = &HTML_dtd.tags[element_number];
@@ -150,7 +150,7 @@ PRIVATE void PlainToHTML_abort ARGS2(HTStructured *, me, HTError, e) {
 /*	Structured Object Class
 **	-----------------------
 */
-PRIVATE CONST HTStructuredClass HTMLGeneration = /* As opposed to print etc */
+PRIVATE const HTStructuredClass HTMLGeneration = /* As opposed to print etc */
 		{
 				"text/html", HTMLGen_free, HTMLGen_abort, HTMLGen_put_character,
 				HTMLGen_put_string, HTMLGen_write, HTMLGen_start_element,
@@ -179,7 +179,7 @@ PUBLIC HTStructured* HTMLGenerator ARGS1(HTStream *, output) {
 **	It is officially a structured strem but only the stream bits exist.
 **	This is just the easiest way of typecasting all the routines.
 */
-PRIVATE CONST HTStructuredClass PlainToHTMLConversion = {
+PRIVATE const HTStructuredClass PlainToHTMLConversion = {
 		"plaintexttoHTML", HTMLGen_free, PlainToHTML_abort,
 		HTMLGen_put_character, HTMLGen_put_string, HTMLGen_write,
 		NULL,        /* Structured stuff */

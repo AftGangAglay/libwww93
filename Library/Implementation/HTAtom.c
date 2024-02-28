@@ -30,7 +30,7 @@ PUBLIC HTAtom * HTAtom_for(string)
 #endif
 {
 	int hash;
-	CONST char* p;
+	const char* p;
 	HTAtom* a;
 
 	/*		First time around, clear hash table

@@ -50,14 +50,14 @@ extern BOOL interactive;
 
 #ifdef ORIGINAL
 struct _HTStream {
-	  CONST HTStreamClass*	isa;
+	  const HTStreamClass*	isa;
 	  /* ... */
 };
 #endif
 
 /* this version used by the NetToText stream */
 struct _HTStream {
-	CONST HTStreamClass* isa;
+	const HTStreamClass* isa;
 	BOOL had_cr;
 	HTStream* sink;
 };
@@ -75,7 +75,7 @@ PUBLIC  HTPresentation* default_presentation = 0;
 **	-------------------------------------------------------
 */
 PUBLIC void
-HTSetPresentation ARGS5(CONST char *, representation, CONST char *, command,
+HTSetPresentation ARGS5(const char *, representation, const char *, command,
 						float, quality, float, secs, float, secs_per_byte) {
 
 	HTPresentation* pres = malloc(sizeof(HTPresentation));
@@ -106,7 +106,7 @@ HTSetPresentation ARGS5(CONST char *, representation, CONST char *, command,
 /*	Define a built-in function for a content-type
 **	---------------------------------------------
 */
-PUBLIC void HTSetConversion ARGS6(CONST char *, representation_in, CONST char *,
+PUBLIC void HTSetConversion ARGS6(const char *, representation_in, const char *,
 								  representation_out, HTConverter*, converter,
 								  float, quality, float, secs, float,
 								  secs_per_byte) {
@@ -571,13 +571,13 @@ PRIVATE void NetToText_put_character ARGS2(HTStream *, me, char, net_char) {
 	}        /* normal */
 }
 
-PRIVATE void NetToText_put_string ARGS2(HTStream *, me, CONST char *, s) {
-	CONST char* p;
+PRIVATE void NetToText_put_string ARGS2(HTStream *, me, const char *, s) {
+	const char* p;
 	for(p = s; *p; p++) NetToText_put_character(me, *p);
 }
 
-PRIVATE void NetToText_put_block ARGS3(HTStream *, me, CONST char*, s, int, l) {
-	CONST char* p;
+PRIVATE void NetToText_put_block ARGS3(HTStream *, me, const char*, s, int, l) {
+	const char* p;
 	for(p = s; p < (s + l); p++) NetToText_put_character(me, *p);
 }
 

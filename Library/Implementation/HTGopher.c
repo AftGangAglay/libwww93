@@ -54,7 +54,7 @@
 #define END(e) (*targetClass.end_element)(target, e)
 #define FREE_TARGET (*targetClass.free)(target)
 struct _HTStructured {
-	CONST HTStructuredClass* isa;
+	const HTStructuredClass* isa;
 	/* ... */
 };
 
@@ -90,7 +90,7 @@ PRIVATE void init_acceptable NOARGS {
 	acceptable_inited = YES;
 }
 
-PRIVATE CONST char hex[17] = "0123456789abcdef";
+PRIVATE const char hex[17] = "0123456789abcdef";
 
 /*	Decdoe one hex character
 */
@@ -118,11 +118,11 @@ PRIVATE char from_hex ARGS1(char, c) {
 **	text 	points to the text to be put into the file, 0 terminated.
 **	addr	points to the hypertext refernce address 0 terminated.
 */
-PRIVATE void write_anchor ARGS2(CONST char *, text, CONST char *, addr) {
+PRIVATE void write_anchor ARGS2(const char *, text, const char *, addr) {
 
 
 	BOOL present[HTML_A_ATTRIBUTES];
-	CONST char* value[HTML_A_ATTRIBUTES];
+	const char* value[HTML_A_ATTRIBUTES];
 
 	int i;
 
@@ -144,7 +144,7 @@ PRIVATE void write_anchor ARGS2(CONST char *, text, CONST char *, addr) {
 **
 */
 
-PRIVATE void parse_menu ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
+PRIVATE void parse_menu ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 	char gtype;
 	char ch;
 	char line[BIG];
@@ -153,7 +153,7 @@ PRIVATE void parse_menu ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
 	char* host;
 	char* port;
 	char* p = line;
-	CONST char* title;
+	const char* title;
 
 #define TAB        '\t'
 #define HEX_ESCAPE    '%'
@@ -284,12 +284,12 @@ PRIVATE void parse_menu ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
  **  secret@dxcern.cern.ch .
  */
 
-PRIVATE void parse_cso ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
+PRIVATE void parse_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 	char ch;
 	char line[BIG];
 	char* p = line;
 	char* second_colon, last_char = '\0';
-	CONST char* title;
+	const char* title;
 
 	title = HTAnchor_title(anAnchor);
 	START(HTML_H1);
@@ -401,7 +401,7 @@ PRIVATE void parse_cso ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
  */
 
 PRIVATE void
-display_index ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
+display_index ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 
 	START(HTML_H1);
 	PUTS(arg);
@@ -424,7 +424,7 @@ display_index ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
 **      -------------------------------
 */
 
-PRIVATE void display_cso ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
+PRIVATE void display_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 	START(HTML_H1);
 	PUTS(arg);
 	PUTS(" index");
@@ -448,8 +448,8 @@ PRIVATE void display_cso ARGS2 (CONST char *, arg, HTParentAnchor *, anAnchor) {
 **
 **	The % hex escapes are converted. Otheriwse, the string is copied.
 */
-PRIVATE void de_escape ARGS2(char *, command, CONST char *, selector) {
-	CONST char* p = selector;
+PRIVATE void de_escape ARGS2(char *, command, const char *, selector) {
+	const char* p = selector;
 	char* q = command;
 	if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
 	while(*p) {        /* Decode hex */
@@ -479,7 +479,7 @@ PRIVATE void de_escape ARGS2(char *, command, CONST char *, selector) {
 **
 */
 PUBLIC int
-HTLoadGopher ARGS4(CONST char *, arg, HTParentAnchor *, anAnchor, HTFormat,
+HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 				   format_out, HTStream*, sink) {
 	char* command;            /* The whole command */
 	int status;                /* tcp return */

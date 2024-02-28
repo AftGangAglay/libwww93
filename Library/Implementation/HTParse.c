@@ -359,11 +359,11 @@ char * HTRelative(aName, relatedName)
 #endif
 {
 	char* result = 0;
-	CONST char* p = aName;
-	CONST char* q = relatedName;
-	CONST char* after_access = 0;
-	CONST char* path = 0;
-	CONST char* last_slash = 0;
+	const char* p = aName;
+	const char* q = relatedName;
+	const char* after_access = 0;
+	const char* path = 0;
+	const char* last_slash = 0;
 	int slashes = 0;
 
 	for(; *p; p++, q++) {    /* Find extent of match */
@@ -416,7 +416,7 @@ char * HTRelative(aName, relatedName)
 **	Unlike HTUnEscape(), this routine returns a malloced string.
 */
 
-PRIVATE CONST unsigned char isAcceptable[96] =
+PRIVATE const unsigned char isAcceptable[96] =
 
 /*	Bit 0		xalpha		-- see HTFile.h
 **	Bit 1		xpalpha		-- as xalpha but with plus.
@@ -439,9 +439,9 @@ PRIVATE CONST unsigned char isAcceptable[96] =
 
 PRIVATE char* hex = "0123456789ABCDEF";
 
-PUBLIC char* HTEscape ARGS2 (CONST char *, str, unsigned char, mask) {
+PUBLIC char* HTEscape ARGS2 (const char *, str, unsigned char, mask) {
 #define ACCEPTABLE(a)    ( a>=32 && a<128 && ((isAcceptable[a-32]) & mask))
-	CONST char* p;
+	const char* p;
 	char* q;
 	char* result;
 	int unacceptable = 0;
