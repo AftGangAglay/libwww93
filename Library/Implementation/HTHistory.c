@@ -66,11 +66,12 @@ HTAnchor* HTHistory_moveBy ARGS1 (int, offset) {
 			return destination;
 		}
 		else {
-			if(TRACE)
+			if(TRACE) {
 				fprintf(
 						stderr,
 						"HTHistory_moveBy: offset by %+d goes out of list %p.\n",
 						offset, (void*) kids);
+			}
 			return NULL;
 		}
 	}

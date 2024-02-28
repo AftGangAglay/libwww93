@@ -421,12 +421,14 @@ HTAnchor_link ARGS3(HTAnchor *, source, HTAnchor *, destination, HTLinkType *,
 		if(newLink == NULL) outofmem(__FILE__, "HTAnchor_link");
 		newLink->dest = destination;
 		newLink->type = type;
-		if(!source->links)
+		if(!source->links) {
 			source->links = HTList_new();
+		}
 		HTList_addObject(source->links, newLink);
 	}
-	if(!destination->parent->sources)
+	if(!destination->parent->sources) {
 		destination->parent->sources = HTList_new();
+	}
 	HTList_addObject(destination->parent->sources, source);
 	return YES;  /* Success */
 }

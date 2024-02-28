@@ -581,7 +581,9 @@ HTLoadWAIS ARGS4(CONST char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 		if(www_database) {
 			*www_database++ = 0;        /* Separate database name */
 			doctype = strchr(www_database, '/');
-			if(key) ok = YES;    /* Don't need doc details */
+			if(key) {
+				ok = YES;    /* Don't need doc details */
+			}
 			else if(doctype) {    /* If not search parse doc details */
 				*doctype++ = 0;    /* Separate rest of doc address */
 				doclength = strchr(doctype, '/');

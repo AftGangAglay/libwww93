@@ -526,8 +526,9 @@ HTML_start_element ARGS4(HTStructured *, me, int, element_number, CONST BOOL*,
 		case HTML_PLAINTEXT:
 		case HTML_PRE: change_paragraph_style(me, styles[element_number]);
 			UPDATE_STYLE;
-			if(me->comment_end)
+			if(me->comment_end) {
 				HText_appendText(me->text, me->comment_end);
+			}
 			break;
 
 		case HTML_HTML:            /* Ignore these altogether */
