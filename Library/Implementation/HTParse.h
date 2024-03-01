@@ -16,13 +16,12 @@
    'wanted' argument to HTParse.
    
  */
-#define PARSE_ACCESS            16
-#define PARSE_HOST               8
-#define PARSE_PATH               4
-#define PARSE_ANCHOR             2
-#define PARSE_PUNCTUATION        1
-#define PARSE_ALL               31
-
+#define HT_PARSE_ACCESS (16)
+#define HT_PARSE_HOST (8)
+#define HT_PARSE_PATH (4)
+#define HT_PARSE_PUNCTUATION (1)
+#define HT_PARSE_ALL (31)
+#define HT_PARSE_ANCHOR (2)
 
 /*
 
@@ -45,8 +44,7 @@ HTParse:  Parse a URL relative to another URL
                          
  */
 
-extern char*
-HTParse PARAMS((const char * aName, const char * relatedName, int wanted));
+char* HTParse(const char * aName, const char * relatedName, int wanted);
 
 
 /*
@@ -60,13 +58,7 @@ HTStrip: Strip white space off a string
    All trailing white space is OVERWRITTEN with zero.
    
  */
-#ifdef __STDC__
-
-extern char* HTStrip(char* s);
-
-#else
-extern char * HTStrip();
-#endif
+char* HTStrip(char* s);
 
 /*
 
@@ -82,13 +74,7 @@ HTSimplify: Simplify a UTL
 **      Thus,   /etc/junk/../fred       becomes /etc/fred
 **              /etc/junk/./fred        becomes /etc/junk/fred
 */
-#ifdef __STDC__
-
-extern void HTSimplify(char* filename);
-
-#else
-extern void HTSimplify();
-#endif
+void HTSimplify(char* filename);
 
 
 /*
@@ -109,13 +95,8 @@ HTRelative:  Make Relative (Partial) URL
    name later.
    
  */
-#ifdef __STDC__
 
-extern char* HTRelative(const char* aName, const char* relatedName);
-
-#else
-extern char * HTRelative();
-#endif
+char* HTRelative(const char* aName, const char* relatedName);
 
 
 /*
@@ -127,7 +108,7 @@ HTEscape:  Encode unacceptable characters in string
    represented in the form %xy where X and Y are two hex digits.
    
  */
-extern char* HTEscape PARAMS((CONST char* str, unsigned char mask));
+char* HTEscape(const char* str, unsigned char mask);
 
 /*
 
@@ -148,7 +129,7 @@ HTUnEscape: Decode %xx escaped characters
    in place, as it will never grow.
    
  */
-extern char* HTUnEscape PARAMS(( char * str));
+char* HTUnEscape( char * str);
 
 
 #endif  /* HTPARSE_H */

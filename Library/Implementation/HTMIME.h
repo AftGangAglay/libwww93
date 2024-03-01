@@ -31,16 +31,16 @@
   INPUT: LOCAL TEXT
   
  */
-extern HTStream* HTMIMEConvert PARAMS(
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink));
+HTStream* HTMIMEConvert
+		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
 
 /*
 
   INPUT: NET ASCII
   
  */
-extern HTStream* HTNetMIME PARAMS(
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink));
+HTStream* HTNetMIME
+		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
 
 
 #endif

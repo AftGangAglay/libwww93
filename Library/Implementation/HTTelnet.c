@@ -37,7 +37,7 @@
 /*	Telnet or "rlogin" access
 **	-------------------------
 */
-PRIVATE int remote_session ARGS2(char *, access, char *, host) {
+static int remote_session (char * access, char * host) {
 	char* user = host;
 	char* hostname = strchr(host, '@');
 	char* port = strchr(host, ':');
@@ -204,8 +204,8 @@ PRIVATE int remote_session ARGS2(char *, access, char *, host) {
 **			(See WWW.h)
 **
 */
-PRIVATE int HTLoadTelnet ARGS4
-(const char *, addr, HTParentAnchor *, anchor, HTFormat, format_out, HTStream *,
+static int HTLoadTelnet
+(const char* addr, HTParentAnchor * anchor, HTFormat format_out, HTStream *
  sink            /* Ignored */
 ) {
 	char* access;
@@ -220,9 +220,9 @@ PRIVATE int HTLoadTelnet ARGS4
 		HTAlert("Can't output a live session -- it has to be interactive");
 		return HT_NO_ACCESS;
 	}
-	access = HTParse(addr, "file:", PARSE_ACCESS);
+	access = HTParse(addr, "file:", HT_PARSE_ACCESS);
 
-	host = HTParse(addr, "", PARSE_HOST);
+	host = HTParse(addr, "", HT_PARSE_HOST);
 	status = remote_session(access, host);
 
 	free(host);
@@ -231,8 +231,8 @@ PRIVATE int HTLoadTelnet ARGS4
 }
 
 
-PUBLIC HTProtocol HTTelnet = { "telnet", HTLoadTelnet, NULL };
-PUBLIC HTProtocol HTRlogin = { "rlogin", HTLoadTelnet, NULL };
-PUBLIC HTProtocol HTTn3270 = { "tn3270", HTLoadTelnet, NULL };
+HTProtocol HTTelnet = { "telnet", HTLoadTelnet, NULL };
+HTProtocol HTRlogin = { "rlogin", HTLoadTelnet, NULL };
+HTProtocol HTTn3270 = { "tn3270", HTLoadTelnet, NULL };
 
 

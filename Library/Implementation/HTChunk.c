@@ -10,7 +10,7 @@
 /*	Create a chunk with a certain allocation unit
 **	--------------
 */
-PUBLIC HTChunk* HTChunkCreate ARGS1 (int, grow) {
+HTChunk* HTChunkCreate  (int grow) {
 	HTChunk* ch = malloc(sizeof(HTChunk));
 	if(ch == NULL) outofmem(__FILE__, "cretion of chunk");
 
@@ -25,7 +25,7 @@ PUBLIC HTChunk* HTChunkCreate ARGS1 (int, grow) {
 /*	Clear a chunk of all data
 **	--------------------------
 */
-PUBLIC void HTChunkClear ARGS1 (HTChunk *, ch) {
+void HTChunkClear  (HTChunk * ch) {
 	if(ch->data) {
 		free(ch->data);
 		ch->data = 0;
@@ -38,7 +38,7 @@ PUBLIC void HTChunkClear ARGS1 (HTChunk *, ch) {
 /*	Free a chunk
 **	------------
 */
-PUBLIC void HTChunkFree ARGS1 (HTChunk *, ch) {
+void HTChunkFree  (HTChunk * ch) {
 	if(ch->data) free(ch->data);
 	free(ch);
 }
@@ -47,7 +47,7 @@ PUBLIC void HTChunkFree ARGS1 (HTChunk *, ch) {
 /*	Append a character
 **	------------------
 */
-PUBLIC void HTChunkPutc ARGS2 (HTChunk *, ch, char, c) {
+void HTChunkPutc  (HTChunk * ch, char c) {
 	if(ch->size >= ch->allocated) {
 		ch->allocated = ch->allocated + ch->growby;
 		ch->data = ch->data ? realloc(ch->data, ch->allocated)
@@ -61,7 +61,7 @@ PUBLIC void HTChunkPutc ARGS2 (HTChunk *, ch, char, c) {
 /*	Ensure a certain size
 **	---------------------
 */
-PUBLIC void HTChunkEnsure ARGS2 (HTChunk *, ch, int, needed) {
+void HTChunkEnsure  (HTChunk * ch, int needed) {
 	if(needed <= ch->allocated) return;
 	ch->allocated = needed - 1 - ((needed - 1) % ch->growby) +
 					ch->growby; /* Round up */
@@ -74,7 +74,7 @@ PUBLIC void HTChunkEnsure ARGS2 (HTChunk *, ch, int, needed) {
 /*	Terminate a chunk
 **	-----------------
 */
-PUBLIC void HTChunkTerminate ARGS1 (HTChunk *, ch) {
+void HTChunkTerminate  (HTChunk * ch) {
 	HTChunkPutc(ch, (char) 0);
 }
 
@@ -82,7 +82,7 @@ PUBLIC void HTChunkTerminate ARGS1 (HTChunk *, ch) {
 /*	Append a string
 **	---------------
 */
-PUBLIC void HTChunkPuts ARGS2 (HTChunk *, ch, const char *, s) {
+void HTChunkPuts  (HTChunk * ch, const char* s) {
 	const char* p;
 	for(p = s; *p; p++) {
 		HTChunkPutc(ch, *p);

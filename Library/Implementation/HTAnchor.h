@@ -55,7 +55,7 @@ struct _HTParentAnchor {
 	HyperDoc* document;       /* The document within which this is an anchor */
 	char* address;        /* Absolute address of this node */
 	HTFormat format;         /* Pointer to node format descriptor */
-	BOOL isIndex;        /* Acceptance of a keyword search */
+	HTBool isIndex;        /* Acceptance of a keyword search */
 	char* title;          /* Title of document */
 
 	HTList* methods;        /* Methods available as HTAtoms */
@@ -81,8 +81,8 @@ typedef struct {
 **      document. The parent anchor must already exist.
 */
 
-extern HTChildAnchor*
-HTAnchor_findChild PARAMS((HTParentAnchor * parent, CONST char* tag));
+HTChildAnchor*
+HTAnchor_findChild (HTParentAnchor * parent, const char* tag);
 
 /*      Create or find a child anchor with a possible link
 **      --------------------------------------------------
@@ -91,12 +91,12 @@ HTAnchor_findChild PARAMS((HTParentAnchor * parent, CONST char* tag));
 **      a name, and possibly a link to a _relatively_ named anchor.
 **      (Code originally in ParseHTML.h)
 */
-extern HTChildAnchor*
-HTAnchor_findChildAndLink PARAMS((HTParentAnchor * parent,  /* May not be 0 */
-		CONST char* tag,         /* May be "" or 0 */
-CONST char* href,        /* May be "" or 0 */
+HTChildAnchor*
+HTAnchor_findChildAndLink (HTParentAnchor * parent,  /* May not be 0 */
+		const char* tag,         /* May be "" or 0 */
+const char* href,        /* May be "" or 0 */
 HTLinkType *ltype        /* May be 0 */
-								 ));
+								 );
 
 
 /*      Create new or find old named anchor
@@ -108,7 +108,7 @@ HTLinkType *ltype        /* May be 0 */
 **      like with fonts.
 */
 
-extern HTAnchor* HTAnchor_findAddress PARAMS((CONST char* address));
+HTAnchor* HTAnchor_findAddress (const char* address);
 
 
 /*      Delete an anchor and possibly related things (auto garbage collection)
@@ -121,7 +121,7 @@ extern HTAnchor* HTAnchor_findAddress PARAMS((CONST char* address));
 **      If this anchor's source list is empty, we delete it and its children.
 */
 
-extern BOOL HTAnchor_delete PARAMS((HTParentAnchor * me));
+HTBool HTAnchor_delete (HTParentAnchor * me);
 
 
 /*              Move an anchor to the head of the list of its siblings
@@ -131,86 +131,83 @@ extern BOOL HTAnchor_delete PARAMS((HTParentAnchor * me));
 **      is put in the correct order as we load the document.
 */
 
-extern void HTAnchor_makeLastChild PARAMS((HTChildAnchor * me));
+void HTAnchor_makeLastChild (HTChildAnchor * me);
 
 /*      Data access functions
 **      ---------------------
 */
 
-extern HTParentAnchor* HTAnchor_parent PARAMS((HTAnchor * me));
+HTParentAnchor* HTAnchor_parent (HTAnchor * me);
 
-extern void HTAnchor_setDocument PARAMS((HTParentAnchor * me, HyperDoc * doc));
+void HTAnchor_setDocument (HTParentAnchor * me, HyperDoc * doc);
 
-extern HyperDoc* HTAnchor_document PARAMS((HTParentAnchor * me));
-/* We don't want code to change an address after anchor creation... yet ?
-extern void HTAnchor_setAddress
-  PARAMS(
+HyperDoc* HTAnchor_document (HTParentAnchor * me);
+void HTAnchor_setAddress
+
      (HTAnchor *me, char *addr)
-     );
-*/
+     ;
 
 /*      Returns the full URI of the anchor, child or parent
 **      as a malloc'd string to be freed by the caller.
 */
-extern char* HTAnchor_address PARAMS((HTAnchor * me));
+char* HTAnchor_address (HTAnchor * me);
 
-extern void HTAnchor_setFormat PARAMS((HTParentAnchor * me, HTFormat form));
+void HTAnchor_setFormat (HTParentAnchor * me, HTFormat form);
 
-extern HTFormat HTAnchor_format PARAMS((HTParentAnchor * me));
+HTFormat HTAnchor_format (HTParentAnchor * me);
 
-extern void HTAnchor_setIndex PARAMS((HTParentAnchor * me));
+void HTAnchor_setIndex (HTParentAnchor * me);
 
-extern BOOL HTAnchor_isIndex PARAMS((HTParentAnchor * me));
+HTBool HTAnchor_isIndex (HTParentAnchor * me);
 
-extern BOOL HTAnchor_hasChildren PARAMS((HTParentAnchor * me));
+HTBool HTAnchor_hasChildren (HTParentAnchor * me);
 
 /*      Title handling
 */
-extern CONST char* HTAnchor_title PARAMS((HTParentAnchor * me));
+const char* HTAnchor_title (HTParentAnchor * me);
 
-extern void HTAnchor_setTitle PARAMS((HTParentAnchor * me, CONST char* title));
+void HTAnchor_setTitle (HTParentAnchor * me, const char* title);
 
-extern void
-HTAnchor_appendTitle PARAMS((HTParentAnchor * me, CONST char* title));
+void
+HTAnchor_appendTitle (HTParentAnchor * me, const char* title);
 
 /*      Link this Anchor to another given one
 **      -------------------------------------
 */
 
-extern BOOL HTAnchor_link PARAMS(
-		(HTAnchor * source, HTAnchor * destination, HTLinkType * type));
+HTBool HTAnchor_link 		(HTAnchor * source, HTAnchor * destination, HTLinkType * type);
 
 /*      Manipulation of links
 **      ---------------------
 */
 
-extern HTAnchor* HTAnchor_followMainLink PARAMS((HTAnchor * me));
+HTAnchor* HTAnchor_followMainLink (HTAnchor * me);
 
-extern HTAnchor*
-HTAnchor_followTypedLink PARAMS((HTAnchor * me, HTLinkType * type));
+HTAnchor*
+HTAnchor_followTypedLink (HTAnchor * me, HTLinkType * type);
 
-extern BOOL HTAnchor_makeMainLink PARAMS((HTAnchor * me, HTLink * movingLink));
+HTBool HTAnchor_makeMainLink (HTAnchor * me, HTLink * movingLink);
 
 /*      Read and write methods
 **      ----------------------
 */
-extern HTList* HTAnchor_methods PARAMS((HTParentAnchor * me));
+HTList* HTAnchor_methods (HTParentAnchor * me);
 
 /*      Protocol
 **      --------
 */
-extern void* HTAnchor_protocol PARAMS((HTParentAnchor * me));
+void* HTAnchor_protocol (HTParentAnchor * me);
 
-extern void HTAnchor_setProtocol PARAMS((HTParentAnchor * me,
-												void* protocol));
+void HTAnchor_setProtocol (HTParentAnchor * me,
+												void* protocol);
 
 /*      Physical address
 **      ----------------
 */
-extern char* HTAnchor_physical PARAMS((HTParentAnchor * me));
+char* HTAnchor_physical (HTParentAnchor * me);
 
-extern void HTAnchor_setPhysical PARAMS((HTParentAnchor * me,
-												char* protocol));
+void HTAnchor_setPhysical (HTParentAnchor * me,
+												char* protocol);
 
 #endif /* HTANCHOR_H */
 

@@ -76,7 +76,7 @@ Flags which may be set to control this module
 extern int HTDiag;                      /* Flag: load source as plain text */
 extern char* HTClientHost;             /* Name or number of telnetting host */
 extern FILE* logfile;                  /* File to output one-liners to */
-extern BOOL HTSecure;                   /* Disable security holes? */
+extern HTBool HTSecure;                   /* Disable security holes? */
 extern HTStream* HTOutputStream;        /* For non-interactive, set this */
 extern HTFormat HTOutputFormat;         /* To convert on load, set this */
 
@@ -94,13 +94,13 @@ Load a document from relative name
                          
   ON EXIT,
   
-  returns    YES          Success in opening file
+  returns    HT_TRUE          Success in opening file
                          
-  NO                      Failure
+  HT_FALSE                      Failure
                          
  */
-extern BOOL HTLoadRelative PARAMS((CONST char* relative_name,
-										  HTParentAnchor* here));
+HTBool HTLoadRelative (const char* relative_name,
+										  HTParentAnchor* here);
 
 
 /*
@@ -111,7 +111,7 @@ Load a document from absolute name
   
   addr                    The absolute address of the document to be accessed.
                          
-  filter                  if YES, treat document as HTML
+  filter                  if HT_TRUE, treat document as HTML
                          
  */
 
@@ -123,12 +123,12 @@ Load a document from absolute name
 
 /*
 
-  returns YES             Success in opening document
+  returns HT_TRUE             Success in opening document
                          
-  NO                      Failure
+  HT_FALSE                      Failure
                          
  */
-extern BOOL HTLoadAbsolute PARAMS((CONST char* addr));
+HTBool HTLoadAbsolute (const char* addr);
 
 
 /*
@@ -139,19 +139,19 @@ Load a document from absolute name to a stream
   
   addr                    The absolute address of the document to be accessed.
                          
-  filter                  if YES, treat document as HTML
+  filter                  if HT_TRUE, treat document as HTML
                          
   ON EXIT,
   
-  returns YES             Success in opening document
+  returns HT_TRUE             Success in opening document
                          
-  NO                      Failure
+  HT_FALSE                      Failure
                          
    Note: This is equivalent to HTLoadDocument
    
  */
-extern BOOL
-HTLoadToStream PARAMS((CONST char* addr, BOOL filter, HTStream * sink));
+HTBool
+HTLoadToStream (const char* addr, HTBool filter, HTStream * sink);
 
 
 /*
@@ -172,15 +172,15 @@ Load if necessary, and select an anchor
 
 /*
 
-  returns YES             Success
+  returns HT_TRUE             Success
                          
-  returns NO              Failure
+  returns HT_FALSE              Failure
                          
  */
 
 
 
-extern BOOL HTLoadAnchor PARAMS((HTAnchor * destination));
+HTBool HTLoadAnchor (HTAnchor * destination);
 
 
 /*
@@ -198,7 +198,7 @@ Make a stream for Saving object back
  */
 
 
-extern HTStream* HTSaveStream PARAMS((HTParentAnchor * anchor));
+HTStream* HTSaveStream (HTParentAnchor * anchor);
 
 
 /*
@@ -215,7 +215,7 @@ Search
   here                    The anchor of the object being searched
                          
  */
-extern BOOL HTSearch PARAMS((CONST char* keywords, HTParentAnchor*here));
+HTBool HTSearch (const char* keywords, HTParentAnchor*here);
 
 
 /*
@@ -232,8 +232,8 @@ Search Given Indexname
   *indexname              is name of object search is to be done on.
                          
  */
-extern BOOL HTSearchAbsolute PARAMS((CONST char* keywords,
-											CONST char* indexname));
+HTBool HTSearchAbsolute (const char* keywords,
+											const char* indexname);
 
 
 /*
@@ -245,16 +245,16 @@ Register an access method
 typedef struct _HTProtocol {
 	char* name;
 
-	int (* load)PARAMS((CONST char* full_address,
+	int (* load)(const char* full_address,
 							   HTParentAnchor* anchor,
 							   HTFormat format_out,
-							   HTStream* sink));
+							   HTStream* sink);
 
-	HTStream* (* saveStream)PARAMS((HTParentAnchor * anchor));
+	HTStream* (* saveStream)(HTParentAnchor * anchor);
 
 } HTProtocol;
 
-extern BOOL HTRegisterProtocol PARAMS((HTProtocol * protocol));
+HTBool HTRegisterProtocol (HTProtocol * protocol);
 
 
 /*
@@ -269,7 +269,7 @@ Generate the anchor for the home page
    This is a default algorithm -- browser don't HAVE to use this.
    
  */
-extern HTParentAnchor* HTHomeAnchor NOPARAMS;
+HTParentAnchor* HTHomeAnchor (void);
 
 #endif /* HTACCESS_H */
 /*

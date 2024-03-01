@@ -22,7 +22,7 @@ struct _HTStream {
 	char* write_pointer;
 	char buffer[BUFFER_SIZE];
 #ifdef NOT_ASCII
-	BOOL	make_ascii;	/* Are we writing to the net? */
+	HTBool	make_ascii;	/* Are we writing to the net? */
 #endif
 };
 
@@ -31,7 +31,7 @@ struct _HTStream {
 **	----------------------------------
 */
 
-PRIVATE void flush ARGS1(HTStream *, me) {
+static void flush (HTStream * me) {
 	char* read_pointer = me->buffer;
 	char* write_pointer = me->write_pointer;
 
@@ -39,7 +39,7 @@ PRIVATE void flush ARGS1(HTStream *, me) {
 	if (me->make_ascii) {
 		char * p;
 	for(p = me->buffer; p < me->write_pointer; p++)
-		*p = TOASCII(*p);
+		*p = (*p);
 	}
 #endif
 	while(read_pointer < write_pointer) {
@@ -69,7 +69,7 @@ PRIVATE void flush ARGS1(HTStream *, me) {
 **	------------------
 */
 
-PRIVATE void HTWriter_put_character ARGS2(HTStream *, me, char, c) {
+static void HTWriter_put_character (HTStream * me, char c) {
 	if(me->write_pointer == &me->buffer[BUFFER_SIZE]) flush(me);
 	*me->write_pointer++ = c;
 }
@@ -81,7 +81,7 @@ PRIVATE void HTWriter_put_character ARGS2(HTStream *, me, char, c) {
 **
 **	Strings must be smaller than this buffer size.
 */
-PRIVATE void HTWriter_put_string ARGS2(HTStream *, me, const char*, s) {
+static void HTWriter_put_string (HTStream * me, const char* s) {
 	int l = strlen(s);
 	if(me->write_pointer + l > &me->buffer[BUFFER_SIZE]) flush(me);
 	strcpy(me->write_pointer, s);
@@ -92,7 +92,7 @@ PRIVATE void HTWriter_put_string ARGS2(HTStream *, me, const char*, s) {
 /*	Buffer write.  Buffers can (and should!) be big.
 **	------------
 */
-PRIVATE void HTWriter_write ARGS3(HTStream *, me, const char*, s, int, l) {
+static void HTWriter_write (HTStream * me, const char* s, int l) {
 
 	const char* read_pointer = s;
 	const char* write_pointer = s + l;
@@ -123,13 +123,13 @@ PRIVATE void HTWriter_write ARGS3(HTStream *, me, const char*, s, int, l) {
 **	Note that the SGML parsing context is freed, but the created object is not,
 **	as it takes on an existence of its own unless explicitly freed.
 */
-PRIVATE void HTWriter_free ARGS1(HTStream *, me) {
+static void HTWriter_free (HTStream * me) {
 	flush(me);
 	NETCLOSE(me->soc);
 	free(me);
 }
 
-PRIVATE void HTWriter_abort ARGS2(HTStream *, me, HTError, e) {
+static void HTWriter_abort (HTStream * me, HTError e) {
 	(void) e;
 
 	HTWriter_free(me);
@@ -139,7 +139,7 @@ PRIVATE void HTWriter_abort ARGS2(HTStream *, me, HTError, e) {
 /*	Structured Object Class
 **	-----------------------
 */
-PRIVATE const HTStreamClass HTWriter = /* As opposed to print etc */
+static const HTStreamClass HTWriter = /* As opposed to print etc */
 		{
 				"SocketWriter", HTWriter_free, HTWriter_abort,
 				HTWriter_put_character, HTWriter_put_string, HTWriter_write };
@@ -149,13 +149,13 @@ PRIVATE const HTStreamClass HTWriter = /* As opposed to print etc */
 **	-------------------------
 */
 
-PUBLIC HTStream* HTWriter_new ARGS1(int, soc) {
+HTStream* HTWriter_new (int soc) {
 	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
 	me->isa = &HTWriter;
 
 #ifdef NOT_ASCII
-	me->make_ascii = NO;
+	me->make_ascii = HT_FALSE;
 #endif
 	me->soc = soc;
 	me->write_pointer = me->buffer;
@@ -166,13 +166,13 @@ PUBLIC HTStream* HTWriter_new ARGS1(int, soc) {
 **	-------------------------
 */
 
-PUBLIC HTStream* HTASCIIWriter ARGS1(int, soc) {
+HTStream* HTASCIIWriter (int soc) {
 	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
 	me->isa = &HTWriter;
 
 #ifdef NOT_ASCII
-	me->make_ascii = YES;
+	me->make_ascii = HT_TRUE;
 #endif
 	me->soc = soc;
 	me->write_pointer = me->buffer;

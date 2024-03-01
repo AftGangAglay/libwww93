@@ -12,10 +12,10 @@
 
 #include "HTAlert.h"
 
-#include "tcp.h"        /* for TOUPPER */
+#include "tcp.h"        /* for toupper */
 #include <ctype.h>        /* for toupper - should be in tcp.h */
 
-PUBLIC void HTAlert ARGS1(const char *, Msg) {
+void HTAlert (const char * Msg) {
 #ifdef NeXTStep
 	NXRunAlertPanel(NULL, "%s", NULL, NULL, NULL, Msg);
 #else
@@ -24,12 +24,12 @@ PUBLIC void HTAlert ARGS1(const char *, Msg) {
 }
 
 
-PUBLIC void HTProgress ARGS1(const char *, Msg) {
+void HTProgress (const char * Msg) {
 	fprintf(stderr, "   %s ...\n", Msg);
 }
 
 
-PUBLIC BOOL HTConfirm ARGS1(const char *, Msg) {
+HTBool HTConfirm (const char * Msg) {
 	char Reply[3];
 	char* URep;
 
@@ -40,20 +40,20 @@ PUBLIC BOOL HTConfirm ARGS1(const char *, Msg) {
 	URep = Reply;
 	while(*URep) {
 		URep++;
-		*URep = TOUPPER(*URep);
+		*URep = toupper(*URep);
 	}
 
-	if((strcmp(Reply, "YES") == 0) || (strcmp(Reply, "Y") == 0)) {
-		return (YES);
+	if((strcmp(Reply, "HT_TRUE") == 0) || (strcmp(Reply, "Y") == 0)) {
+		return (HT_TRUE);
 	}
 	else {
-		return (NO);
+		return (HT_FALSE);
 	}
 }
 
 /*	Prompt for answer and get text back
 */
-PUBLIC char* HTPrompt ARGS2(const char *, Msg, const char *, deflt) {
+char* HTPrompt (const char * Msg, const char* deflt) {
 	char Tmp[200];
 	char* rep = 0;
 	fprintf(stderr, "WWW: %s", Msg);

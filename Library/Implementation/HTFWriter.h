@@ -12,15 +12,15 @@
 #include <stdio.h>
 #include "HTFormat.h"
 
-extern HTStream* HTFWriter_new PARAMS((FILE * fp));
+HTStream* HTFWriter_new (FILE * fp);
 
-extern HTStream* HTSaveAndExecute PARAMS(
+HTStream* HTSaveAndExecute
 		(HTPresentation * pres, HTParentAnchor * anchor, /* Not used */
-				HTStream * sink));
+				HTStream * sink);
 
-extern HTStream* HTSaveLocally PARAMS(
+HTStream* HTSaveLocally
 		(HTPresentation * pres, HTParentAnchor * anchor, /* Not used */
-				HTStream * sink));
+				HTStream * sink);
 
 #endif
 /*

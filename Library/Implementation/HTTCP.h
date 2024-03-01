@@ -19,13 +19,7 @@
 **           returns a pointer to a static string which must be copied if
 **                it is to be kept.
 */
-#ifdef __STDC__
-
-extern const char* HTInetString(struct sockaddr_in* sin);
-
-#else
-extern char * HTInetString();
-#endif
+const char* HTInetString(struct sockaddr_in* sin);
 
 
 /*      Encode INET status (as in sys/errno.h)                    inet_status()
@@ -38,13 +32,7 @@ extern char * HTInetString();
 ** On return:
 **      returns a negative status in the unix way.
 */
-#ifdef __STDC__
-
-extern int HTInetStatus(char* where);
-
-#else
-extern int HTInetStatus();
-#endif
+int HTInetStatus(char* where);
 
 /*      Publicly accessible variables
 */
@@ -67,9 +55,9 @@ extern int HTInetStatus();
 **      *pstatus points to status updated iff bad
 */
 
-extern unsigned int HTCardinal PARAMS((int *pstatus,
+unsigned int HTCardinal (int *pstatus,
 											  char            **pp,
-											  unsigned int max_value));
+											  unsigned int max_value);
 
 
 /*      Parse an internet node address and port
@@ -84,20 +72,14 @@ extern unsigned int HTCardinal PARAMS((int *pstatus,
 **               *sin is filled in. If no port is specified in str, that
 **               field is left unchanged in *sin.
 */
-#ifdef __STDC__
-
-extern int HTParseInet(struct sockaddr_in* sin, CONST char* str);
-/*!! had to change this to get it to compile. CTB */
-#else
-extern int HTParseInet();
-#endif
+int HTParseInet(struct sockaddr_in* sin, const char* str);
 
 /*      Get Name of This Machine
 **      ------------------------
 **
 */
 
-extern CONST char* HTHostName NOPARAMS;
+const char* HTHostName (void);
 
 #endif   /* HTTCP_H */
 /*

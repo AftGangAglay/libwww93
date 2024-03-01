@@ -68,17 +68,17 @@ extern char* HTAppVersion;    /* Application version: please supply */
 **	read.
 **
 */
-PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
-/*	const char *,		gate, */
-							 HTParentAnchor *, anAnchor, HTFormat, format_out,
-							 HTStream*, sink) {
+int HTLoadHTTP  (const char* arg,
+/*	const char*		gate, */
+							 HTParentAnchor * anAnchor, HTFormat format_out,
+							 HTStream* sink) {
 	int s;                /* Socket number for returned data */
 	char* command;            /* The whole command */
 	char* eol = 0;            /* End of line if found */
 	char* start_of_data;        /* Start of body of reply */
 	int length;                /* Number of valid bytes in buffer */
 	int status;                /* tcp return */
-	char crlf[3];            /* A CR LF equivalent string */
+	char crlf[3];            /* A '\r' '\n' equivalent string */
 	HTStream* target = NULL;        /* Unconverted data */
 	HTFormat format_in;            /* Format arriving in the message */
 
@@ -87,7 +87,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 	SockA* sin = &soc_address;
 	char* text_buffer = NULL;
 	char* binary_buffer = NULL;
-	BOOL extensions = YES;        /* Assume good HTTP server */
+	HTBool extensions = HT_TRUE;        /* Assume good HTTP server */
 	if(!arg) return -3;        /* Bad if no name sepcified	*/
 	if(!*arg) return -2;        /* Bad if name had zero length	*/
 
@@ -95,13 +95,13 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 */
 #ifdef DECNET
 	sin->sdn_family = AF_DECnet;	    /* Family = DECnet, host order */
-	sin->sdn_objnum = DNP_OBJ;          /* Default: http object number */
+	sin->sdn_objnum = HT_DNP_OBJ;          /* Default: http object number */
 #else  /* Internet */
 	sin->sin_family = AF_INET;        /* Family = internet, host order */
-	sin->sin_port = htons(TCP_PORT);    /* Default: http port    */
+	sin->sin_port = htons(HT_TCP_PORT);    /* Default: http port    */
 #endif
 
-	sprintf(crlf, "%c%c", CR, LF);    /* To be corect on Mac, VM, etc */
+	sprintf(crlf, "%c%c", '\r', '\n');    /* To be corect on Mac, VM, etc */
 
 	if(TRACE) {
 		if(gate) {
@@ -114,7 +114,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 /* Get node name and optional port number:
 */
 	{
-		char* p1 = HTParse(gate ? gate : arg, "", PARSE_HOST);
+		char* p1 = HTParse(gate ? gate : arg, "", HT_PARSE_HOST);
 		int status = HTParseInet(sin, p1);  /* TBL 920622 */
 		free(p1);
 		if(status) return status;   /* No such host for example */
@@ -153,7 +153,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 		strcat(command, arg);
 	}
 	else { /* not gatewayed */
-		char* p1 = HTParse(arg, "", PARSE_PATH | PARSE_PUNCTUATION);
+		char* p1 = HTParse(arg, "", HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 		command = malloc(4 + strlen(p1) + 2 + 31);
 		if(command == NULL) outofmem(__FILE__, "HTLoadHTTP");
 		strcpy(command, "GET ");
@@ -167,7 +167,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 	}
 #endif
 
-	strcat(command, crlf);    /* CR LF, as in rfc 977 */
+	strcat(command, crlf);    /* '\r' '\n', as in rfc 977 */
 
 	if(extensions) {
 
@@ -185,12 +185,12 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 				if(pres->quality != 1.0) {
 					sprintf(
 							line, "Accept: %s q=%.3f%c%c",
-							HTAtom_name(pres->rep), pres->quality, CR, LF);
+							HTAtom_name(pres->rep), pres->quality, '\r', '\n');
 				}
 				else {
 					sprintf(
-							line, "Accept: %s%c%c", HTAtom_name(pres->rep), CR,
-							LF);
+							line, "Accept: %s%c%c", HTAtom_name(pres->rep), '\r',
+							'\n');
 				}
 				StrAllocCat(command, line);
 
@@ -200,7 +200,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 		sprintf(
 				line, "User-Agent:  %s/%s  libwww/%s%c%c",
 				HTAppName ? HTAppName : "unknown",
-				HTAppVersion ? HTAppVersion : "0.0", HTLibraryVersion, CR, LF);
+				HTAppVersion ? HTAppVersion : "0.0", HTLibraryVersion, '\r', '\n');
 		StrAllocCat(command, line);
 	}
 
@@ -214,7 +214,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 	{
 		char * p;
 	for(p = command; *p; p++) {
-		*p = TOASCII(*p);
+		*p = (*p);
 	}
 	}
 #endif
@@ -247,7 +247,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 
 		/* Get numeric status etc */
 
-		BOOL end_of_file = NO;
+		HTBool end_of_file = HT_FALSE;
 		int buffer_length = INIT_LINE_SIZE;    /* Why not? */
 
 		(void) HTAtom_for("7bit");
@@ -285,7 +285,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 			}
 
 			if(status == 0) {
-				end_of_file = YES;
+				end_of_file = HT_TRUE;
 				break;
 			}
 			binary_buffer[length + status] = 0;
@@ -294,14 +294,14 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 /*	Make an ASCII *copy* of the buffer
 */
 #ifdef NOT_ASCII
-			if (TRACE) fprintf(stderr, "Local codes CR=%d, LF=%d\n", CR, LF);
+			if (TRACE) fprintf(stderr, "Local codes '\r'=%d, '\n'=%d\n", '\r', '\n');
 #endif
 			{
 				char* p;
 				char* q;
 				for(p = binary_buffer + length, q = text_buffer + length; *p;
 						p++, q++) {
-					*q = FROMASCII(*p);
+					*q = (*p);
 				}
 
 				*q++ = 0;
@@ -340,12 +340,12 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 			eol = strchr(text_buffer + length, 10);
 			if(eol) {
 				*eol = 0;        /* Terminate the line */
-				if((eol[-1] = CR)) eol[-1] = 0;    /* Chop trailing CR */
+				if((eol[-1] = '\r')) eol[-1] = 0;    /* Chop trailing '\r' */
 			}
 
 			length = length + status;
 
-		} while(!eol && !end_of_file);        /* No LF */
+		} while(!eol && !end_of_file);        /* No '\n' */
 
 	} /* Scope of loop variables */
 
@@ -368,7 +368,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 		if(extensions && 0 == strcmp(
 				text_buffer,        /* Old buggy server? */
 				"Document address invalid or access not authorised")) {
-			extensions = NO;
+			extensions = HT_FALSE;
 			if(binary_buffer) free(binary_buffer);
 			if(text_buffer) free(text_buffer);
 			if(TRACE) {
@@ -412,7 +412,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 				case 4:        /* "I think I goofed" */
 				case 5:        /* I think you goofed */
 				{
-					char* p1 = HTParse(gate ? gate : arg, "", PARSE_HOST);
+					char* p1 = HTParse(gate ? gate : arg, "", HT_PARSE_HOST);
 					char* message = malloc(
 							strlen(text_buffer) + strlen(p1) + 100);
 					if(!message) outofmem(__FILE__, "HTTP 5xx status");
@@ -460,7 +460,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 **	We have to remember the end of the first buffer we just read
 */
 	if(format_in == WWW_HTML) {
-		target = HTNetToText(target);    /* Pipe through CR stripper */
+		target = HTNetToText(target);    /* Pipe through '\r' stripper */
 	}
 
 	(*target->isa->put_block)(
@@ -489,4 +489,4 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 /*	Protocol descriptor
 */
 
-PUBLIC HTProtocol HTTP = { "http", HTLoadHTTP, 0 };
+HTProtocol HTTP = { "http", HTLoadHTTP, 0 };

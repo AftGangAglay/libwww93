@@ -10,7 +10,7 @@
 
 #include <stdio.h>                /* joe@athena, TBL 921019 */
 
-HTList* HTList_new NOARGS {
+HTList* HTList_new (void) {
 	HTList* newList = malloc(sizeof(HTList));
 	if(newList == NULL) outofmem(__FILE__, "HTList_new");
 	newList->object = NULL;
@@ -18,7 +18,7 @@ HTList* HTList_new NOARGS {
 	return newList;
 }
 
-void HTList_delete ARGS1(HTList *, me) {
+void HTList_delete (HTList * me) {
 	HTList* current;
 	while((current = me)) {
 		me = me->next;
@@ -26,7 +26,7 @@ void HTList_delete ARGS1(HTList *, me) {
 	}
 }
 
-void HTList_addObject ARGS2(HTList *, me, void *, newObject) {
+void HTList_addObject (HTList * me, void * newObject) {
 	if(me) {
 		HTList* newNode = malloc(sizeof(HTList));
 		if(newNode == NULL) outofmem(__FILE__, "HTList_addObject");
@@ -42,7 +42,7 @@ void HTList_addObject ARGS2(HTList *, me, void *, newObject) {
 	}
 }
 
-BOOL HTList_removeObject ARGS2(HTList *, me, void *, oldObject) {
+HTBool HTList_removeObject (HTList * me, void * oldObject) {
 	if(me) {
 		HTList* previous;
 		while(me->next) {
@@ -51,14 +51,14 @@ BOOL HTList_removeObject ARGS2(HTList *, me, void *, oldObject) {
 			if(me->object == oldObject) {
 				previous->next = me->next;
 				free(me);
-				return YES;  /* Success */
+				return HT_TRUE;  /* Success */
 			}
 		}
 	}
-	return NO;  /* object not found or NULL list */
+	return HT_FALSE;  /* object not found or NULL list */
 }
 
-void* HTList_removeLastObject ARGS1 (HTList *, me) {
+void* HTList_removeLastObject  (HTList * me) {
 	if(me && me->next) {
 		HTList* lastNode = me->next;
 		void* lastObject = lastNode->object;
@@ -71,7 +71,7 @@ void* HTList_removeLastObject ARGS1 (HTList *, me) {
 	}
 }
 
-void* HTList_removeFirstObject ARGS1 (HTList *, me) {
+void* HTList_removeFirstObject  (HTList * me) {
 	if(me && me->next) {
 		HTList* prevNode;
 		void* firstObject;
@@ -89,7 +89,7 @@ void* HTList_removeFirstObject ARGS1 (HTList *, me) {
 	}
 }
 
-int HTList_count ARGS1 (HTList *, me) {
+int HTList_count  (HTList * me) {
 	int count = 0;
 	if(me) {
 		while((me = me->next))
@@ -98,7 +98,7 @@ int HTList_count ARGS1 (HTList *, me) {
 	return count;
 }
 
-int HTList_indexOf ARGS2(HTList *, me, void *, object) {
+int HTList_indexOf (HTList * me, void * object) {
 	if(me) {
 		int position = 0;
 		while((me = me->next)) {
@@ -111,7 +111,7 @@ int HTList_indexOf ARGS2(HTList *, me, void *, object) {
 	return -1;  /* Object not in the list */
 }
 
-void* HTList_objectAt ARGS2 (HTList *, me, int, position) {
+void* HTList_objectAt  (HTList * me, int position) {
 	if(position < 0) {
 		return NULL;
 	}

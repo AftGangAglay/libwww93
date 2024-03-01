@@ -102,7 +102,7 @@ Attribute numbers
 
 #define NEXTID_N 0
 
-extern CONST SGML_dtd HTML_dtd;
+extern const SGML_dtd HTML_dtd;
 
 
 /*
@@ -119,8 +119,8 @@ Start anchor element
    name and href point to attribute strings or are NULL if the attribute is to be omitted.
    
  */
-extern void HTStartAnchor PARAMS((HTStructured * targetstream, CONST char* name,
-										 CONST char* href));
+void HTStartAnchor (HTStructured * targetstream, const char* name,
+										 const char* href);
 
 
 #endif /* HTMLDTD_H */

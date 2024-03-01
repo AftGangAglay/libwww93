@@ -10,24 +10,24 @@
 #include "HTUtils.h"
 #include "tcp.h"
 
-PUBLIC int WWW_TraceFlag = 0;    /* Global trace flag for ALL W3 code */
+int WWW_TraceFlag = 0;    /* Global trace flag for ALL W3 code */
 
 #ifndef VC
 #define VC "unknown"
 #endif
 
-PUBLIC const char* HTLibraryVersion = VC; /* String for help screen etc */
+const char* HTLibraryVersion = VC; /* String for help screen etc */
 
 #ifndef VM        /* VM has these already it seems */
 
 /*	Strings of any length
 **	---------------------
 */
-PUBLIC int strcasecomp ARGS2 (const char*, a, const char *, b) {
+int strcasecomp  (const char* a, const char* b) {
 	const char* p = a;
 	const char* q = b;
 	for(p = a, q = b; *p && *q; p++, q++) {
-		int diff = TOLOWER(*p) - TOLOWER(*q);
+		int diff = tolower(*p) - tolower(*q);
 		if(diff) return diff;
 	}
 	if(*p) return 1;    /* p was longer than q */
@@ -39,7 +39,7 @@ PUBLIC int strcasecomp ARGS2 (const char*, a, const char *, b) {
 /*	With count limit
 **	----------------
 */
-PUBLIC int strncasecomp ARGS3(const char*, a, const char *, b, int, n) {
+int strncasecomp (const char* a, const char* b, int n) {
 	const char* p = a;
 	const char* q = b;
 
@@ -47,7 +47,7 @@ PUBLIC int strncasecomp ARGS3(const char*, a, const char *, b, int, n) {
 		int diff;
 		if(p == a + n) return 0;    /*   Match up to n characters */
 		if(!(*p && *q)) return *p - *q;
-		diff = TOLOWER(*p) - TOLOWER(*q);
+		diff = tolower(*p) - tolower(*q);
 		if(diff) return diff;
 	}
 	/*NOTREACHED*/
@@ -57,7 +57,7 @@ PUBLIC int strncasecomp ARGS3(const char*, a, const char *, b, int, n) {
 
 /*	Allocate a new copy of a string, and returns it
 */
-PUBLIC char* HTSACopy ARGS2 (char **, dest, const char *, src) {
+char* HTSACopy  (char ** dest, const char* src) {
 	if(*dest) free(*dest);
 	if(!src) {
 		*dest = NULL;
@@ -72,7 +72,7 @@ PUBLIC char* HTSACopy ARGS2 (char **, dest, const char *, src) {
 
 /*	String Allocate and Concatenate
 */
-PUBLIC char* HTSACat ARGS2 (char **, dest, const char *, src) {
+char* HTSACat  (char ** dest, const char* src) {
 	if(src && *src) {
 		if(*dest) {
 			int length = strlen(*dest);
@@ -104,11 +104,11 @@ PUBLIC char* HTSACat ARGS2 (char **, dest, const char *, src) {
 **
 **	returns	a pointer to the first field
 */
-PUBLIC char* HTNextField ARGS1(char **, pstr) {
+char* HTNextField (char ** pstr) {
 	char* p = *pstr;
 	char* start;            /* start of field */
 
-	while(*p && WHITE(*p)) p++;        /* Strip white space */
+	while(*p && HT_WHITE(*p)) p++;        /* Strip white space */
 	if(!*p) {
 		*pstr = p;
 		return NULL;        /* No first field */
@@ -122,7 +122,7 @@ PUBLIC char* HTNextField ARGS1(char **, pstr) {
 	}
 	else {
 		start = p;
-		while(*p && !WHITE(*p)) p++;    /* Skip first field */
+		while(*p && !HT_WHITE(*p)) p++;    /* Skip first field */
 	}
 	if(*p) *p++ = 0;
 	*pstr = p;

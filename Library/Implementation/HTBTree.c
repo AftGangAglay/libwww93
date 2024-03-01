@@ -12,7 +12,7 @@
 #define MAXIMUM(a, b) ((a)>(b)?(a):(b))
 
 
-PUBLIC HTBTree* HTBTree_new ARGS1(HTComparer, comp)
+HTBTree* HTBTree_new (HTComparer comp)
 /*********************************************************
 ** This function returns an HTBTree with memory allocated
 ** for it when given a mean to compare things
@@ -28,7 +28,7 @@ PUBLIC HTBTree* HTBTree_new ARGS1(HTComparer, comp)
 }
 
 
-PRIVATE void HTBTElement_free ARGS1(HTBTElement*, element)
+static void HTBTElement_free (HTBTElement* element)
 /**********************************************************
 ** This void will free the memory allocated for one element
 */
@@ -40,7 +40,7 @@ PRIVATE void HTBTElement_free ARGS1(HTBTElement*, element)
 	}
 }
 
-PUBLIC void HTBTree_free ARGS1(HTBTree*, tree)
+void HTBTree_free (HTBTree* tree)
 /**************************************************************
 ** This void will free the memory allocated for the whole tree
 */
@@ -50,7 +50,7 @@ PUBLIC void HTBTree_free ARGS1(HTBTree*, tree)
 }
 
 
-PRIVATE void HTBTElementAndObject_free ARGS1(HTBTElement*, element)
+static void HTBTElementAndObject_free (HTBTElement* element)
 /**********************************************************
 ** This void will free the memory allocated for one element
 */
@@ -65,7 +65,7 @@ PRIVATE void HTBTElementAndObject_free ARGS1(HTBTElement*, element)
 	}
 }
 
-PUBLIC void HTBTreeAndObject_free ARGS1(HTBTree*, tree)
+void HTBTreeAndObject_free (HTBTree* tree)
 /**************************************************************
 ** This void will free the memory allocated for the whole tree
 */
@@ -75,7 +75,7 @@ PUBLIC void HTBTreeAndObject_free ARGS1(HTBTree*, tree)
 }
 
 
-PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
+void HTBTree_add (HTBTree* tree, void* object)
 /**********************************************************************
 ** This void is the core of HTBTree.c . It will
 **       1/ add a new element to the tree at the right place
@@ -87,7 +87,7 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 	HTBTElement* added_element;
 	HTBTElement* forefather_of_element;
 	HTBTElement* father_of_forefather;
-	BOOL father_found, top_found, first_correction;
+	HTBool father_found, top_found, first_correction;
 	int depth, depth2;
 	/* father_of_element is a pointer to the structure that is the father of the
 	** new object "object".
@@ -96,9 +96,9 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 	** father_of_forefather and forefather_of_element are pointers that are used
 	** to modify the depths of upper elements, when needed.
 	**
-	** father_found indicates by a value NO when the future father of "object"
+	** father_found indicates by a value HT_FALSE when the future father of "object"
 	** is found.
-	** top_found indicates by a value NO when, in case of a difference of depths
+	** top_found indicates by a value HT_FALSE when, in case of a difference of depths
 	**  < 2, the top of the tree is encountered and forbids any further try to
 	** balance the tree.
 	** first_correction is a boolean used to avoid infinite loops in cases
@@ -126,7 +126,7 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 		tree->top->right_depth = 0;
 	}
 	else {
-		father_found = YES;
+		father_found = HT_TRUE;
 		father_of_element = tree->top;
 		added_element = NULL;
 		father_of_forefather = NULL;
@@ -137,7 +137,7 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 					father_of_element = father_of_element->left;
 				}
 				else {
-					father_found = NO;
+					father_found = HT_FALSE;
 					father_of_element->left = malloc(sizeof(HTBTElement));
 					if(father_of_element->left == NULL) outofmem(__FILE__,
 																 "HTBTree_add");
@@ -155,7 +155,7 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 					father_of_element = father_of_element->right;
 				}
 				else {
-					father_found = NO;
+					father_found = HT_FALSE;
 					father_of_element->right = malloc(sizeof(HTBTElement));
 					if(father_of_element->right == NULL) outofmem(__FILE__,
 																  "HTBTree_add");
@@ -201,8 +201,8 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 		/*
 		** 2/ Balancing the binary tree, if necessary
 		*/
-		top_found = YES;
-		first_correction = YES;
+		top_found = HT_TRUE;
+		first_correction = HT_TRUE;
 		while((top_found) && (first_correction)) {
 			if((abs(
 					father_of_element->left_depth -
@@ -210,11 +210,11 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 				if(father_of_element->up != NULL) {
 					father_of_element = father_of_element->up;
 				}
-				else { top_found = NO; }
+				else { top_found = HT_FALSE; }
 			}
 			else {                /* We start the process of balancing */
 
-				first_correction = NO;
+				first_correction = HT_FALSE;
 				/*
 				** first_correction is a boolean used to avoid infinite
 				** loops in cases such as:
@@ -404,7 +404,7 @@ PUBLIC void HTBTree_add ARGS2(HTBTree*, tree, void*, object)
 }
 
 
-PUBLIC HTBTElement* HTBTree_next ARGS2(HTBTree*, tree, HTBTElement*, ele)
+HTBTElement* HTBTree_next (HTBTree* tree, HTBTElement* ele)
 /**************************************************************************
 ** this function returns a pointer to the leftmost element if ele is NULL,
 ** and to the next object to the right otherways.

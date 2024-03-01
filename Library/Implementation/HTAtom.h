@@ -28,13 +28,7 @@ struct _HTAtom {
 }; /* struct _HTAtom */
 
 
-#ifdef __STDC__
-
-extern HTAtom* HTAtom_for(const char* string);
-
-#else
-extern HTAtom * HTAtom_for();
-#endif
+HTAtom* HTAtom_for(const char* string);
 
 #define HTAtom_name(a) ((a)->name)
 

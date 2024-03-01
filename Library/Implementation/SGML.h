@@ -30,7 +30,7 @@ SGML content types
  */
 typedef enum _SGMLContent {
 	SGML_EMPTY,    /* no content */
-	SGML_LITTERAL, /* character data. Recognised excat close tag only. litteral
+	SGML_LITERAL, /* character data. Recognised excat close tag only. literal
                     Old www server compatibility only! Not SGML */
 	SGML_CDATA,    /* character data. recognize </ only */
 	SGML_RCDATA,   /* replaceable character data. recognize </ and &ref; */
@@ -54,7 +54,7 @@ typedef struct {
 **      attributes      points to a zero-terminated array
 **                      of attribute names.
 **
-**      litteral        determines how the SGML engine parses the charaters
+**      literal        determines how the SGML engine parses the charaters
 **                      within the element. If set, tag openers are ignored
 **                      except for that which opens a matching closing tag.
 **
@@ -76,7 +76,7 @@ struct _tag {
 typedef struct {
 	HTTag* tags;           /* Must be in strcmp order by name */
 	int number_of_tags;
-	CONST char** entity_names;   /* Must be in strcmp order by name */
+	const char** entity_names;   /* Must be in strcmp order by name */
 	int number_of_entities;
 } SGML_dtd;
 
@@ -118,28 +118,26 @@ typedef struct _HTStructuredClass {
 
 	char* name;                            /* Just for diagnostics */
 
-	void (* free)PARAMS((HTStructured * me));
+	void (* free)(HTStructured * me);
 
-	void (* abort)PARAMS((HTStructured * me, HTError e));
+	void (* abort)(HTStructured * me, HTError e);
 
-	void (* put_character)PARAMS((HTStructured * me,
-										 char ch));
+	void (* put_character)(HTStructured * me, char ch);
 
-	void (* put_string)PARAMS((HTStructured * me, CONST char* str));
+	void (* put_string)(HTStructured * me, const char* str);
 
-	void (* write)PARAMS((HTStructured * me, CONST char* str,
-								 int len));
+	void (* write)(HTStructured * me, const char* str, int len);
 
-	void (* start_element)PARAMS((HTStructured * me,
+	void (* start_element)(HTStructured * me,
 										 int element_number,
-										 CONST BOOL* attribute_present,
-										 CONST char** attribute_value));
+										 const HTBool* attribute_present,
+										 const char** attribute_value);
 
-	void (* end_element)PARAMS((HTStructured * me,
-									   int element_number));
+	void (* end_element)(HTStructured * me,
+									   int element_number);
 
-	void (* put_entity)PARAMS((HTStructured * me,
-									  int entity_number));
+	void (* put_entity)(HTStructured * me,
+									  int entity_number);
 
 } HTStructuredClass;
 
@@ -155,10 +153,10 @@ typedef struct _HTStructuredClass {
 */
 
 
-extern HTStream* SGML_new PARAMS((CONST SGML_dtd* dtd,
-										 HTStructured* target));
+HTStream* SGML_new (const SGML_dtd* dtd,
+										 HTStructured* target);
 
-extern CONST HTStreamClass SGMLParser;
+extern const HTStreamClass SGMLParser;
 
 
 #endif  /* SGML_H */

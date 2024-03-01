@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "HTUtils.h"
 #include "HTChunk.h"
-#include "tcp.h"        /* For FROMASCII */
+#include "tcp.h"        /* For  */
 
 #define INVALID (-1)
 
@@ -56,7 +56,7 @@ struct _HTStream {
 	HTElement* element_stack;
 	enum sgml_state {
 		S_text,
-		S_litteral,
+		S_literal,
 		S_tag,
 		S_tag_gap,
 		S_attr,
@@ -74,7 +74,7 @@ struct _HTStream {
 #ifdef CALLERDATA
 	void *		callerData;
 #endif
-	BOOL present[MAX_ATTRIBUTES];    /* Flags: attribute is present? */
+	HTBool present[MAX_ATTRIBUTES];    /* Flags: attribute is present? */
 	char* value[MAX_ATTRIBUTES];    /* malloc'd strings or NULL if none */
 };
 
@@ -86,16 +86,9 @@ struct _HTStream {
 /*	Handle Attribute
 **	----------------
 */
-/* PUBLIC const char * SGML_default = "";   ?? */
+/* const char * SGML_default = "";   ?? */
 
-#ifdef __STDC__
-
-PRIVATE void handle_attribute_name(HTStream* context, const char* s)
-#else
-PRIVATE void handle_attribute_name(context, s)
-	HTStream * context;
-	char *s;
-#endif
+static void handle_attribute_name(HTStream* context, const char* s)
 {
 
 	HTTag* tag = context->current_tag;
@@ -108,7 +101,7 @@ PRIVATE void handle_attribute_name(context, s)
 		diff = strcasecomp(attributes[i].name, s);
 		if(diff == 0) {            /* success: found it */
 			context->current_attribute_number = i;
-			context->present[i] = YES;
+			context->present[i] = HT_TRUE;
 			if(context->value[i]) {
 				free(context->value[i]);
 				context->value[i] = NULL;
@@ -130,14 +123,7 @@ PRIVATE void handle_attribute_name(context, s)
 /*	Handle attribute value
 **	----------------------
 */
-#ifdef __STDC__
-
-PRIVATE void handle_attribute_value(HTStream* context, const char* s)
-#else
-PRIVATE void handle_attribute_value(context, s)
-	HTStream * context;
-	char *s;
-#endif
+static void handle_attribute_value(HTStream* context, const char* s)
 {
 	if(context->current_attribute_number != INVALID) {
 		StrAllocCopy(context->value[context->current_attribute_number], s);
@@ -158,14 +144,8 @@ PRIVATE void handle_attribute_value(context, s)
 **	If the entity name is unknown, the terminator is treated as
 **	a printable non-special character in all cases, even if it is '<'
 */
-#ifdef __STDC__
 
-PRIVATE void handle_entity(HTStream* context, char term)
-#else
-PRIVATE void handle_entity(context, term)
-	HTStream * context;
-	char term;
-#endif
+static void handle_entity(HTStream* context, char term)
 {
 
 	const char** entities = context->dtd->entity_names;
@@ -199,14 +179,7 @@ PRIVATE void handle_entity(context, term)
 /*	End element
 **	-----------
 */
-#ifdef __STDC__
-
-PRIVATE void end_element(HTStream* context, HTTag* old_tag)
-#else
-PRIVATE void end_element(context, old_tag)
-	HTTag * old_tag;
-	HTStream * context;
-#endif
+static void end_element(HTStream* context, HTTag* old_tag)
 {
 	if(TRACE) fprintf(stderr, "SGML: End   </%s>\n", old_tag->name);
 	if(old_tag->contents == SGML_EMPTY) {
@@ -261,13 +234,7 @@ PRIVATE void end_element(context, old_tag)
 
 /*	Start a element
 */
-#ifdef __STDC__
-
-PRIVATE void start_element(HTStream* context)
-#else
-PRIVATE void start_element(context)
-	HTStream * context;
-#endif
+static void start_element(HTStream* context)
 {
 	HTTag* new_tag = context->current_tag;
 
@@ -297,7 +264,7 @@ PRIVATE void start_element(context)
 **		NULL		tag not found
 **		else		address of tag structure in dtd
 */
-PRIVATE HTTag* find_tag ARGS2(const SGML_dtd*, dtd, char *, string) {
+static HTTag* find_tag(const SGML_dtd* dtd, char* string) {
 	int high, low, i, diff;
 	for(low = 0, high = dtd->number_of_tags; high > low;
 			diff < 0 ? (low = i + 1) : (high = i)) {  /* Binary serach */
@@ -317,7 +284,7 @@ PRIVATE HTTag* find_tag ARGS2(const SGML_dtd*, dtd, char *, string) {
 
 /*	Could check that we are back to bottom of stack! @@  */
 
-PUBLIC void SGML_free ARGS1(HTStream *, context) {
+void SGML_free(HTStream * context) {
 	int i;
 	(*context->actions->free)(context->target);
 	HTChunkFree(context->string);
@@ -325,7 +292,7 @@ PUBLIC void SGML_free ARGS1(HTStream *, context) {
 	free(context);
 }
 
-PUBLIC void SGML_abort ARGS2(HTStream *, context, HTError, e) {
+void SGML_abort(HTStream* context, HTError e) {
 	(*context->actions->abort)(context->target, e);
 	HTChunkFree(context->string);
 	free(context);
@@ -341,18 +308,18 @@ PUBLIC void SGML_abort ARGS2(HTStream *, context, HTError, e) {
 */
 
 #ifdef CALLERDATA
-PUBLIC void* SGML_callerData ARGS1(HTStream *, context)
+void* SGML_callerData ARGS1(HTStream * context)
 {
 	return context->callerData;
 }
 
-PUBLIC void SGML_setCallerData ARGS2(HTStream *, context, void*, data)
+void SGML_setCallerData ARGS2(HTStream * context, void* data)
 {
 	context->callerData = data;
 }
 #endif
 
-PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
+void SGML_character(HTStream* context, char c) {
 	const SGML_dtd* dtd = context->dtd;
 	HTChunk* string = context->string;
 
@@ -373,22 +340,22 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 				context->state = (context->element_stack &&
 								  context->element_stack->tag &&
 								  context->element_stack->tag->contents ==
-								  SGML_LITTERAL) ? S_litteral : S_tag;
+								  SGML_LITERAL) ? S_literal : S_tag;
 			}
 			else
 				PUTC(c);
 			break;
 
-/*	In litteral mode, waits only for specific end tag!
-**	Only foir compatibility with old servers.
+/*	In literal mode, waits only for specific end tag!
+**	Only for compatibility with old servers.
 */
-		case S_litteral : HTChunkPutc(string, c);
-			if(TOUPPER(c) !=
+		case S_literal : HTChunkPutc(string, c);
+			if(toupper(c) !=
 			   ((string->size == 1) ? '/' : context->element_stack->tag->name[
 					   string->size - 2])) {
 				int i;
 
-				/*	If complete match, end litteral */
+				/*	If complete match, end literal */
 				if((c == '>') &&
 				   (!context->element_stack->tag->name[string->size - 2])) {
 					end_element(context, context->element_stack->tag);
@@ -437,7 +404,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 				int value;
 				HTChunkTerminate(string);
 				if(sscanf(string->data, "%d", &value) == 1)
-					PUTC(FROMASCII((char) value));
+					PUTC(((char) value));
 				context->state = S_text;
 			}
 			break;
@@ -482,7 +449,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 					int i;
 					for(i = 0; i < context->current_tag->number_of_attributes;
 							i++) {
-						context->present[i] = NO;
+						context->present[i] = HT_FALSE;
 					}
 				}
 				string->size = 0;
@@ -500,7 +467,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 
 
 		case S_tag_gap:        /* Expecting attribute or > */
-			if(WHITE(c)) break;    /* Gap between attributes */
+			if(HT_WHITE(c)) break;    /* Gap between attributes */
 			if(c == '>') {        /* End of tag */
 				if(context->current_tag->name) start_element(context);
 				context->state = S_text;
@@ -512,7 +479,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 
 			/* accumulating value */
 		case S_attr:
-			if(WHITE(c) || (c == '>') || (c == '=')) {        /* End of word */
+			if(HT_WHITE(c) || (c == '>') || (c == '=')) {        /* End of word */
 				HTChunkTerminate(string);
 				handle_attribute_name(context, string->data);
 				string->size = 0;
@@ -529,7 +496,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 			break;
 
 		case S_attr_gap:        /* Expecting attribute or = or > */
-			if(WHITE(c)) break;    /* Gap after attribute */
+			if(HT_WHITE(c)) break;    /* Gap after attribute */
 			if(c == '>') {        /* End of tag */
 				if(context->current_tag->name) start_element(context);
 				context->state = S_text;
@@ -544,7 +511,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 			break;
 
 		case S_equals:            /* After attr = */
-			if(WHITE(c)) break;    /* Before attribute value */
+			if(HT_WHITE(c)) break;    /* Before attribute value */
 			if(c == '>') {        /* End of tag */
 				if(TRACE) fprintf(stderr, "SGML: found = but no value\n");
 				if(context->current_tag->name) start_element(context);
@@ -566,7 +533,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 			break;
 
 		case S_value:
-			if(WHITE(c) || (c == '>')) {        /* End of word */
+			if(HT_WHITE(c) || (c == '>')) {        /* End of word */
 				HTChunkTerminate(string);
 				handle_attribute_value(context, string->data);
 				string->size = 0;
@@ -634,7 +601,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 				string->size = 0;
 				context->current_attribute_number = INVALID;
 				if(c != '>') {
-					if(TRACE && !WHITE(c)) {
+					if(TRACE && !HT_WHITE(c)) {
 						fprintf(
 								stderr, "SGML:  `</%s%c' found!\n",
 								string->data, c);
@@ -658,7 +625,7 @@ PUBLIC void SGML_character ARGS2(HTStream *, context, char, c) {
 }  /* SGML_character */
 
 
-PUBLIC void SGML_string ARGS2(HTStream *, context, const char*, str) {
+void SGML_string(HTStream* context, const char* str) {
 	const char* p;
 	for(p = str; *p; p++) {
 		SGML_character(context, *p);
@@ -666,7 +633,7 @@ PUBLIC void SGML_string ARGS2(HTStream *, context, const char*, str) {
 }
 
 
-PUBLIC void SGML_write ARGS3(HTStream *, context, const char*, str, int, l) {
+void SGML_write(HTStream* context, const char* str, int l) {
 	const char* p;
 	const char* e = str + l;
 	for(p = str; p < e; p++) {
@@ -680,7 +647,7 @@ PUBLIC void SGML_write ARGS3(HTStream *, context, const char*, str, int, l) {
 /*	Structured Object Class
 **	-----------------------
 */
-PUBLIC const HTStreamClass SGMLParser = {
+const HTStreamClass SGMLParser = {
 		"SGMLParser", SGML_free, SGML_abort, SGML_character, SGML_string,
 		SGML_write, };
 
@@ -693,7 +660,7 @@ PUBLIC const HTStreamClass SGMLParser = {
 **
 */
 
-PUBLIC HTStream* SGML_new ARGS2(const SGML_dtd *, dtd, HTStructured *, target) {
+HTStream* SGML_new(const SGML_dtd* dtd, HTStructured* target) {
 	int i;
 	HTStream* context = malloc(sizeof(*context));
 	if(!context) outofmem(__FILE__, "SGML_begin");

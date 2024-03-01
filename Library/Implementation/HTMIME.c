@@ -3,7 +3,7 @@
 **
 **	This is RFC 1341-specific code.
 **	The input stream pushed into this parser is assumed to be
-**	stripped on CRs, ie lines end with LF, not CR LF.
+**	stripped on CRs, ie lines end with '\n', not '\r' '\n'.
 **	(It is easy to change this except for the body part where
 **	conversion can be slow.)
 **
@@ -28,7 +28,7 @@ typedef enum _MIME_state {
 	SKIP_GET_VALUE,        /* Skip space then get value */
 	GET_VALUE,        /* Get value till white space */
 	JUNK_LINE,        /* Ignore the rest of this folded line */
-	NEWLINE,        /* Just found a LF .. maybe continuation */
+	NEWLINE,        /* Just found a '\n' .. maybe continuation */
 	CHECK,            /* check against check_pointer */
 	MIME_NET_ASCII,        /* Translate from net ascii */
 	MIME_IGNORE        /* ignore entire file */
@@ -39,7 +39,7 @@ typedef enum _MIME_state {
 struct _HTStream {
 	const HTStreamClass* isa;
 
-	BOOL net_ascii;    /* Is input net ascii? */
+	HTBool net_ascii;    /* Is input net ascii? */
 	MIME_state state;        /* current state */
 	MIME_state if_ok;        /* got this state if match */
 	MIME_state field;        /* remember which field */
@@ -76,20 +76,20 @@ struct _HTStream {
 **	and resynchronises on line beginnings.
 */
 
-PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
+static void HTMIME_put_character (HTStream * me, char c) {
 	if(me->state == MIME_TRANSPARENT) {
 		(*me->targetClass.put_character)(me->target, c);/* MUST BE FAST */
 		return;
 	}
 
-	/* This slightly simple conversion just strips CR and turns LF to
-	** newline. On unix LF is \n but on Mac \n is CR for example.
-	** See NetToText for an implementation which preserves single CR or LF.
+	/* This slightly simple conversion just strips '\r' and turns '\n' to
+	** newline. On unix '\n' is \n but on Mac \n is '\r' for example.
+	** See NetToText for an implementation which preserves single '\r' or '\n'.
 	*/
 	if(me->net_ascii) {
-		c = FROMASCII(c);
-		if(c == CR) { return; }
-		else if(c == LF) c = '\n';
+		c = (c);
+		if(c == '\r') { return; }
+		else if(c == '\n') c = '\n';
 	}
 
 	switch(me->state) {
@@ -106,7 +106,7 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 			return;
 
 		case NEWLINE:
-			if(c != '\n' && WHITE(c)) {        /* Folded line */
+			if(c != '\n' && HT_WHITE(c)) {        /* Folded line */
 				me->state = me->fold_state;    /* pop state before newline */
 				break;
 			}
@@ -159,7 +159,7 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 			break;
 
 		case CHECK:                /* Check against string */
-			if(TOLOWER(c) == *(me->check_pointer)++) {
+			if(tolower(c) == *(me->check_pointer)++) {
 				if(!*me->check_pointer) me->state = me->if_ok;
 			}
 			else {        /* Error */
@@ -203,7 +203,7 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 				me->state = NEWLINE;
 				break;
 			}
-			if(WHITE(c)) break;    /* Skip white space */
+			if(HT_WHITE(c)) break;    /* Skip white space */
 
 			me->value_pointer = me->value;
 			me->state = GET_VALUE;
@@ -212,7 +212,7 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 			/* FALLTHRU */
 
 		case GET_VALUE:
-			if(WHITE(c)) {            /* End of field */
+			if(HT_WHITE(c)) {            /* End of field */
 				*me->value_pointer = 0;
 				switch(me->field) {
 					case CONTENT_TYPE: me->format = HTAtom_for(me->value);
@@ -264,7 +264,7 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 **
 **	Strings must be smaller than this buffer size.
 */
-PRIVATE void HTMIME_put_string ARGS2(HTStream *, me, const char*, s) {
+static void HTMIME_put_string (HTStream * me, const char* s) {
 	const char* p;
 	if(me->state == MIME_TRANSPARENT) {        /* Optimisation */
 		(*me->targetClass.put_string)(me->target, s);
@@ -278,7 +278,7 @@ PRIVATE void HTMIME_put_string ARGS2(HTStream *, me, const char*, s) {
 /*	Buffer write.  Buffers can (and should!) be big.
 **	------------
 */
-PRIVATE void HTMIME_write ARGS3(HTStream *, me, const char*, s, int, l) {
+static void HTMIME_write (HTStream * me, const char* s, int l) {
 	const char* p;
 	if(me->state == MIME_TRANSPARENT) {        /* Optimisation */
 		(*me->targetClass.put_block)(me->target, s, l);
@@ -295,7 +295,7 @@ PRIVATE void HTMIME_write ARGS3(HTStream *, me, const char*, s, int, l) {
 **	-------------------
 **
 */
-PRIVATE void HTMIME_free ARGS1(HTStream *, me) {
+static void HTMIME_free (HTStream * me) {
 	if(me->target) (*me->targetClass.free)(me->target);
 	free(me);
 }
@@ -303,7 +303,7 @@ PRIVATE void HTMIME_free ARGS1(HTStream *, me) {
 /*	End writing
 */
 
-PRIVATE void HTMIME_abort ARGS2(HTStream *, me, HTError, e) {
+static void HTMIME_abort (HTStream * me, HTError e) {
 	if(me->target) (*me->targetClass.abort)(me->target, e);
 	free(me);
 }
@@ -313,7 +313,7 @@ PRIVATE void HTMIME_abort ARGS2(HTStream *, me, HTError, e) {
 /*	Structured Object Class
 **	-----------------------
 */
-PRIVATE const HTStreamClass HTMIME = {
+static const HTStreamClass HTMIME = {
 		"MIMEParser", HTMIME_free, HTMIME_abort, HTMIME_put_character,
 		HTMIME_put_string, HTMIME_write };
 
@@ -322,9 +322,9 @@ PRIVATE const HTStreamClass HTMIME = {
 **	-------------------------
 */
 
-PUBLIC HTStream*
-HTMIMEConvert ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
-					HTStream *, sink) {
+HTStream*
+HTMIMEConvert (HTPresentation * pres, HTParentAnchor * anchor,
+					HTStream * sink) {
 	HTStream* me;
 
 	me = malloc(sizeof(*me));
@@ -338,17 +338,17 @@ HTMIMEConvert ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
 	me->format = WWW_PLAINTEXT;
 	me->targetRep = pres->rep_out;
 	me->boundary = 0;        /* Not set yet */
-	me->net_ascii = NO;    /* Local character set */
+	me->net_ascii = HT_FALSE;    /* Local character set */
 	return me;
 }
 
-PUBLIC HTStream*
-HTNetMIME ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
+HTStream*
+HTNetMIME (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 				sink) {
 	HTStream* me = HTMIMEConvert(pres, anchor, sink);
 	if(!me) return NULL;
 
-	me->net_ascii = YES;
+	me->net_ascii = HT_TRUE;
 	return me;
 }
 

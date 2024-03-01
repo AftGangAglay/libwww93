@@ -15,8 +15,8 @@
 
 #include "HTFormat.h"
 
-extern HTStream* HTWSRCConvert PARAMS(
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink));
+HTStream* HTWSRCConvert
+		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
 
 /*
 
@@ -29,9 +29,9 @@ Escaping Strings
    the caller.
    
  */
-extern char* HTDeSlash PARAMS((CONST char* str));
+char* HTDeSlash(const char* str);
 
-extern char* HTEnSlash PARAMS((CONST char* str));
+char* HTEnSlash(const char* str);
 
 #endif
 

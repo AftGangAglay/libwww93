@@ -8,8 +8,8 @@
 #include "HTStream.h"
 #include "HTAnchor.h"
 
-extern HTStream* HTPlainPresent PARAMS(
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink));
+HTStream* HTPlainPresent
+		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
 
 
 #endif

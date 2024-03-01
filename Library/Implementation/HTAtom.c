@@ -19,15 +19,10 @@
 #include <stdio.h>                /* joe@athena, TBL 921019 */
 #include "HTUtils.h"
 
-PRIVATE HTAtom* hash_table[HASH_SIZE];
-PRIVATE BOOL initialised = NO;
+static HTAtom* hash_table[HASH_SIZE];
+static HTBool initialised = HT_FALSE;
 
-#ifdef __STDC__
-PUBLIC HTAtom* HTAtom_for(const char* string)
-#else
-PUBLIC HTAtom * HTAtom_for(string)
-	char * string;
-#endif
+HTAtom* HTAtom_for(const char* string)
 {
 	int hash;
 	const char* p;
@@ -40,7 +35,7 @@ PUBLIC HTAtom * HTAtom_for(string)
 		for(i = 0; i < HASH_SIZE; i++) {
 			hash_table[i] = (HTAtom*) 0;
 		}
-		initialised = YES;
+		initialised = HT_TRUE;
 	}
 
 	/*		Generate hash function

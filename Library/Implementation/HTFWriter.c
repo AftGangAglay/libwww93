@@ -24,7 +24,7 @@ struct _HTStream {
 	FILE* fp;
 	char* end_command;
 	char* remove_command;
-	BOOL announce;
+	HTBool announce;
 };
 
 
@@ -39,7 +39,7 @@ struct _HTStream {
 **	------------------
 */
 
-PRIVATE void HTFWriter_put_character ARGS2(HTStream *, me, char, c) {
+static void HTFWriter_put_character (HTStream * me, char c) {
 	putc(c, me->fp);
 }
 
@@ -50,7 +50,7 @@ PRIVATE void HTFWriter_put_character ARGS2(HTStream *, me, char, c) {
 **
 **	Strings must be smaller than this buffer size.
 */
-PRIVATE void HTFWriter_put_string ARGS2(HTStream *, me, const char*, s) {
+static void HTFWriter_put_string (HTStream * me, const char* s) {
 	fputs(s, me->fp);
 }
 
@@ -58,7 +58,7 @@ PRIVATE void HTFWriter_put_string ARGS2(HTStream *, me, const char*, s) {
 /*	Buffer write.  Buffers can (and should!) be big.
 **	------------
 */
-PRIVATE void HTFWriter_write ARGS3(HTStream *, me, const char*, s, int, l) {
+static void HTFWriter_write (HTStream * me, const char* s, int l) {
 	fwrite(s, 1, l, me->fp);
 }
 
@@ -72,7 +72,7 @@ PRIVATE void HTFWriter_write ARGS3(HTStream *, me, const char*, s, int, l) {
 **	object is not,
 **	as it takes on an existence of its own unless explicitly freed.
 */
-PRIVATE void HTFWriter_free ARGS1(HTStream *, me) {
+static void HTFWriter_free (HTStream * me) {
 	fflush(me->fp);
 	if(me->end_command) {        /* Temp file */
 		fclose(me->fp);
@@ -91,7 +91,7 @@ PRIVATE void HTFWriter_free ARGS1(HTStream *, me) {
 /*	End writing
 */
 
-PRIVATE void HTFWriter_abort ARGS2(HTStream *, me, HTError, e) {
+static void HTFWriter_abort (HTStream * me, HTError e) {
 	(void) e;
 
 	fflush(me->fp);
@@ -116,7 +116,7 @@ PRIVATE void HTFWriter_abort ARGS2(HTStream *, me, HTError, e) {
 /*	Structured Object Class
 **	-----------------------
 */
-PRIVATE const HTStreamClass HTFWriter = /* As opposed to print etc */
+static const HTStreamClass HTFWriter = /* As opposed to print etc */
 		{
 				"FileWriter", HTFWriter_free, HTFWriter_abort,
 				HTFWriter_put_character, HTFWriter_put_string,
@@ -127,7 +127,7 @@ PRIVATE const HTStreamClass HTFWriter = /* As opposed to print etc */
 **	-------------------------
 */
 
-PUBLIC HTStream* HTFWriter_new ARGS1(FILE *, fp) {
+HTStream* HTFWriter_new (FILE * fp) {
 	HTStream* me;
 
 	if(!fp) return NULL;
@@ -139,7 +139,7 @@ PUBLIC HTStream* HTFWriter_new ARGS1(FILE *, fp) {
 	me->fp = fp;
 	me->end_command = NULL;
 	me->remove_command = NULL;
-	me->announce = NO;
+	me->announce = HT_FALSE;
 
 	return me;
 }
@@ -161,10 +161,10 @@ PUBLIC HTStream* HTFWriter_new ARGS1(FILE *, fp) {
 **	in case the application is fussy, or so that a generic opener can
 **	be used.
 */
-PUBLIC HTStream*
-HTSaveAndExecute ARGS3(HTPresentation *, pres, HTParentAnchor *,
+HTStream*
+HTSaveAndExecute (HTPresentation * pres, HTParentAnchor *
 					   anchor,    /* Not used */
-					   HTStream *, sink)    /* Not used */
+					   HTStream * sink)    /* Not used */
 
 #ifdef unix
 #define REMOVE_COMMAND "/bin/rm -f %s\n"
@@ -221,7 +221,7 @@ HTSaveAndExecute ARGS3(HTPresentation *, pres, HTParentAnchor *,
 	sprintf (me->remove_command, REMOVE_COMMAND, fnam);
 #endif
 
-	me->announce = NO;
+	me->announce = HT_FALSE;
 	free (fnam);
 	return me;
 }
@@ -245,9 +245,9 @@ HTSaveAndExecute ARGS3(HTPresentation *, pres, HTParentAnchor *,
 **	GUI Apps should open local Save panel here really.
 **
 */
-PUBLIC HTStream* HTSaveLocally ARGS3(HTPresentation *, pres, HTParentAnchor *,
+HTStream* HTSaveLocally (HTPresentation * pres, HTParentAnchor *
 									 anchor,    /* Not used */
-									 HTStream *, sink)    /* Not used */
+									 HTStream * sink)    /* Not used */
 
 {
 	char* fnam;
@@ -264,7 +264,7 @@ PUBLIC HTStream* HTSaveLocally ARGS3(HTPresentation *, pres, HTParentAnchor *,
 	me->isa = &HTFWriter;
 	me->end_command = NULL;
 	me->remove_command = NULL;    /* If needed, put into end_command */
-	me->announce = YES;
+	me->announce = HT_TRUE;
 
 	/* Save the file under a suitably suffixed name */
 

@@ -29,9 +29,9 @@ extern HTStyleSheet* styleSheet;    /* Application-wide */
 
 /*	Module-wide style cache
 */
-PRIVATE int got_styles = 0;
-PRIVATE HTStyle* styles[HTML_ELEMENTS];
-PRIVATE HTStyle* default_style;
+static int got_styles = 0;
+static HTStyle* styles[HTML_ELEMENTS];
+static HTStyle* default_style;
 
 
 /*		HTML Object
@@ -58,10 +58,10 @@ struct _HTStructured {
 	char* comment_end;
 
 	HTTag* current_tag;
-	BOOL style_change;
+	HTBool style_change;
 	HTStyle* new_style;
 	HTStyle* old_style;
-	BOOL in_word;  /* Have just had a non-white char */
+	HTBool in_word;  /* Have just had a non-white char */
 	stack_element stack[MAX_NESTING];
 	stack_element* sp;        /* Style stack pointer */
 };
@@ -73,54 +73,18 @@ struct _HTStream {
 
 /*		Forward declarations of routines
 */
-PRIVATE void get_styles NOPARAMS;
+static void get_styles (void);
 
 
-PRIVATE void actually_set_style PARAMS((HTStructured * me));
+static void actually_set_style (HTStructured * me);
 
-PRIVATE void
-change_paragraph_style PARAMS((HTStructured * me, HTStyle * style));
+static void
+change_paragraph_style (HTStructured * me, HTStyle * style);
 
 /*	Style buffering avoids dummy paragraph begin/ends.
 */
 #define UPDATE_STYLE if (me->style_change) { actually_set_style(me); }
 
-
-#ifdef OLD_CODE
-/* The following accented characters are from peter Flynn, curia project */
-
-/* these ifdefs don't solve the problem of a simple terminal emulator
-** with a different character set to the client machine. But nothing does,
-** except looking at the TERM setting */
-
-
-		{ "ocus" , "&" },       /* for CURIA */
-#ifdef IBMPC
-		{ "aacute" , "\240" },	/* For PC display */
-		{ "eacute" , "\202" },
-		{ "iacute" , "\241" },
-		{ "oacute" , "\242" },
-		{ "uacute" , "\243" },
-		{ "Aacute" , "\101" },
-		{ "Eacute" , "\220" },
-		{ "Iacute" , "\111" },
-		{ "Oacute" , "\117" },
-		{ "Uacute" , "\125" },
-#else
-		{ "aacute" , "\341" },	/* Works for openwindows -- Peter Flynn */
-		{ "eacute" , "\351" },
-		{ "iacute" , "\355" },
-		{ "oacute" , "\363" },
-		{ "uacute" , "\372" },
-		{ "Aacute" , "\301" },
-		{ "Eacute" , "\310" },
-		{ "Iacute" , "\315" },
-		{ "Oacute" , "\323" },
-		{ "Uacute" , "\332" },
-#endif
-	{ 0,	0 }  /* Terminate list */
-};
-#endif
 
 
 /* 	Entity values -- for ISO Latin 1 local representation
@@ -195,80 +159,6 @@ static char* ISO_Latin1[] = {
 		"\377",    /* small y, dieresis or umlaut mark */
 };
 
-
-/* 	Entity values -- for NeXT local representation
-**
-**	This MUST match exactly the table referred to in the DTD!
-**
-*/
-static char* NeXTCharacters[] = {
-		"\341",    /* capital AE diphthong (ligature) 	*/
-		"\202",    /* capital A, acute accent		*/
-		"\203",    /* capital A, circumflex accent 	*/
-		"\201",    /* capital A, grave accent 		*/
-		"\206",    /* capital A, ring 			*/
-		"\204",    /* capital A, tilde 			*/
-		"\205",    /* capital A, dieresis or umlaut mark	*/
-		"\207",    /* capital C, cedilla 			*/
-		"\220",    /* capital Eth, Icelandic 		*/
-		"\211",    /* capital E, acute accent 				*/
-		"\212",    /* capital E, circumflex accent 			*/
-		"\210",    /* capital E, grave accent 				*/
-		"\213",    /* capital E, dieresis or umlaut mark 			*/
-		"\215",    /* capital I, acute accent 				*/
-		"\216",    /* capital I, circumflex accent 	these are	*/
-		"\214",    /* capital I, grave accent		ISO -100 hex	*/
-		"\217",    /* capital I, dieresis or umlaut mark			*/
-		"\221",    /* capital N, tilde 					*/
-		"\223",    /* capital O, acute accent 				*/
-		"\224",    /* capital O, circumflex accent 			*/
-		"\222",    /* capital O, grave accent 				*/
-		"\351",    /* capital O, slash 		'cept this */
-		"\225",    /* capital O, tilde 					*/
-		"\226",    /* capital O, dieresis or umlaut mark			*/
-		"\234",    /* capital THORN, Icelandic */
-		"\230",    /* capital U, acute accent */
-		"\231",    /* capital U, circumflex accent */
-		"\227",    /* capital U, grave accent */
-		"\232",    /* capital U, dieresis or umlaut mark */
-		"\233",    /* capital Y, acute accent */
-		"\326",    /* small a, acute accent */
-		"\327",    /* small a, circumflex accent */
-		"\361",    /* small ae diphthong (ligature) */
-		"\325",    /* small a, grave accent */
-		"\046",    /* ampersand */
-		"\332",    /* small a, ring */
-		"\330",    /* small a, tilde */
-		"\331",    /* small a, dieresis or umlaut mark */
-		"\333",    /* small c, cedilla */
-		"\335",    /* small e, acute accent */
-		"\336",    /* small e, circumflex accent */
-		"\334",    /* small e, grave accent */
-		"\346",    /* small eth, Icelandic 	*/
-		"\337",    /* small e, dieresis or umlaut mark */
-		"\076",    /* greater than */
-		"\342",    /* small i, acute accent */
-		"\344",    /* small i, circumflex accent */
-		"\340",    /* small i, grave accent */
-		"\345",    /* small i, dieresis or umlaut mark */
-		"\074",    /* less than */
-		"\347",    /* small n, tilde */
-		"\355",    /* small o, acute accent */
-		"\356",    /* small o, circumflex accent */
-		"\354",    /* small o, grave accent */
-		"\371",    /* small o, slash */
-		"\357",    /* small o, tilde */
-		"\360",    /* small o, dieresis or umlaut mark */
-		"\373",    /* small sharp s, German (sz ligature) */
-		"\374",    /* small thorn, Icelandic */
-		"\363",    /* small u, acute accent */
-		"\364",    /* small u, circumflex accent */
-		"\362",    /* small u, grave accent */
-		"\366",    /* small u, dieresis or umlaut mark */
-		"\367",    /* small y, acute accent */
-		"\375",    /* small y, dieresis or umlaut mark */
-};
-
 /* 	Entity values -- for IBM/PC Code Page 850 (International)
 **
 **	This MUST match exactly the table referred to in the DTD!
@@ -282,12 +172,6 @@ static char* NeXTCharacters[] = {
 **		----------------
 */
 
-PRIVATE char** p_entity_values = ISO_Latin1;    /* Pointer to translation */
-
-PUBLIC void HTMLUseCharacterSet ARGS1(HTMLCharacterSet, i) {
-	p_entity_values = (i == HTML_NEXT_CHARS) ? NeXTCharacters : ISO_Latin1;
-}
-
 
 /*		Flattening the style structure
 **		------------------------------
@@ -300,30 +184,30 @@ a sequence of styles.
 
 /*		If style really needs to be set, call this
 */
-PRIVATE void actually_set_style ARGS1(HTStructured *, me) {
+static void actually_set_style (HTStructured * me) {
 	if(!me->text) {            /* First time through */
 		me->text = HText_new2(me->node_anchor, me->target);
 		HText_beginAppend(me->text);
 		HText_setStyle(me->text, me->new_style);
-		me->in_word = NO;
+		me->in_word = HT_FALSE;
 	}
 	else {
 		HText_setStyle(me->text, me->new_style);
 	}
 	me->old_style = me->new_style;
-	me->style_change = NO;
+	me->style_change = HT_FALSE;
 }
 
 /*      If you THINK you need to change style, call this
 */
 
-PRIVATE void
-change_paragraph_style ARGS2(HTStructured *, me, HTStyle *, style) {
+static void
+change_paragraph_style (HTStructured * me, HTStyle * style) {
 	if(me->new_style != style) {
-		me->style_change = YES;
+		me->style_change = HT_TRUE;
 		me->new_style = style;
 	}
-	me->in_word = NO;
+	me->in_word = HT_FALSE;
 }
 
 /*_________________________________________________________________________
@@ -334,7 +218,7 @@ change_paragraph_style ARGS2(HTStructured *, me, HTStyle *, style) {
 /*	Character handling
 **	------------------
 */
-PRIVATE void HTML_put_character ARGS2(HTStructured *, me, char, c) {
+static void HTML_put_character (HTStructured * me, char c) {
 
 	switch(me->sp[0].tag_number) {
 		case HTML_COMMENT: break;                    /* Do Nothing */
@@ -343,11 +227,11 @@ PRIVATE void HTML_put_character ARGS2(HTStructured *, me, char, c) {
 			break;
 
 
-		case HTML_LISTING:                /* Litteral text */
+		case HTML_LISTING:                /* Literal text */
 		case HTML_XMP:
 		case HTML_PLAINTEXT:
 		case HTML_PRE:
-/*	We guarrantee that the style is up-to-date in begin_litteral
+/*	We guarrantee that the style is up-to-date in begin_literal
 */
 			HText_appendCharacter(me->text, c);
 			break;
@@ -360,12 +244,12 @@ PRIVATE void HTML_put_character ARGS2(HTStructured *, me, char, c) {
 			if(c == '\n') {
 				if(me->in_word) {
 					HText_appendCharacter(me->text, ' ');
-					me->in_word = NO;
+					me->in_word = HT_FALSE;
 				}
 			}
 			else {
 				HText_appendCharacter(me->text, c);
-				me->in_word = YES;
+				me->in_word = HT_TRUE;
 			}
 	} /* end switch */
 }
@@ -378,7 +262,7 @@ PRIVATE void HTML_put_character ARGS2(HTStructured *, me, char, c) {
 **	This is written separately from put_character becuase the loop can
 **	in some cases be promoted to a higher function call level for speed.
 */
-PRIVATE void HTML_put_string ARGS2(HTStructured *, me, const char*, s) {
+static void HTML_put_string (HTStructured * me, const char* s) {
 
 	switch(me->sp[0].tag_number) {
 		case HTML_COMMENT: break;                    /* Do Nothing */
@@ -387,12 +271,12 @@ PRIVATE void HTML_put_string ARGS2(HTStructured *, me, const char*, s) {
 			break;
 
 
-		case HTML_LISTING:                /* Litteral text */
+		case HTML_LISTING:                /* Literal text */
 		case HTML_XMP:
 		case HTML_PLAINTEXT:
 		case HTML_PRE:
 
-/*	We guarrantee that the style is up-to-date in begin_litteral
+/*	We guarrantee that the style is up-to-date in begin_literal
 */
 			HText_appendText(me->text, s);
 			break;
@@ -414,12 +298,12 @@ PRIVATE void HTML_put_string ARGS2(HTStructured *, me, const char*, s) {
 				if(*p == '\n') {
 					if(me->in_word) {
 						HText_appendCharacter(me->text, ' ');
-						me->in_word = NO;
+						me->in_word = HT_FALSE;
 					}
 				}
 				else {
 					HText_appendCharacter(me->text, *p);
-					me->in_word = YES;
+					me->in_word = HT_TRUE;
 				}
 			} /* for */
 		}
@@ -430,7 +314,7 @@ PRIVATE void HTML_put_string ARGS2(HTStructured *, me, const char*, s) {
 /*	Buffer write
 **	------------
 */
-PRIVATE void HTML_write ARGS3(HTStructured *, me, const char*, s, int, l) {
+static void HTML_write (HTStructured * me, const char* s, int l) {
 	const char* p;
 	const char* e = s + l;
 	for(p = s; s < e; p++) HTML_put_character(me, *p);
@@ -440,9 +324,9 @@ PRIVATE void HTML_write ARGS3(HTStructured *, me, const char*, s, int, l) {
 /*	Start Element
 **	-------------
 */
-PRIVATE void
-HTML_start_element ARGS4(HTStructured *, me, int, element_number, const BOOL*,
-						 present, const char **, value) {
+static void
+HTML_start_element (HTStructured * me, int element_number, const HTBool*
+						 present, const char ** value) {
 	switch(element_number) {
 		case HTML_A: {
 			HTChildAnchor* source;
@@ -483,7 +367,7 @@ HTML_start_element ARGS4(HTStructured *, me, int, element_number, const BOOL*,
 
 		case HTML_P: UPDATE_STYLE;
 			HText_appendParagraph(me->text);
-			me->in_word = NO;
+			me->in_word = HT_FALSE;
 			break;
 
 		case HTML_DL:
@@ -495,13 +379,13 @@ HTML_start_element ARGS4(HTStructured *, me, int, element_number, const BOOL*,
 		case HTML_DT:
 			if(!me->style_change) {
 				HText_appendParagraph(me->text);
-				me->in_word = NO;
+				me->in_word = HT_FALSE;
 			}
 			break;
 
 		case HTML_DD:UPDATE_STYLE;
 			HTML_put_character(me, '\t');    /* Just tab out one stop */
-			me->in_word = NO;
+			me->in_word = HT_FALSE;
 			break;
 
 		case HTML_UL:
@@ -518,10 +402,10 @@ HTML_start_element ARGS4(HTStructured *, me, int, element_number, const BOOL*,
 				HText_appendCharacter(
 						me->text, '\t');
 			}    /* Tab @@ nl for UL? */
-			me->in_word = NO;
+			me->in_word = HT_FALSE;
 			break;
 
-		case HTML_LISTING:                /* Litteral text */
+		case HTML_LISTING:                /* Literal text */
 		case HTML_XMP:
 		case HTML_PLAINTEXT:
 		case HTML_PRE: change_paragraph_style(me, styles[element_number]);
@@ -595,7 +479,7 @@ HTML_start_element ARGS4(HTStructured *, me, int, element_number, const BOOL*,
 **	(internal code errors apart) good nesting. The parser checks
 **	incoming code errors, not this module.
 */
-PRIVATE void HTML_end_element ARGS2(HTStructured *, me, int, element_number) {
+static void HTML_end_element (HTStructured * me, int element_number) {
 #ifdef CAREFUL            /* parser assumed to produce good nesting */
 	if (element_number != me->sp[0].tag_number) {
 		fprintf(stderr, "HTMLText: end of element %s when expecting end of %s\n",
@@ -617,7 +501,7 @@ PRIVATE void HTML_end_element ARGS2(HTStructured *, me, int, element_number) {
 			HTAnchor_setTitle(me->node_anchor, me->title.data);
 			break;
 
-		case HTML_LISTING:                /* Litteral text */
+		case HTML_LISTING:                /* Literal text */
 		case HTML_XMP:
 		case HTML_PLAINTEXT:
 		case HTML_PRE:
@@ -642,7 +526,7 @@ PRIVATE void HTML_end_element ARGS2(HTStructured *, me, int, element_number) {
 /*	(In fact, they all shrink!)
 */
 
-PRIVATE void HTML_put_entity ARGS2(HTStructured *, me, int, entity_number) {
+static void HTML_put_entity (HTStructured * me, int entity_number) {
 	HTML_put_string(
 			me, ISO_Latin1[entity_number]);    /* @@ Other representations */
 }
@@ -660,7 +544,7 @@ PRIVATE void HTML_put_entity ARGS2(HTStructured *, me, int, entity_number) {
 **	If non-interactive, everything is freed off.   No: crashes -listrefs
 **	Otherwise, the interactive object is left.	
 */
-PUBLIC void HTML_free ARGS1(HTStructured *, me) {
+void HTML_free (HTStructured * me) {
 	UPDATE_STYLE;        /* Creates empty document here! */
 	if(me->comment_end) {
 		HTML_put_string(me, me->comment_end);
@@ -674,7 +558,7 @@ PUBLIC void HTML_free ARGS1(HTStructured *, me) {
 }
 
 
-PRIVATE void HTML_abort ARGS2(HTStructured *, me, HTError, e) {
+static void HTML_abort (HTStructured * me, HTError e) {
 	if(me->target) {
 		(*me->targetClass.abort)(me->target, e);
 	}
@@ -686,8 +570,8 @@ PRIVATE void HTML_abort ARGS2(HTStructured *, me, HTError, e) {
 /*	Get Styles from style sheet
 **	---------------------------
 */
-PRIVATE void get_styles NOARGS {
-	got_styles = YES;
+static void get_styles (void) {
+	got_styles = HT_TRUE;
 
 	default_style = HTStyleNamed(styleSheet, "Normal");
 
@@ -717,7 +601,7 @@ PRIVATE void get_styles NOARGS {
 /*	Structured Object Class
 **	-----------------------
 */
-PUBLIC const HTStructuredClass HTMLPresentation = /* As opposed to print etc */
+const HTStructuredClass HTMLPresentation = /* As opposed to print etc */
 		{
 				"text/html", HTML_free, HTML_abort, HTML_put_character,
 				HTML_put_string, HTML_write, HTML_start_element,
@@ -730,8 +614,8 @@ PUBLIC const HTStructuredClass HTMLPresentation = /* As opposed to print etc */
 **	The strutcured stream can generate either presentation,
 **	or plain text, or HTML.
 */
-PUBLIC HTStructured*
-HTML_new ARGS3(HTParentAnchor *, anchor, HTFormat, format_out, HTStream*,
+HTStructured*
+HTML_new (HTParentAnchor * anchor, HTFormat format_out, HTStream*
 			   stream) {
 
 	HTStructured* me;
@@ -758,7 +642,7 @@ HTML_new ARGS3(HTParentAnchor *, anchor, HTFormat, format_out, HTStream*,
 	me->title.allocated = 0;
 	me->title.data = 0;
 	me->text = 0;
-	me->style_change = YES; /* Force check leading to text creation */
+	me->style_change = HT_TRUE; /* Force check leading to text creation */
 	me->new_style = default_style;
 	me->old_style = 0;
 	me->sp = me->stack + MAX_NESTING - 1;
@@ -779,8 +663,8 @@ HTML_new ARGS3(HTParentAnchor *, anchor, HTFormat, format_out, HTStream*,
 **
 **	This will convert from HTML to presentation or plain text.
 */
-PUBLIC HTStream*
-HTMLToPlain ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
+HTStream*
+HTMLToPlain (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 				  sink) {
 	return SGML_new(&HTML_dtd, HTML_new(anchor, pres->rep_out, sink));
 }
@@ -793,8 +677,8 @@ HTMLToPlain ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 **	is commented out.
 **	This will convert from HTML to presentation or plain text.
 */
-PUBLIC HTStream*
-HTMLToC ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
+HTStream*
+HTMLToC (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 			  sink) {
 
 	HTStructured* html;
@@ -818,8 +702,8 @@ HTMLToC ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 **	Override this if you have a windows version
 */
 #ifndef GUI
-PUBLIC HTStream*
-HTMLPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
+HTStream*
+HTMLPresent (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 				  sink) {
 	(void) pres;
 
@@ -848,8 +732,8 @@ HTMLPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 **	returns	a negative number to indicate lack of success in the load.
 */
 
-PUBLIC int
-HTLoadError ARGS3(HTStream *, sink, int, number, const char *, message) {
+int
+HTLoadError (HTStream * sink, int number, const char* message) {
 	(void) sink;
 
 	HTAlert(message);        /* @@@@@@@@@@@@@@@@@@@ */

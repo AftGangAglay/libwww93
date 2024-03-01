@@ -19,9 +19,9 @@
 */
 extern HTProtocol HTNews;
 
-extern void HTSetNewsHost PARAMS((CONST char* value));
+void HTSetNewsHost (const char* value);
 
-extern CONST char* HTGetNewsHost NOPARAMS;
+const char* HTGetNewsHost (void);
 
 extern char* HTNewsHost;
 

@@ -58,8 +58,8 @@ struct _HTStructured {
 	/* ... */
 };
 
-PRIVATE HTStructured* target;            /* the new hypertext */
-PRIVATE HTStructuredClass targetClass;        /* Its action routines */
+static HTStructured* target;            /* the new hypertext */
+static HTStructuredClass targetClass;        /* Its action routines */
 
 
 #define GOPHER_PROGRESS(foo) HTAlert(foo)
@@ -71,7 +71,7 @@ PRIVATE HTStructuredClass targetClass;        /* Its action routines */
 
 /*	Module-wide variables
 */
-PRIVATE int s;                    /* Socket for GopherHost */
+static int s;                    /* Socket for GopherHost */
 
 
 
@@ -79,23 +79,23 @@ PRIVATE int s;                    /* Socket for GopherHost */
 **	-----------------------------------------
 */
 
-PRIVATE BOOL acceptable[256];
-PRIVATE BOOL acceptable_inited = NO;
+static HTBool acceptable[256];
+static HTBool acceptable_inited = HT_FALSE;
 
-PRIVATE void init_acceptable NOARGS {
+static void init_acceptable (void) {
 	unsigned int i;
 	char* good = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./-_$";
-	for(i = 0; i < 256; i++) acceptable[i] = NO;
-	for(; *good; good++) acceptable[(unsigned int) *good] = YES;
-	acceptable_inited = YES;
+	for(i = 0; i < 256; i++) acceptable[i] = HT_FALSE;
+	for(; *good; good++) acceptable[(unsigned int) *good] = HT_TRUE;
+	acceptable_inited = HT_TRUE;
 }
 
-PRIVATE const char hex[17] = "0123456789abcdef";
+static const char hex[17] = "0123456789abcdef";
 
 /*	Decdoe one hex character
 */
 
-PRIVATE char from_hex ARGS1(char, c) {
+static char from_hex (char c) {
 	return (c >= '0') && (c <= '9') ? c - '0' : (c >= 'A') && (c <= 'F') ? c -
 																		   'A' +
 																		   10 :
@@ -118,18 +118,18 @@ PRIVATE char from_hex ARGS1(char, c) {
 **	text 	points to the text to be put into the file, 0 terminated.
 **	addr	points to the hypertext refernce address 0 terminated.
 */
-PRIVATE void write_anchor ARGS2(const char *, text, const char *, addr) {
+static void write_anchor (const char* text, const char* addr) {
 
 
-	BOOL present[HTML_A_ATTRIBUTES];
+	HTBool present[HTML_A_ATTRIBUTES];
 	const char* value[HTML_A_ATTRIBUTES];
 
 	int i;
 
 	for(i = 0; i < HTML_A_ATTRIBUTES; i++) present[i] = 0;
-	present[HTML_A_HREF] = YES;
+	present[HTML_A_HREF] = HT_TRUE;
 	value[HTML_A_HREF] = addr;
-	present[HTML_A_TITLE] = YES;
+	present[HTML_A_TITLE] = HT_TRUE;
 	value[HTML_A_TITLE] = text;
 
 	(*targetClass.start_element)(target, HTML_A, present, value);
@@ -144,7 +144,7 @@ PRIVATE void write_anchor ARGS2(const char *, text, const char *, addr) {
 **
 */
 
-PRIVATE void parse_menu ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
+static void parse_menu  (const char* arg, HTParentAnchor * anAnchor) {
 	char gtype;
 	char ch;
 	char line[BIG];
@@ -172,7 +172,7 @@ PRIVATE void parse_menu ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 
 	START(HTML_MENU);
 	while((ch = NEXT_CHAR) != (char) EOF) {
-		if(ch != LF) {
+		if(ch != '\n') {
 			*p = ch;        /* Put character in line */
 			if(p < &line[BIG - 1]) p++;
 
@@ -239,8 +239,8 @@ PRIVATE void parse_menu ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 						if(acceptable[(int) *p]) { *q++ = *p; }
 						else {
 							*q++ = HEX_ESCAPE;    /* Means hex coming */
-							*q++ = hex[(TOASCII(*p)) >> 4];
-							*q++ = hex[(TOASCII(*p)) & 15];
+							*q++ = hex[((*p)) >> 4];
+							*q++ = hex[((*p)) & 15];
 						}
 					}
 					*q++ = 0;            /* terminate address */
@@ -286,7 +286,7 @@ PRIVATE void parse_menu ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
  **  secret@dxcern.cern.ch .
  */
 
-PRIVATE void parse_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
+static void parse_cso  (const char* arg, HTParentAnchor * anAnchor) {
 	char ch;
 	char line[BIG];
 	char* p = line;
@@ -404,8 +404,8 @@ PRIVATE void parse_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
  **	-------------------------------
  */
 
-PRIVATE void
-display_index ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
+static void
+display_index  (const char* arg, HTParentAnchor * anAnchor) {
 
 	START(HTML_H1);
 	PUTS(arg);
@@ -428,7 +428,7 @@ display_index ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 **      -------------------------------
 */
 
-PRIVATE void display_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
+static void display_cso  (const char* arg, HTParentAnchor * anAnchor) {
 	START(HTML_H1);
 	PUTS(arg);
 	PUTS(" index");
@@ -452,7 +452,7 @@ PRIVATE void display_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 **
 **	The % hex escapes are converted. Otheriwse, the string is copied.
 */
-PRIVATE void de_escape ARGS2(char *, command, const char *, selector) {
+static void de_escape (char * command, const char* selector) {
 	const char* p = selector;
 	char* q = command;
 	if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
@@ -465,7 +465,7 @@ PRIVATE void de_escape ARGS2(char *, command, const char *, selector) {
 			b = from_hex(c);
 			c = *p++;
 			if(!c) break;    /* Odd number of chars! */
-			*q++ = FROMASCII((b << 4) + from_hex(c));
+			*q++ = ((b << 4) + from_hex(c));
 		}
 		else {
 			*q++ = *p++;    /* Record */
@@ -482,9 +482,9 @@ PRIVATE void de_escape ARGS2(char *, command, const char *, selector) {
 **	 Bug:	No decoding of strange data types as yet.
 **
 */
-PUBLIC int
-HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
-				   format_out, HTStream*, sink) {
+int
+HTLoadGopher (const char* arg, HTParentAnchor * anAnchor, HTFormat
+				   format_out, HTStream* sink) {
 	char* command;            /* The whole command */
 	int status;                /* tcp return */
 	char gtype;                /* Gopher Node type */
@@ -509,7 +509,7 @@ HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 /* Get node name and optional port number:
 */
 	{
-		char* p1 = HTParse(arg, "", PARSE_HOST);
+		char* p1 = HTParse(arg, "", HT_PARSE_HOST);
 		int status = HTParseInet(sin, p1);
 		free(p1);
 		if(status) return status;   /* Bad */
@@ -518,7 +518,7 @@ HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 /* Get entity type, and selector string.
 */
 	{
-		char* p1 = HTParse(arg, "", PARSE_PATH | PARSE_PUNCTUATION);
+		char* p1 = HTParse(arg, "", HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 		gtype = '1';        /* Default = menu */
 		selector = p1;
 		if((*selector++ == '/') && (*selector)) {    /* Skip first slash */
@@ -587,10 +587,10 @@ HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 
 	{
 		char* p = command + strlen(command);
-		*p++ = CR;        /* Macros to be correct on Mac */
-		*p++ = LF;
+		*p++ = '\r';        /* Macros to be correct on Mac */
+		*p++ = '\n';
 		*p++ = 0;
-		/* strcat(command, "\r\n");	*/    /* CR LF, as in rfc 977 */
+		/* strcat(command, "\r\n");	*/    /* '\r' '\n', as in rfc 977 */
 	}
 
 /*	Set up a socket to the server for the data:
@@ -621,7 +621,7 @@ HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 	{
 		char * p;
 	for(p = command; *p; p++) {
-		*p = TOASCII(*p);
+		*p = (*p);
 	}
 	}
 #endif
@@ -682,5 +682,5 @@ HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 	return HT_LOADED;
 }
 
-PUBLIC HTProtocol HTGopher = { "gopher", HTLoadGopher, NULL };
+HTProtocol HTGopher = { "gopher", HTLoadGopher, NULL };
 

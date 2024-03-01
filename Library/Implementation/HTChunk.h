@@ -32,7 +32,7 @@ Create new chunk
                          
  */
 
-extern HTChunk* HTChunkCreate PARAMS((int growby));
+HTChunk* HTChunkCreate (int growby);
 
 
 /*
@@ -49,7 +49,7 @@ Free a chunk
                          
  */
 
-extern void HTChunkFree PARAMS((HTChunk * ch));
+void HTChunkFree (HTChunk * ch);
 
 
 /*
@@ -66,7 +66,7 @@ Clear a chunk
                          
  */
 
-extern void HTChunkClear PARAMS((HTChunk * ch));
+void HTChunkClear (HTChunk * ch);
 
 
 /*
@@ -85,7 +85,7 @@ Ensure a chunk has a certain space in
                          
  */
 
-extern void HTChunkEnsure PARAMS((HTChunk * ch, int s));
+void HTChunkEnsure (HTChunk * ch, int s);
 
 
 /*
@@ -103,7 +103,7 @@ Append a character to a  chunk
   *ch                    Is one character bigger
                          
  */
-extern void HTChunkPutc PARAMS((HTChunk * ch, char c));
+void HTChunkPutc (HTChunk * ch, char c);
 
 /*
 
@@ -122,7 +122,7 @@ Append a string to a  chunk
  */
 
 
-extern void HTChunkPuts PARAMS((HTChunk * ch, const char* str));
+void HTChunkPuts (HTChunk * ch, const char* str);
 
 
 /*
@@ -144,7 +144,7 @@ Append a zero character to a  chunk
  */
 
 
-extern void HTChunkTerminate PARAMS((HTChunk * ch));
+void HTChunkTerminate (HTChunk * ch);
 
 /*
 

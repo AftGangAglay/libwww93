@@ -39,7 +39,7 @@ struct _HTStructured {
 
 /*	Here are the parameters which can be specified in a  source file
 */
-PRIVATE const char* par_name[] = {
+static const char* par_name[] = {
 		"version", "ip-address",
 #define PAR_IP_NAME 2
 		"ip-name",
@@ -98,12 +98,12 @@ struct _HTStream {
 
 
 
-PUBLIC const char* hex = "0123456789ABCDEF";
+const char* hex = "0123456789ABCDEF";
 
 /*	Decode one hex character
 */
 
-PUBLIC char from_hex ARGS1(char, c) {
+char from_hex (char c) {
 	return (c >= '0') && (c <= '9') ? c - '0' : (c >= 'A') && (c <= 'F') ? c -
 																		   'A' +
 																		   10 :
@@ -130,7 +130,7 @@ PUBLIC char from_hex ARGS1(char, c) {
 /*		Treat One Character
 **		-------------------
 */
-PRIVATE void WSRCParser_put_character ARGS2(HTStream*, me, char, c) {
+static void WSRCParser_put_character (HTStream* me, char c) {
 	switch(me->state) {
 		case beginning:if(c == '(') me->state = before_tag;
 			break;
@@ -147,7 +147,7 @@ PRIVATE void WSRCParser_put_character ARGS2(HTStream*, me, char, c) {
 			break;
 
 		case colon:
-			if(WHITE(c)) {
+			if(HT_WHITE(c)) {
 				me->param[me->param_count++] = 0;    /* Terminate */
 				for(me->param_number = 0; par_name[me->param_number];
 						me->param_number++) {
@@ -180,7 +180,7 @@ PRIVATE void WSRCParser_put_character ARGS2(HTStream*, me, char, c) {
 				me->state = done;
 				return;            /* Done with input file */
 			}
-			if(WHITE(c)) return;        /* Skip white space */
+			if(HT_WHITE(c)) return;        /* Skip white space */
 			me->param_count = 0;
 			if(c == '"') {
 				me->state = quoted_value;
@@ -193,7 +193,7 @@ PRIVATE void WSRCParser_put_character ARGS2(HTStream*, me, char, c) {
 			break;
 
 		case value:
-			if(WHITE(c)) {
+			if(HT_WHITE(c)) {
 				me->param[me->param_count] = 0;
 				StrAllocCopy(me->par_value[me->param_number], me->param);
 				me->state = before_tag;
@@ -250,7 +250,7 @@ PRIVATE void WSRCParser_put_character ARGS2(HTStream*, me, char, c) {
 */
 
 #ifdef CACHE_FILE_PREFIX
-PRIVATE BOOL write_cache ARGS1(HTStream *, me)
+static HTBool write_cache (HTStream * me)
 {
 	FILE * fp;
 	char cache_file_name[256];
@@ -263,14 +263,14 @@ PRIVATE BOOL write_cache ARGS1(HTStream *, me)
 	www_database);
 	free(www_database);
 	fp = fopen(cache_file_name, "w");
-	if (!fp) return NO;
+	if (!fp) return HT_FALSE;
 
 	if (me->par_value[PAR_DESCRIPTION])
 		fputs(me->par_value[PAR_DESCRIPTION], fp);
 	else
 		fputs("Description not available\n", fp);
 	fclose(fp);
-	return YES;
+	return HT_TRUE;
 }
 #endif
 
@@ -279,7 +279,7 @@ PRIVATE BOOL write_cache ARGS1(HTStream *, me)
 **
 */
 
-void give_parameter ARGS2(HTStream *, me, int, p) {
+void give_parameter (HTStream * me, int p) {
 	PUTS(par_name[p]);
 	if(me->par_value[p]) {
 		PUTS(": ");
@@ -295,7 +295,7 @@ void give_parameter ARGS2(HTStream *, me, int, p) {
 /*			Generate Outout
 **			===============
 */
-PRIVATE void WSRC_gen_html ARGS2(HTStream *, me, BOOL, source_file) {
+static void WSRC_gen_html (HTStream * me, HTBool source_file) {
 	if(me->par_value[PAR_DATABASE_NAME]) {
 		char* shortname = 0;
 		int l;
@@ -383,8 +383,8 @@ PRIVATE void WSRC_gen_html ARGS2(HTStream *, me, BOOL, source_file) {
 } /* generate html */
 
 
-PRIVATE void
-WSRCParser_put_string ARGS2(HTStream *, context, const char*, str) {
+static void
+WSRCParser_put_string (HTStream * context, const char* str) {
 	const char* p;
 	for(p = str; *p; p++) {
 		WSRCParser_put_character(context, *p);
@@ -392,8 +392,8 @@ WSRCParser_put_string ARGS2(HTStream *, context, const char*, str) {
 }
 
 
-PRIVATE void
-WSRCParser_write ARGS3(HTStream *, context, const char*, str, int, l) {
+static void
+WSRCParser_write (HTStream * context, const char* str, int l) {
 	const char* p;
 	const char* e = str + l;
 	for(p = str; p < e; p++) {
@@ -402,8 +402,8 @@ WSRCParser_write ARGS3(HTStream *, context, const char*, str, int, l) {
 }
 
 
-PRIVATE void WSRCParser_free ARGS1(HTStream *, me) {
-	WSRC_gen_html(me, YES);
+static void WSRCParser_free (HTStream * me) {
+	WSRC_gen_html(me, HT_TRUE);
 #ifdef CACHE_FILE_PREFIX
 	write_cache(me);
 #endif
@@ -418,7 +418,7 @@ PRIVATE void WSRCParser_free ARGS1(HTStream *, me) {
 	free(me);
 }
 
-PRIVATE void WSRCParser_abort ARGS2(HTStream *, me, HTError, e) {
+static void WSRCParser_abort (HTStream * me, HTError e) {
 	(void) e;
 
 	WSRCParser_free(me);
@@ -439,9 +439,9 @@ HTStreamClass WSRCParserClass = {
 /*		Converter from WAIS Source to whatever
 **		--------------------------------------
 */
-PUBLIC HTStream*
-HTWSRCConvert ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
-					HTStream *, sink) {
+HTStream*
+HTWSRCConvert (HTPresentation * pres, HTParentAnchor * anchor,
+					HTStream * sink) {
 	HTStream* me = malloc(sizeof(*me));
 	if(!me) outofmem(__FILE__, "HTWSRCConvert");
 

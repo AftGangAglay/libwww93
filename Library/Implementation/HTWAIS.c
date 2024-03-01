@@ -84,9 +84,9 @@
 extern int WWW_TraceFlag;    /* Control diagnostic output */
 extern FILE* logfile;        /* Log file output */
 
-PRIVATE BOOL as_gate;    /* Client is using us as gateway */
+static HTBool as_gate;    /* Client is using us as gateway */
 
-PRIVATE char line[2048];    /* For building strings to display */
+static char line[2048];    /* For building strings to display */
 /* Must be able to take id */
 
 
@@ -120,7 +120,7 @@ struct _HTStream {
 */
 /* modified from Jonny G's version in ui/question.c */
 
-void showDiags ARGS2(HTStream *, target, diagnosticRecord * *, d) {
+void showDiags (HTStream * target, diagnosticRecord * * d) {
 	long i;
 
 	for(i = 0; d[i] != NULL; i++) {
@@ -138,15 +138,15 @@ void showDiags ARGS2(HTStream *, target, diagnosticRecord * *, d) {
 **	-----------------------------------------
 */
 
-PRIVATE BOOL acceptable[256];
-PRIVATE BOOL acceptable_inited = NO;
+static HTBool acceptable[256];
+static HTBool acceptable_inited = HT_FALSE;
 
-PRIVATE void init_acceptable NOARGS {
+static void init_acceptable (void) {
 	unsigned int i;
 	char* good = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./-_$";
-	for(i = 0; i < 256; i++) acceptable[i] = NO;
-	for(; *good; good++) acceptable[(unsigned int) *good] = YES;
-	acceptable_inited = YES;
+	for(i = 0; i < 256; i++) acceptable[i] = HT_FALSE;
+	for(; *good; good++) acceptable[(unsigned int) *good] = HT_TRUE;
+	acceptable_inited = HT_TRUE;
 }
 
 /*	Transform file identifier into WWW address
@@ -157,7 +157,7 @@ PRIVATE void init_acceptable NOARGS {
 **	returns		nil if error
 **			pointer to malloced string (must be freed) if ok
 */
-char* WWW_from_archie ARGS1 (char *, file) {
+char* WWW_from_archie  (char * file) {
 	char* end;
 	char* result;
 	char* colon;
@@ -183,11 +183,11 @@ char* WWW_from_archie ARGS1 (char *, file) {
 **	returns		nil if error
 **			pointer to malloced string (must be freed) if ok
 */
-PRIVATE char hex[17] = "0123456789ABCDEF";
+static char hex[17] = "0123456789ABCDEF";
 
-extern char from_hex PARAMS((char a));            /* In HTWSRC @@ */
+char from_hex (char a);            /* In HTWSRC @@ */
 
-PRIVATE char* WWW_from_WAIS ARGS1(any *, docid) {
+static char* WWW_from_WAIS (any * docid) {
 	static char buf[BIG];
 	char* q = buf;
 	char* p = (docid->bytes);
@@ -257,7 +257,7 @@ PRIVATE char* WWW_from_WAIS ARGS1(any *, docid) {
 **	docid->size	is valid
 **	docid->bytes	is malloced and must later be freed.
 */
-PRIVATE any* WAIS_from_WWW ARGS2 (any *, docid, char *, docname) {
+static any* WAIS_from_WWW  (any * docid, char * docname) {
 	char* z;    /* Output pointer */
 	char* sor;    /* Start of record - points to size field. */
 	char* p;    /* Input pointer */
@@ -337,8 +337,8 @@ PRIVATE any* WAIS_from_WWW ARGS2 (any *, docid, char *, docname) {
 **	--------------------------------------
 */
 
-PRIVATE void
-output_text_record ARGS4(HTStream *, target, WAISDocumentText *, record,
+static void
+output_text_record (HTStream * target, WAISDocumentText * record,
 						 boolean, quote_string_quotes, boolean, binary) {
 	long count;
 	/* printf(" Text\n");
@@ -382,13 +382,13 @@ output_text_record ARGS4(HTStream *, target, WAISDocumentText *, record,
 /* modified from tracy shen's version in wutil.c
  * displays either a text record or a set of headlines.
  */
-void display_search_response ARGS4(HTStructured *, target, SearchResponseAPDU *,
-								   response, char *, database, char *,
+void display_search_response (HTStructured * target, SearchResponseAPDU *
+								   response, char * database, char *
 								   keywords) {
 	WAISSearchResponse* info;
 	long i, k;
 
-	BOOL archie = strstr(database, "archie") != 0;    /* Specical handling */
+	HTBool archie = strstr(database, "archie") != 0;    /* Specical handling */
 
 	if(TRACE) fprintf(stderr, "HTWAIS: Displaying search response\n");
 	sprintf(
@@ -523,9 +523,9 @@ void display_search_response ARGS4(HTStructured *, target, SearchResponseAPDU *,
 **
 **	This renders any object or search as required
 */
-PUBLIC int
-HTLoadWAIS ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
-				 format_out, HTStream*, sink)
+int
+HTLoadWAIS (const char* arg, HTParentAnchor * anAnchor, HTFormat
+				 format_out, HTStream* sink)
 
 #define MAX_KEYWORDS_LENGTH 1000
 #define MAX_SERVER_LENGTH 1000
@@ -551,9 +551,9 @@ HTLoadWAIS ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 	char* docname;
 	FILE* connection = 0;
 	char* names;        /* Copy of arg to be hacked up */
-	BOOL ok = NO;
+	HTBool ok = HT_FALSE;
 
-	extern FILE* connect_to_server();
+	FILE* connect_to_server();
 
 	if(!acceptable_inited) init_acceptable();
 
@@ -563,7 +563,7 @@ HTLoadWAIS ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 **
 **	First we remove the "wais:" if it was spcified.  920110
 */
-	names = HTParse(arg, "", PARSE_HOST | PARSE_PATH | PARSE_PUNCTUATION);
+	names = HTParse(arg, "", HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 	key = strchr(names, '?');
 
 	if(key) {
@@ -582,7 +582,7 @@ HTLoadWAIS ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 			*www_database++ = 0;        /* Separate database name */
 			doctype = strchr(www_database, '/');
 			if(key) {
-				ok = YES;    /* Don't need doc details */
+				ok = HT_TRUE;    /* Don't need doc details */
 			}
 			else if(doctype) {    /* If not search parse doc details */
 				*doctype++ = 0;    /* Separate rest of doc address */
@@ -594,14 +594,14 @@ HTLoadWAIS ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 						docname = strchr(doclength, '/');
 						if(docname) {
 							*docname++ = 0;
-							ok = YES;    /* To avoid a goto! */
+							ok = HT_TRUE;    /* To avoid a goto! */
 						} /* if docname */
 					} /* if document_length valid */
 				} /* if doclength */
 			}
 			else { /* no doctype?  Assume index required */
 				if(!key) key = "";
-				ok = YES;
+				ok = HT_TRUE;
 			} /* if doctype */
 		} /* if database */
 	}
@@ -790,7 +790,7 @@ HTLoadWAIS ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 			return HTLoadError(
 					sink, 500, "Can't convert format of WAIS document");
 		}
-/*	Decode hex or litteral format for document ID
+/*	Decode hex or literal format for document ID
 */
 		WAIS_from_WWW(docid, docname);
 
@@ -864,6 +864,6 @@ HTLoadWAIS ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 	return HT_LOADED;
 }
 
-PUBLIC HTProtocol HTWAIS = { "wais", HTLoadWAIS, NULL };
+HTProtocol HTWAIS = { "wais", HTLoadWAIS, NULL };
 
 #endif

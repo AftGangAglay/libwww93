@@ -161,12 +161,12 @@ static HTTag tags[HTML_ELEMENTS] = {
 		{ "KBD",        no_attr,       0,          SGML_MIXED },
 		{ "LI",         list_attr,     1,          SGML_EMPTY },
 		{ "LINK",       a_attr, HTML_A_ATTRIBUTES, SGML_EMPTY },
-		{ "LISTING",    no_attr,       0,          SGML_LITTERAL },
+		{ "LISTING",    no_attr,       0,          SGML_LITERAL },
 		{ "MENU",       list_attr,     1,          SGML_MIXED },
 		{ "NEXTID",     nextid_attr,   1,          SGML_EMPTY },
 		{ "OL",         list_attr,     1,          SGML_MIXED },
 		{ "P",          no_attr,       0,          SGML_EMPTY },
-		{ "PLAINTEXT",  no_attr,       0,          SGML_LITTERAL },
+		{ "PLAINTEXT",  no_attr,       0,          SGML_LITERAL },
 		{ "PRE",        no_attr,       0,          SGML_MIXED },
 		{ "SAMP",       no_attr,       0,          SGML_MIXED },
 		{ "STRONG",     no_attr,       0,          SGML_MIXED },
@@ -175,10 +175,10 @@ static HTTag tags[HTML_ELEMENTS] = {
 		{ "U",          no_attr,       0,          SGML_MIXED },
 		{ "UL",         list_attr,     1,          SGML_MIXED },
 		{ "VAR",        no_attr,       0,          SGML_MIXED },
-		{ "XMP",        no_attr,       0,          SGML_LITTERAL }, };
+		{ "XMP",        no_attr,       0,          SGML_LITERAL }, };
 
 
-PUBLIC const SGML_dtd HTML_dtd = {
+const SGML_dtd HTML_dtd = {
 		tags, HTML_ELEMENTS, entities, sizeof(entities) / sizeof(char**) };
 
 /*	Utility Routine: useful for people building HTML objects */
@@ -195,24 +195,24 @@ struct _HTStructured {
 	/* ... */
 };
 
-PUBLIC void
-HTStartAnchor ARGS3(HTStructured *, obj, const char *, name, const char *,
+void
+HTStartAnchor (HTStructured * obj, const char* name, const char*
 					href) {
-	BOOL present[HTML_A_ATTRIBUTES];
+	HTBool present[HTML_A_ATTRIBUTES];
 	const char* value[HTML_A_ATTRIBUTES];
 
 	{
 		int i;
 		for(i = 0; i < HTML_A_ATTRIBUTES; i++) {
-			present[i] = NO;
+			present[i] = HT_FALSE;
 		}
 	}
 	if(name) {
-		present[HTML_A_NAME] = YES;
+		present[HTML_A_NAME] = HT_TRUE;
 		value[HTML_A_NAME] = name;
 	}
 	if(href) {
-		present[HTML_A_HREF] = YES;
+		present[HTML_A_HREF] = HT_TRUE;
 		value[HTML_A_HREF] = href;
 	}
 

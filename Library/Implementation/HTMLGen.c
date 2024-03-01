@@ -46,7 +46,7 @@ struct _HTStructured {
 /*	Character handling
 **	------------------
 */
-PRIVATE void HTMLGen_put_character ARGS2(HTStructured *, me, char, c) {
+static void HTMLGen_put_character (HTStructured * me, char c) {
 	PUTC(c);
 }
 
@@ -55,11 +55,11 @@ PRIVATE void HTMLGen_put_character ARGS2(HTStructured *, me, char, c) {
 /*	String handling
 **	---------------
 */
-PRIVATE void HTMLGen_put_string ARGS2(HTStructured *, me, const char*, s) {
+static void HTMLGen_put_string (HTStructured * me, const char* s) {
 	PUTS(s);
 }
 
-PRIVATE void HTMLGen_write ARGS3(HTStructured *, me, const char*, s, int, l) {
+static void HTMLGen_write (HTStructured * me, const char* s, int l) {
 	PUTB(s, l);
 }
 
@@ -67,9 +67,9 @@ PRIVATE void HTMLGen_write ARGS3(HTStructured *, me, const char*, s, int, l) {
 /*	Start Element
 **	-------------
 */
-PRIVATE void
-HTMLGen_start_element ARGS4(HTStructured *, me, int, element_number,
-							const BOOL*, present, const char **, value) {
+static void
+HTMLGen_start_element (HTStructured * me, int element_number,
+							const HTBool* present, const char ** value) {
 	int i;
 
 	HTTag* tag = &HTML_dtd.tags[element_number];
@@ -103,8 +103,8 @@ HTMLGen_start_element ARGS4(HTStructured *, me, int, element_number,
 **	should be linked to the whole stack not just the top one.)
 **	TBL 921119
 */
-PRIVATE void
-HTMLGen_end_element ARGS2(HTStructured *, me, int, element_number) {
+static void
+HTMLGen_end_element (HTStructured * me, int element_number) {
 	PUTS("</");
 	PUTS(HTML_dtd.tags[element_number].name);
 	PUTC('>');
@@ -116,7 +116,7 @@ HTMLGen_end_element ARGS2(HTStructured *, me, int, element_number) {
 **
 */
 
-PRIVATE void HTMLGen_put_entity ARGS2(HTStructured *, me, int, entity_number) {
+static void HTMLGen_put_entity (HTStructured * me, int entity_number) {
 	PUTC('&');
 	PUTS(HTML_dtd.entity_names[entity_number]);
 	PUTC(';');
@@ -130,20 +130,20 @@ PRIVATE void HTMLGen_put_entity ARGS2(HTStructured *, me, int, entity_number) {
 **	Note that the SGML parsing context is freed, but the created object is not,
 **	as it takes on an existence of its own unless explicitly freed.
 */
-PRIVATE void HTMLGen_free ARGS1(HTStructured *, me) {
+static void HTMLGen_free (HTStructured * me) {
 	(*me->targetClass.free)(me->target);    /* ripple through */
 	free(me);
 }
 
 
-PRIVATE void HTMLGen_abort ARGS2(HTStructured *, me, HTError, e) {
+static void HTMLGen_abort (HTStructured * me, HTError e) {
 	(void) e;
 
 	HTMLGen_free(me);
 }
 
 
-PRIVATE void PlainToHTML_abort ARGS2(HTStructured *, me, HTError, e) {
+static void PlainToHTML_abort (HTStructured * me, HTError e) {
 	(void) e;
 
 	HTMLGen_free(me);
@@ -154,7 +154,7 @@ PRIVATE void PlainToHTML_abort ARGS2(HTStructured *, me, HTError, e) {
 /*	Structured Object Class
 **	-----------------------
 */
-PRIVATE const HTStructuredClass HTMLGeneration = /* As opposed to print etc */
+static const HTStructuredClass HTMLGeneration = /* As opposed to print etc */
 		{
 				"text/html", HTMLGen_free, HTMLGen_abort, HTMLGen_put_character,
 				HTMLGen_put_string, HTMLGen_write, HTMLGen_start_element,
@@ -165,7 +165,7 @@ PRIVATE const HTStructuredClass HTMLGeneration = /* As opposed to print etc */
 **	-------------------------
 */
 
-PUBLIC HTStructured* HTMLGenerator ARGS1(HTStream *, output) {
+HTStructured* HTMLGenerator (HTStream * output) {
 	HTStructured* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTMLGenerator");
 	me->isa = &HTMLGeneration;
@@ -183,7 +183,7 @@ PUBLIC HTStructured* HTMLGenerator ARGS1(HTStream *, output) {
 **	It is officially a structured strem but only the stream bits exist.
 **	This is just the easiest way of typecasting all the routines.
 */
-PRIVATE const HTStructuredClass PlainToHTMLConversion = {
+static const HTStructuredClass PlainToHTMLConversion = {
 		"plaintexttoHTML", HTMLGen_free, PlainToHTML_abort,
 		HTMLGen_put_character, HTMLGen_put_string, HTMLGen_write,
 		NULL,        /* Structured stuff */
@@ -194,9 +194,9 @@ PRIVATE const HTStructuredClass PlainToHTMLConversion = {
 **	------------------------------------------
 */
 
-PUBLIC HTStream*
-HTPlainToHTML ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
-					HTStream *, sink) {
+HTStream*
+HTPlainToHTML (HTPresentation * pres, HTParentAnchor * anchor,
+					HTStream * sink) {
 	HTStream* me = malloc(sizeof(*me));
 
 	(void) pres;

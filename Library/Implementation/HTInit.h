@@ -11,9 +11,9 @@
 
 #include "HTUtils.h"
 
-extern void HTFormatInit NOPARAMS;
+void HTFormatInit (void);
 
-extern void HTFileInit NOPARAMS;
+void HTFileInit (void);
 /*
 
     */

@@ -100,8 +100,8 @@ typedef struct _HTStyle {
 	HTCoord descentLine;    /* descender bottom from baseline */
 	HTTabStop* tabs;          /* array of tab stops, 0 terminated */
 
-	BOOL wordWrap;       /* Yes means wrap at space not char */
-	BOOL freeFormat;     /* Yes means \n is just white space */
+	HTBool wordWrap;       /* Yes means wrap at space not char */
+	HTBool freeFormat;     /* Yes means \n is just white space */
 	HTCoord spaceBefore;    /* Omissions from NXTextStyle */
 	HTCoord spaceAfter;
 	int paraFlags;      /* Paragraph flags, bits as follows: */
@@ -119,15 +119,15 @@ typedef struct _HTStyle {
 
 /*      Style functions:
 */
-extern HTStyle* HTStyleNew NOPARAMS;
+HTStyle* HTStyleNew (void);
 
-extern HTStyle* HTStyleNewNamed PARAMS ((CONST char* name));
+HTStyle* HTStyleNewNamed (const char* name);
 
-extern HTStyle* HTStyleFree PARAMS((HTStyle * self));
+HTStyle* HTStyleFree (HTStyle * self);
 
 #ifdef SUPRESS
-extern HTStyle * HTStyleRead PARAMS((HTStyle * self, HTStream * stream));
-extern HTStyle * HTStyleWrite PARAMS((HTStyle * self, HTStream * stream));
+HTStyle * HTStyleRead (HTStyle * self, HTStream * stream);
+HTStyle * HTStyleWrite (HTStyle * self, HTStream * stream);
 #endif
 /*              Style Sheet
 **              -----------
@@ -140,30 +140,28 @@ typedef struct _HTStyleSheet {
 
 /*      Stylesheet functions:
 */
-extern HTStyleSheet* HTStyleSheetNew NOPARAMS;
+HTStyleSheet* HTStyleSheetNew (void);
 
-extern HTStyleSheet* HTStyleSheetFree PARAMS((HTStyleSheet * self));
+HTStyleSheet* HTStyleSheetFree (HTStyleSheet * self);
 
-extern HTStyle* HTStyleNamed PARAMS((HTStyleSheet * self, CONST char* name));
+HTStyle* HTStyleNamed (HTStyleSheet * self, const char* name);
 
-extern HTStyle*
-HTStyleForParagraph PARAMS((HTStyleSheet * self, HTParagraphStyle * paraStyle));
+HTStyle*
+HTStyleForParagraph (HTStyleSheet * self, HTParagraphStyle * paraStyle);
 
-extern HTStyle* HTStyleMatching PARAMS((HTStyleSheet * self, HTStyle * style));
+HTStyle* HTStyleMatching (HTStyleSheet * self, HTStyle * style);
 
-/* extern HTStyle * HTStyleForRun PARAMS((HTStyleSheet *self, NXRun * run)); */
-extern HTStyleSheet*
-HTStyleSheetAddStyle PARAMS((HTStyleSheet * self, HTStyle * style));
+/* extern HTStyle * HTStyleForRun (HTStyleSheet *self, NXRun * run); */
+HTStyleSheet*
+HTStyleSheetAddStyle (HTStyleSheet * self, HTStyle * style);
 
-extern HTStyleSheet*
-HTStyleSheetRemoveStyle PARAMS((HTStyleSheet * self, HTStyle * style));
+HTStyleSheet*
+HTStyleSheetRemoveStyle (HTStyleSheet * self, HTStyle * style);
 
-#ifdef SUPPRESS
-extern HTStyleSheet * HTStyleSheetRead PARAMS((HTStyleSheet * self,
-												HTStream * stream));
-extern HTStyleSheet * HTStyleSheetWrite PARAMS((HTStyleSheet * self,
-												HTStream * stream));
-#endif
+HTStyleSheet * HTStyleSheetRead(HTStyleSheet * self,
+												HTStream * stream);
+HTStyleSheet * HTStyleSheetWrite (HTStyleSheet * self,
+												HTStream * stream);
 #define CLEAR_POINTER ((void *)-1)      /* Pointer value means "clear me" */
 #endif /* HTStyle_H */
 

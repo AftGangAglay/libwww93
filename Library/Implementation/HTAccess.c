@@ -50,28 +50,28 @@
 
 /*	These flags may be set to modify the operation of this module
 */
-PUBLIC char* HTClientHost = 0;    /* Name of remote login host if any */
-PUBLIC FILE* logfile = 0;    /* File to which to output one-liners */
-PUBLIC BOOL HTSecure = NO;    /* Disable access for telnet users? */
+char* HTClientHost = 0;    /* Name of remote login host if any */
+FILE* logfile = 0;    /* File to which to output one-liners */
+HTBool HTSecure = HT_FALSE;    /* Disable access for telnet users? */
 
 /*	To generate other things, play with these:
 */
 
-PUBLIC HTFormat HTOutputFormat = NULL;
-PUBLIC HTStream* HTOutputStream = NULL;    /* For non-interactive, set this */
+HTFormat HTOutputFormat = NULL;
+HTStream* HTOutputStream = NULL;    /* For non-interactive, set this */
 
-PRIVATE HTList* protocols = NULL;   /* List of registered protocol descriptors */
+static HTList* protocols = NULL;   /* List of registered protocol descriptors */
 
 
 /*	Register a Protocol				HTRegisterProtocol
 **	-------------------
 */
 
-PUBLIC BOOL HTRegisterProtocol(protocol)HTProtocol* protocol;
+HTBool HTRegisterProtocol(protocol)HTProtocol* protocol;
 {
 	if(!protocols) protocols = HTList_new();
 	HTList_addObject(protocols, protocol);
-	return YES;
+	return HT_TRUE;
 }
 
 
@@ -88,7 +88,7 @@ PUBLIC BOOL HTRegisterProtocol(protocol)HTProtocol* protocol;
 */
 #ifndef NO_INIT
 
-PRIVATE void HTAccessInit NOARGS            /* Call me once */
+static void HTAccessInit (void)            /* Call me once */
 {
 	extern HTProtocol HTTP, HTFile, HTTelnet, HTTn3270, HTRlogin;
 #ifndef DECNET
@@ -127,7 +127,7 @@ PRIVATE void HTAccessInit NOARGS            /* Call me once */
 **			HT_OK			Success
 **
 */
-PRIVATE int get_physical ARGS2(const char *, addr, HTParentAnchor *, anchor) {
+static int get_physical (const char * addr, HTParentAnchor * anchor) {
 	char* access = 0;    /* Name of access method */
 	char* physical = 0;
 
@@ -143,7 +143,7 @@ PRIVATE int get_physical ARGS2(const char *, addr, HTParentAnchor *, anchor) {
 #endif
 
 	access = HTParse(
-			HTAnchor_physical(anchor), "file:", PARSE_ACCESS);
+			HTAnchor_physical(anchor), "file:", HT_PARSE_ACCESS);
 
 /*	Check whether gateway access has been set up for this
 **
@@ -168,16 +168,16 @@ PRIVATE int get_physical ARGS2(const char *, addr, HTParentAnchor *, anchor) {
 #endif
 		if(gateway) {
 			char* path = HTParse(
-					addr, "", PARSE_HOST + PARSE_PATH + PARSE_PUNCTUATION);
+					addr, "", HT_PARSE_HOST + HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 			/* Chop leading / off to make host into part of path */
-			char* gatewayed = HTParse(path + 1, gateway, PARSE_ALL);
+			char* gatewayed = HTParse(path + 1, gateway, HT_PARSE_ALL);
 			free(path);
 			HTAnchor_setPhysical(anchor, gatewayed);
 			free(gatewayed);
 			free(access);
 
 			access = HTParse(
-					HTAnchor_physical(anchor), "http:", PARSE_ACCESS);
+					HTAnchor_physical(anchor), "http:", HT_PARSE_ACCESS);
 		}
 	}
 #endif
@@ -224,9 +224,9 @@ PRIVATE int get_physical ARGS2(const char *, addr, HTParentAnchor *, anchor) {
 **					(telnet sesssion started etc)
 **
 */
-PRIVATE int
-HTLoad ARGS4(const char *, addr, HTParentAnchor *, anchor, HTFormat, format_out,
-			 HTStream *, sink) {
+static int
+HTLoad (const char * addr, HTParentAnchor * anchor, HTFormat format_out,
+			 HTStream * sink) {
 	HTProtocol* p;
 	int status = get_physical(addr, anchor);
 	if(status == HT_FORBIDDEN) {
@@ -243,7 +243,7 @@ HTLoad ARGS4(const char *, addr, HTParentAnchor *, anchor, HTFormat, format_out,
 /*		Get a save stream for a document
 **		--------------------------------
 */
-PUBLIC HTStream* HTSaveStream ARGS1(HTParentAnchor *, anchor) {
+HTStream* HTSaveStream (HTParentAnchor * anchor) {
 	HTProtocol* p = HTAnchor_protocol(anchor);
 	if(!p) return NULL;
 
@@ -263,17 +263,17 @@ PUBLIC HTStream* HTSaveStream ARGS1(HTParentAnchor *, anchor) {
 **    On Entry,
 **	  anchor	    is the node_anchor for the document
 **        full_address      The address of the document to be accessed.
-**        filter            if YES, treat stdin as HTML
+**        filter            if HT_TRUE, treat stdin as HTML
 **
 **    On Exit,
-**        returns    YES     Success in opening document
-**                   NO      Failure 
+**        returns    HT_TRUE     Success in opening document
+**                   HT_FALSE      Failure
 **
 */
 
-PRIVATE BOOL
-HTLoadDocument ARGS4(const char *, full_address, HTParentAnchor *, anchor,
-					 HTFormat, format_out, HTStream*, sink) {
+static HTBool
+HTLoadDocument (const char * full_address, HTParentAnchor * anchor,
+					 HTFormat format_out, HTStream* sink) {
 	int status;
 	HText* text;
 
@@ -285,7 +285,7 @@ HTLoadDocument ARGS4(const char *, full_address, HTParentAnchor *, anchor,
 	if((text = (HText*) HTAnchor_document(anchor))) {    /* Already loaded */
 		if(TRACE) fprintf(stderr, "HTAccess: Document already in memory.\n");
 		HText_select(text);
-		return YES;
+		return HT_TRUE;
 	}
 
 	status = HTLoad(full_address, anchor, format_out, sink);
@@ -316,7 +316,7 @@ HTLoadDocument ARGS4(const char *, full_address, HTParentAnchor *, anchor,
 					stderr, "HTAccess: `%s' has been accessed.\n",
 					full_address);
 		}
-		return YES;
+		return HT_TRUE;
 	}
 
 	if(status == HT_NO_DATA) {
@@ -325,20 +325,16 @@ HTLoadDocument ARGS4(const char *, full_address, HTParentAnchor *, anchor,
 					stderr, "HTAccess: `%s' has been accessed, No data left.\n",
 					full_address);
 		}
-		return NO;
+		return HT_FALSE;
 	}
 
 	if(status < 0) {              /* Failure in accessing a document */
-#ifdef CURSES
-		user_message("Can't access `%s'", full_address);
-#else
 		if(TRACE) {
 			fprintf(
 					stderr, "HTAccess: Can't access `%s'\n", full_address);
 		}
-#endif
 		HTLoadError(sink, 500, "Unable to access document.");
-		return NO;
+		return HT_FALSE;
 	}
 
 	/* If you get this, then please find which routine is returning
@@ -361,16 +357,16 @@ HTLoadDocument ARGS4(const char *, full_address, HTParentAnchor *, anchor,
 **
 **    On Entry,
 **        addr     The absolute address of the document to be accessed.
-**        filter   if YES, treat document as HTML
+**        filter   if HT_TRUE, treat document as HTML
 **
 **    On Exit,
-**        returns    YES     Success in opening document
-**                   NO      Failure 
+**        returns    HT_TRUE     Success in opening document
+**                   HT_FALSE      Failure
 **
 **
 */
 
-PUBLIC BOOL HTLoadAbsolute ARGS1(const char *, addr) {
+HTBool HTLoadAbsolute (const char * addr) {
 	return HTLoadDocument(
 			addr, HTAnchor_parent(HTAnchor_findAddress(addr)),
 			HTOutputFormat ? HTOutputFormat : WWW_PRESENT, HTOutputStream);
@@ -385,14 +381,14 @@ PUBLIC BOOL HTLoadAbsolute ARGS1(const char *, addr) {
 **        sink     if non-NULL, send data down this stream
 **
 **    On Exit,
-**        returns    YES     Success in opening document
-**                   NO      Failure 
+**        returns    HT_TRUE     Success in opening document
+**                   HT_FALSE      Failure
 **
 **
 */
 
-PUBLIC BOOL
-HTLoadToStream ARGS3(const char *, addr, BOOL, filter, HTStream *, sink) {
+HTBool
+HTLoadToStream (const char * addr, HTBool filter, HTStream* sink) {
 	(void) filter;
 	return HTLoadDocument(
 			addr, HTAnchor_parent(HTAnchor_findAddress(addr)),
@@ -410,16 +406,16 @@ HTLoadToStream ARGS3(const char *, addr, BOOL, filter, HTStream *, sink) {
 **	  		    to be accessed.
 **
 **    On Exit,
-**        returns    YES     Success in opening document
-**                   NO      Failure 
+**        returns    HT_TRUE     Success in opening document
+**                   HT_FALSE      Failure
 **
 **
 */
 
-PUBLIC BOOL
-HTLoadRelative ARGS2(const char *, relative_name, HTParentAnchor *, here) {
+HTBool
+HTLoadRelative (const char * relative_name, HTParentAnchor * here) {
 	char* full_address = 0;
-	BOOL result;
+	HTBool result;
 	char* mycopy = 0;
 	char* stripped = 0;
 	char* current_address = HTAnchor_address((HTAnchor*) here);
@@ -428,8 +424,7 @@ HTLoadRelative ARGS2(const char *, relative_name, HTParentAnchor *, here) {
 
 	stripped = HTStrip(mycopy);
 	full_address = HTParse(
-			stripped, current_address,
-			PARSE_ACCESS | PARSE_HOST | PARSE_PATH | PARSE_PUNCTUATION);
+			stripped, current_address, HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 	result = HTLoadAbsolute(full_address);
 	free(full_address);
 	free(current_address);
@@ -445,29 +440,29 @@ HTLoadRelative ARGS2(const char *, relative_name, HTParentAnchor *, here) {
 **        destination      	    The child or parenet anchor to be loaded.
 **
 **    On Exit,
-**        returns    YES     Success
-**                   NO      Failure 
+**        returns    HT_TRUE     Success
+**                   HT_FALSE      Failure
 **
 */
 
-PUBLIC BOOL HTLoadAnchor ARGS1(HTAnchor *, destination) {
+HTBool HTLoadAnchor (HTAnchor * destination) {
 	HTParentAnchor* parent;
-	BOOL loaded = NO;
-	if(!destination) return NO;    /* No link */
+	HTBool loaded = HT_FALSE;
+	if(!destination) return HT_FALSE;    /* No link */
 
 	parent = HTAnchor_parent(destination);
 
 	if(HTAnchor_document(parent) == NULL) {    /* If not alread loaded */
 		/* TBL 921202 */
 
-		BOOL result;
+		HTBool result;
 		char* address = HTAnchor_address((HTAnchor*) parent);
 		result = HTLoadDocument(
 				address, parent, HTOutputFormat ? HTOutputFormat : WWW_PRESENT,
 				HTOutputStream);
 		free(address);
-		if(!result) return NO;
-		loaded = YES;
+		if(!result) return HT_FALSE;
+		loaded = HT_TRUE;
 	}
 
 	{
@@ -481,7 +476,7 @@ PUBLIC BOOL HTLoadAnchor ARGS1(HTAnchor *, destination) {
 			if(!loaded) HText_select(text);
 		}
 	}
-	return YES;
+	return HT_TRUE;
 
 } /* HTLoadAnchor */
 
@@ -496,13 +491,13 @@ PUBLIC BOOL HTLoadAnchor ARGS1(HTAnchor *, destination) {
 **	here		is anchor search is to be done on.
 */
 
-PRIVATE char hex(i)int i;
+static char hex(int i)
 {
 	char* hexchars = "0123456789ABCDEF";
 	return hexchars[i];
 }
 
-PUBLIC BOOL HTSearch ARGS2(const char *, keywords, HTParentAnchor *, here) {
+HTBool HTSearch (const char * keywords, HTParentAnchor * here) {
 
 #define acceptable \
 "1234567890abcdefghijlkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-_"
@@ -510,10 +505,10 @@ PUBLIC BOOL HTSearch ARGS2(const char *, keywords, HTParentAnchor *, here) {
 	char* q, * u;
 	const char* p, * s, * e;        /* Pointers into keywords */
 	char* address = HTAnchor_address((HTAnchor*) here);
-	BOOL result;
+	HTBool result;
 	char* escaped = malloc(strlen(keywords) * 3 + 1);
 
-	static const BOOL isAcceptable[96] =
+	static const HTBool isAcceptable[96] =
 
 			/*   0 1 2 3 4 5 6 7 8 9 A B C D E F */
 			{
@@ -535,12 +530,12 @@ PUBLIC BOOL HTSearch ARGS2(const char *, keywords, HTParentAnchor *, here) {
 
 /*	Convert spaces to + and hex escape unacceptable characters
 */
-	for(s = keywords; *s && WHITE(*s);
+	for(s = keywords; *s && HT_WHITE(*s);
 			s++) { /*scan */ }    /* Skip white space */
-	for(e = s + strlen(s); e > s && WHITE(*(e - 1)); e--); /* Skip trailers */
+	for(e = s + strlen(s); e > s && HT_WHITE(*(e - 1)); e--); /* Skip trailers */
 	for(q = escaped, p = s; p < e; p++) {            /* scan stripped field */
-		int c = (int) TOASCII(*p);
-		if(WHITE(*p)) {
+		int c = (int) (*p);
+		if(HT_WHITE(*p)) {
 			*q++ = '+';
 		}
 		else if(c >= 32 && c <= (char) 127 && isAcceptable[c - 32]) {
@@ -578,8 +573,8 @@ PUBLIC BOOL HTSearch ARGS2(const char *, keywords, HTParentAnchor *, here) {
 **	*addres		is name of object search is to be done on.
 */
 
-PUBLIC BOOL
-HTSearchAbsolute ARGS2(const char *, keywords, const char *, indexname) {
+HTBool
+HTSearchAbsolute (const char * keywords, const char * indexname) {
 	HTParentAnchor* anchor = (HTParentAnchor*) HTAnchor_findAddress(indexname);
 	return HTSearch(keywords, anchor);
 }
@@ -601,7 +596,7 @@ HTSearchAbsolute ARGS2(const char *, keywords, const char *, indexname) {
 **		4	http://info.cern.ch/default.html
 **
 */
-PUBLIC HTParentAnchor* HTHomeAnchor NOARGS {
+HTParentAnchor* HTHomeAnchor (void) {
 	char* my_home_document = NULL;
 	char* home = (char*) getenv(LOGICAL_DEFAULT);
 	char* ref;
@@ -661,8 +656,7 @@ PUBLIC HTParentAnchor* HTHomeAnchor NOARGS {
 	ref = HTParse(
 			my_home_document ? my_home_document : HTClientHost ? REMOTE_ADDRESS
 															   : LAST_RESORT,
-			"file:",
-			PARSE_ACCESS | PARSE_HOST | PARSE_PATH | PARSE_PUNCTUATION);
+			"file:", HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 	if(my_home_document) {
 		if(TRACE) {
 			fprintf(

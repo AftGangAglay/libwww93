@@ -18,9 +18,9 @@
 
 #include "HTStream.h"
 
-extern HTStream* HTWriter_new PARAMS((int soc));
+HTStream* HTWriter_new(int soc);
 
-extern HTStream* HTASCIIWriter PARAMS((int soc));
+HTStream* HTASCIIWriter(int soc);
 
 #endif
 /*

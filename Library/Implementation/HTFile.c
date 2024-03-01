@@ -72,25 +72,25 @@ struct _HTStructured {
 **
 */
 
-PUBLIC int HTDirAccess = HT_DIR_OK;
-PUBLIC int HTDirReadme = HT_DIR_README_TOP;
+int HTDirAccess = HT_DIR_OK;
+int HTDirReadme = HT_DIR_README_TOP;
 
-PRIVATE char* HTMountRoot = "/Net/";        /* Where to find mounts */
+static char* HTMountRoot = "/Net/";        /* Where to find mounts */
 #ifdef vms
-PRIVATE char *HTCacheRoot = "/WWW$SCRATCH/";   /* Where to cache things */
+static char *HTCacheRoot = "/WWW$SCRATCH/";   /* Where to cache things */
 #else
-PRIVATE char* HTCacheRoot = "/tmp/W3_Cache_";   /* Where to cache things */
+static char* HTCacheRoot = "/tmp/W3_Cache_";   /* Where to cache things */
 #endif
 
-/* PRIVATE char *HTSaveRoot  = "$(HOME)/WWW/";*/    /* Where to save things */
+/* static char *HTSaveRoot  = "$(HOME)/WWW/";*/    /* Where to save things */
 
 
 /*	Suffix registration
 */
 
-PRIVATE HTList* HTSuffixes = 0;
-PRIVATE HTSuffix no_suffix = { "*", NULL, NULL, 1.0 };
-PRIVATE HTSuffix unknown_suffix = { "*.*", NULL, NULL, 1.0 };
+static HTList* HTSuffixes = 0;
+static HTSuffix no_suffix = { "*", NULL, NULL, 1.0 };
+static HTSuffix unknown_suffix = { "*.*", NULL, NULL, 1.0 };
 
 
 /*	Define the representation associated with a file suffix
@@ -101,9 +101,9 @@ PRIVATE HTSuffix unknown_suffix = { "*.*", NULL, NULL, 1.0 };
 **	Calling this with suffix set to "*.*" will set the default
 **	representation for unknown suffix files which contain a ".".
 */
-PUBLIC void
-HTSetSuffix ARGS4(const char *, suffix, const char *, representation,
-				  const char *, encoding, float, value) {
+void
+HTSetSuffix (const char* suffix, const char* representation,
+				  const char* encoding, float value) {
 
 	HTSuffix* suff;
 
@@ -125,7 +125,7 @@ HTSetSuffix ARGS4(const char *, suffix, const char *, representation,
 		char* enc = NULL;
 		char* p;
 		StrAllocCopy(enc, encoding);
-		for(p = enc; *p; p++) *p = TOLOWER(*p);
+		for(p = enc; *p; p++) *p = tolower(*p);
 		suff->encoding = HTAtom_for(encoding);
 	}
 
@@ -139,7 +139,7 @@ HTSetSuffix ARGS4(const char *, suffix, const char *, representation,
 **
 ** Bug:	Returns pointer to static -- non-reentrant
 */
-PRIVATE char * vms_name(const char * nn, const char * fn)
+static char * vms_name(const char * nn, const char * fn)
 {
 
 /*	We try converting the filename into Files-11 syntax. That is, we assume
@@ -163,7 +163,7 @@ PRIVATE char * vms_name(const char * nn, const char * fn)
 	{
 		char *p, *q;
 		for (p=hostname, q=nn; *p && *p!='.' && *q && *q!='.'; p++, q++){
-		if (TOUPPER(*p)!=TOUPPER(*q)) {
+		if (toupper(*p)!=toupper(*q)) {
 			strcpy(nodename, nn);
 		q = strchr(nodename, '.');	/* Mismatch */
 		if (q) *q=0;			/* Chop domain */
@@ -208,7 +208,7 @@ PRIVATE char * vms_name(const char * nn, const char * fn)
 */
 
 #ifdef GOT_READ_DIR
-PRIVATE void do_readme ARGS2(HTStructured *, target, const char *, localname)
+static void do_readme (HTStructured * target, const char* localname)
 { 
 	FILE * fp;
 	char * readme_file_name =
@@ -261,10 +261,10 @@ Bug removed thanks to joe@athena.mit.edu */
 ** On exit,
 **	returns	a malloc'ed string which must be freed by the caller.
 */
-PUBLIC char* HTCacheFileName ARGS1(const char *, name) {
-	char* access = HTParse(name, "", PARSE_ACCESS);
-	char* host = HTParse(name, "", PARSE_HOST);
-	char* path = HTParse(name, "", PARSE_PATH + PARSE_PUNCTUATION);
+char* HTCacheFileName (const char* name) {
+	char* access = HTParse(name, "", HT_PARSE_ACCESS);
+	char* host = HTParse(name, "", HT_PARSE_HOST);
+	char* path = HTParse(name, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 
 	char* result;
 	result = malloc(
@@ -283,7 +283,7 @@ PUBLIC char* HTCacheFileName ARGS1(const char *, name) {
 **	----------------------------------------
 */
 #ifdef NOT_IMPLEMENTED
-PRIVATE int HTCreatePath ARGS1(const char *,path)
+static int HTCreatePath (const char*path)
 {
 	return -1;
 }
@@ -299,10 +299,10 @@ PRIVATE int HTCreatePath ARGS1(const char *,path)
 ** On exit,
 **	returns	a malloc'ed string which must be freed by the caller.
 */
-PUBLIC char* HTLocalName ARGS1(const char *, name) {
-	char* access = HTParse(name, "", PARSE_ACCESS);
-	char* host = HTParse(name, "", PARSE_HOST);
-	char* path = HTParse(name, "", PARSE_PATH + PARSE_PUNCTUATION);
+char* HTLocalName (const char* name) {
+	char* access = HTParse(name, "", HT_PARSE_ACCESS);
+	char* host = HTParse(name, "", HT_PARSE_HOST);
+	char* path = HTParse(name, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 
 	HTUnEscape(path);    /* Interpret % signs */
 
@@ -356,7 +356,7 @@ PUBLIC char* HTLocalName ARGS1(const char *, name) {
 **	the general case.
 */
 
-PUBLIC char* WWW_nameOfFile ARGS1 (const char *, name) {
+char* WWW_nameOfFile  (const char* name) {
 	char* result;
 #ifdef NeXT
 	if (0==strncmp("/private/Net/", name, 13)) {
@@ -390,7 +390,7 @@ PUBLIC char* WWW_nameOfFile ARGS1 (const char *, name) {
 **	returns	a pointer to a suitable suffix string if one has been
 **		found, else "".
 */
-PUBLIC const char* HTFileSuffix ARGS1(HTAtom*, rep) {
+const char* HTFileSuffix (HTAtom* rep) {
 	HTSuffix* suff;
 	int n;
 	int i;
@@ -418,8 +418,8 @@ PUBLIC const char* HTFileSuffix ARGS1(HTAtom*, rep) {
 **	It will handle for example  x.txt, x.txt,Z, x.Z
 */
 
-PUBLIC HTFormat
-HTFileFormat ARGS2 (const char *, filename, HTAtom **, pencoding) {
+HTFormat
+HTFileFormat  (const char* filename, HTAtom ** pencoding) {
 	HTSuffix* suff;
 	int n;
 	int i;
@@ -471,7 +471,7 @@ HTFileFormat ARGS2 (const char *, filename, HTAtom **, pencoding) {
 **
 */
 
-PUBLIC float HTFileValue ARGS1 (const char *, filename) {
+float HTFileValue  (const char* filename) {
 	HTSuffix* suff;
 	int n;
 	int i;
@@ -502,7 +502,7 @@ PUBLIC float HTFileValue ARGS1 (const char *, filename) {
 **	--------------------------------
 **
 ** On exit,
-**	return value	YES if file can be accessed and can be written to.
+**	return value	HT_TRUE if file can be accessed and can be written to.
 **
 ** Bugs:
 **	1.	No code for non-unix systems.
@@ -522,11 +522,11 @@ PUBLIC float HTFileValue ARGS1 (const char *, filename) {
 #define NO_GROUPS
 #endif
 
-PUBLIC BOOL HTEditable ARGS1 (const char *, filename) {
+HTBool HTEditable  (const char* filename) {
 #ifdef NO_GROUPS
 	(void) filename;
 
-	return NO;        /* Safe answer till we find the correct algorithm */
+	return HT_FALSE;        /* Safe answer till we find the correct algorithm */
 #else
 	int 	groups[NGROUPS];
 	uid_t	myUid;
@@ -535,7 +535,7 @@ PUBLIC BOOL HTEditable ARGS1 (const char *, filename) {
 	int		i;
 
 	if (stat(filename, &fileStatus))		/* Get details of filename */
-		return NO;				/* Can't even access file! */
+		return HT_FALSE;				/* Can't even access file! */
 
 	ngroups = getgroups(NGROUPS, groups);	/* Groups to which I belong  */
 	myUid = geteuid();				/* Get my user identifier */
@@ -552,21 +552,21 @@ PUBLIC BOOL HTEditable ARGS1 (const char *, filename) {
 	}
 
 	if (fileStatus.st_mode & 0002)		/* I can write anyway? */
-		return YES;
+		return HT_TRUE;
 
 	if ((fileStatus.st_mode & 0200)		/* I can write my own file? */
 	 && (fileStatus.st_uid == myUid))
-		return YES;
+		return HT_TRUE;
 
 	if (fileStatus.st_mode & 0020)		/* Group I am in can write? */
 	{
 	   for (i=0; i<ngroups; i++) {
 			if (groups[i] == fileStatus.st_gid)
-			return YES;
+			return HT_TRUE;
 	}
 	}
 	if (TRACE) fprintf(stderr, "\tFile is not editable.\n");
-	return NO;					/* If no excuse, can't do */
+	return HT_FALSE;					/* If no excuse, can't do */
 #endif
 }
 
@@ -577,7 +577,7 @@ PUBLIC BOOL HTEditable ARGS1 (const char *, filename) {
 **	The stream must be used for writing back the file.
 **	@@@ no backup done
 */
-PUBLIC HTStream* HTFileSaveStream ARGS1(HTParentAnchor *, anchor) {
+HTStream* HTFileSaveStream (HTParentAnchor * anchor) {
 
 	const char* addr = HTAnchor_address((HTAnchor*) anchor);
 	char* localname = HTLocalName(addr);
@@ -592,8 +592,8 @@ PUBLIC HTStream* HTFileSaveStream ARGS1(HTParentAnchor *, anchor) {
 /*      Output one directory entry
 **
 */
-PUBLIC void
-HTDirEntry ARGS3(HTStructured *, target, const char *, tail, const char *,
+void
+HTDirEntry (HTStructured * target, const char* tail, const char*
 				 entry) {
 	char* relative;
 	char* escaped = HTEscape(entry, URL_XPALPHAS);
@@ -615,9 +615,9 @@ HTDirEntry ARGS3(HTStructured *, target, const char *, tail, const char *,
 **    This gives the TITLE and H1 header, and also a link
 **    to the parent directory if appropriate.
 */
-PUBLIC void HTDirTitles ARGS2(HTStructured *, target, HTAnchor *, anchor) {
+void HTDirTitles (HTStructured * target, HTAnchor * anchor) {
 	char* logical = HTAnchor_address(anchor);
-	char* path = HTParse(logical, "", PARSE_PATH + PARSE_PUNCTUATION);
+	char* path = HTParse(logical, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 	char* current;
 
 	current = strrchr(path, '/');    /* last part or "" */
@@ -685,9 +685,9 @@ PUBLIC void HTDirTitles ARGS2(HTStructured *, target, HTAnchor *, anchor) {
 **			HTLOADED	OK 
 **
 */
-PUBLIC int
-HTLoadFile ARGS4 (const char *, addr, HTParentAnchor *, anchor, HTFormat,
-				  format_out, HTStream *, sink) {
+int
+HTLoadFile  (const char* addr, HTParentAnchor * anchor, HTFormat
+				  format_out, HTStream * sink) {
 	char* filename;
 	HTFormat format;
 	char* nodename = 0;
@@ -697,8 +697,8 @@ HTLoadFile ARGS4 (const char *, addr, HTParentAnchor *, anchor, HTFormat,
 /*	Reduce the filename to a basic form (hopefully unique!)
 */
 	StrAllocCopy(newname, addr);
-	filename = HTParse(newname, "", PARSE_PATH | PARSE_PUNCTUATION);
-	nodename = HTParse(newname, "", PARSE_HOST);
+	filename = HTParse(newname, "", HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
+	nodename = HTParse(newname, "", HT_PARSE_HOST);
 	free(newname);
 
 	format = HTFileFormat(filename, &encoding);
@@ -844,7 +844,7 @@ HTLoadFile ARGS4 (const char *, addr, HTParentAnchor *, anchor, HTFormat,
 				char * logical;
 				char * tail;
 
-				BOOL present[HTML_A_ATTRIBUTES];
+				HTBool present[HTML_A_ATTRIBUTES];
 
 				char * tmpfilename = NULL;
 				struct stat file_info;
@@ -1070,5 +1070,5 @@ HTLoadFile ARGS4 (const char *, addr, HTParentAnchor *, anchor, HTFormat,
 
 /*		Protocol descriptors
 */
-PUBLIC HTProtocol HTFTP = { "ftp", HTLoadFile, 0 };
-PUBLIC HTProtocol HTFile = { "file", HTLoadFile, HTFileSaveStream };
+HTProtocol HTFTP = { "ftp", HTLoadFile, 0 };
+HTProtocol HTFile = { "file", HTLoadFile, HTFileSaveStream };

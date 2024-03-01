@@ -13,10 +13,6 @@
 #include "HTAccess.h"
 #include "HTAnchor.h"
 
-/* extern int HTLoadGopher PARAMS((const char *arg,
-        HTParentAnchor * anAnchor,
-        int diag));
-*/
 extern HTProtocol HTGopher;
 
 #endif /* HTGOPHER_H */

@@ -26,13 +26,7 @@ struct struct_parts {
 **	All trailing white space is OVERWRITTEN with zero.
 */
 
-#ifdef __STDC__
-
 char* HTStrip(char* s)
-#else
-char * HTStrip(s)
-	char *s;
-#endif
 {
 #define SPACE(c) ((c==' ')||(c=='\t')||(c=='\n'))
 	char* p = s;
@@ -58,14 +52,7 @@ char * HTStrip(s)
 **	host, anchor and access may be nonzero if they were specified.
 **	Any which are nonzero point to zero terminated strings.
 */
-#ifdef __STDC__
-
-PRIVATE void scan(char* name, struct struct_parts* parts)
-#else
-PRIVATE void scan(name, parts)
-	char * name;
-	struct struct_parts *parts;
-#endif
+static void scan(char* name, struct struct_parts* parts)
 {
 	char* after_access;
 	char* p;
@@ -151,15 +138,7 @@ PRIVATE void scan(name, parts)
 ** On exit,
 **	returns		A pointer to a malloc'd string which MUST BE FREED
 */
-#ifdef __STDC__
-
 char* HTParse(const char* aName, const char* relatedName, int wanted)
-#else
-char * HTParse(aName, relatedName, wanted)
-	char * aName;
-	char * relatedName;
-	int wanted;
-#endif
 
 {
 	char* result = 0;
@@ -184,10 +163,10 @@ char * HTParse(aName, relatedName, wanted)
 	scan(rel, &related);
 	result[0] = 0;        /* Clear string  */
 	access = given.access ? given.access : related.access;
-	if(wanted & PARSE_ACCESS) {
+	if(wanted & HT_PARSE_ACCESS) {
 		if(access) {
 			strcat(result, access);
-			if(wanted & PARSE_PUNCTUATION) strcat(result, ":");
+			if(wanted & HT_PARSE_PUNCTUATION) strcat(result, ":");
 		}
 	}
 
@@ -200,10 +179,10 @@ char * HTParse(aName, relatedName, wanted)
 		}
 	}
 
-	if(wanted & PARSE_HOST) {
+	if(wanted & HT_PARSE_HOST) {
 		if(given.host || related.host) {
 			char* tail = result + strlen(result);
-			if(wanted & PARSE_PUNCTUATION) strcat(result, "//");
+			if(wanted & HT_PARSE_PUNCTUATION) strcat(result, "//");
 			strcat(result, given.host ? given.host : related.host);
 #define CLEAN_URLS
 #ifdef CLEAN_URLS
@@ -235,9 +214,9 @@ char * HTParse(aName, relatedName, wanted)
 		}
 	}
 
-	if(wanted & PARSE_PATH) {
+	if(wanted & HT_PARSE_PATH) {
 		if(given.absolute) {                /* All is given */
-			if(wanted & PARSE_PUNCTUATION) strcat(result, "/");
+			if(wanted & HT_PARSE_PUNCTUATION) strcat(result, "/");
 			strcat(result, given.absolute);
 		}
 		else if(related.absolute) {    /* Adopt path not name */
@@ -263,9 +242,9 @@ char * HTParse(aName, relatedName, wanted)
 		}
 	}
 
-	if(wanted & PARSE_ANCHOR) {
+	if(wanted & HT_PARSE_ANCHOR) {
 		if(given.anchor || related.anchor) {
-			if(wanted & PARSE_PUNCTUATION) strcat(result, "#");
+			if(wanted & HT_PARSE_PUNCTUATION) strcat(result, "#");
 			strcat(result, given.anchor ? given.anchor : related.anchor);
 		}
 	}
@@ -293,13 +272,7 @@ char * HTParse(aName, relatedName, wanted)
 //
 //	or	../../albert.html
 */
-#ifdef __STDC__
-
 void HTSimplify(char* filename)
-#else
-void HTSimplify(filename)
-	char * filename;
-#endif
 
 {
 	char* p;
@@ -349,14 +322,7 @@ void HTSimplify(filename)
 **	The caller is responsible for freeing the resulting name later.
 **
 */
-#ifdef __STDC__
-
 char* HTRelative(const char* aName, const char* relatedName)
-#else
-char * HTRelative(aName, relatedName)
-   char * aName;
-   char * relatedName;
-#endif
 {
 	char* result = 0;
 	const char* p = aName;
@@ -416,7 +382,7 @@ char * HTRelative(aName, relatedName)
 **	Unlike HTUnEscape(), this routine returns a malloced string.
 */
 
-PRIVATE const unsigned char isAcceptable[96] =
+static const unsigned char isAcceptable[96] =
 
 /*	Bit 0		xalpha		-- see HTFile.h
 **	Bit 1		xpalpha		-- as xalpha but with plus.
@@ -437,23 +403,23 @@ PRIVATE const unsigned char isAcceptable[96] =
 				7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0,
 				0 };    /* 7X  pqrstuvwxyz{\}~	DEL */
 
-PRIVATE char* hex = "0123456789ABCDEF";
+static char* hex = "0123456789ABCDEF";
 
-PUBLIC char* HTEscape ARGS2 (const char *, str, unsigned char, mask) {
+char* HTEscape  (const char* str, unsigned char mask) {
 #define ACCEPTABLE(a)    ( a>=32 && a<128 && ((isAcceptable[a-32]) & mask))
 	const char* p;
 	char* q;
 	char* result;
 	int unacceptable = 0;
 	for(p = str; *p; p++) {
-		if(!ACCEPTABLE((unsigned char) TOASCII(*p))) {
+		if(!ACCEPTABLE((unsigned char) (*p))) {
 			unacceptable++;
 		}
 	}
 	result = malloc(p - str + unacceptable + unacceptable + 1);
 	if(result == NULL) outofmem(__FILE__, "HTEscape");
 	for(q = result, p = str; *p; p++) {
-		unsigned char a = TOASCII(*p);
+		unsigned char a = (*p);
 		if(!ACCEPTABLE(a)) {
 			*q++ = HEX_ESCAPE;    /* Means hex commming */
 			*q++ = hex[a >> 4];
@@ -475,20 +441,20 @@ PUBLIC char* HTEscape ARGS2 (const char *, str, unsigned char, mask) {
 **	The string is converted in place, as it will never grow.
 */
 
-PRIVATE char from_hex ARGS1(char, c) {
+static char from_hex (char c) {
 	return c >= '0' && c <= '9' ? c - '0' : c >= 'A' && c <= 'F' ? c - 'A' + 10
 																 : c - 'a' +
 																   10;    /* accept small letters just in case */
 }
 
-PUBLIC char* HTUnEscape ARGS1(char *, str) {
+char* HTUnEscape (char * str) {
 	char* p = str;
 	char* q = str;
 	while(*p) {
 		if(*p == HEX_ESCAPE) {
 			p++;
 			if(*p) *q = from_hex(*p++) * 16;
-			if(*p) *q = FROMASCII(*q + from_hex(*p++));
+			if(*p) *q = (*q + from_hex(*p++));
 			q++;
 		}
 		else {
