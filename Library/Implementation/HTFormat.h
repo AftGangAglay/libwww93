@@ -2,11 +2,11 @@
                             MANAGE DIFFERENT DOCUMENT FORMATS
                                              
    Here we describe the functions of the HTFormat module which handles conversion between
-   different data representations.  (In MIME parlance, a representation is known as a
+   different data representations. (In MIME parlance, a representation is known as a
    content-type. In WWW  the term "format" is often used as it is shorter).
    
    This module is implemented by HTFormat.c . This hypertext document is used to generate
-   the HTFormat.h include file.  Part of the WWW library .
+   the HTFormat.h include file. Part of the WWW library .
    
 Preamble
 
@@ -33,18 +33,19 @@ typedef HTAtom* HTFormat;
 /*
 
    These macros (which used to be constants) define some basic internally referenced
-   representations.  The www/xxx ones are of course not MIME standard.
+   representations. The www/xxx ones are of course not MIME standard.
    
    www/source  is an output format which leaves the input untouched. It is useful for
    diagnostics, and for users who want to see the original, whatever it is.
    
  */
+
 /* Internal ones */
 #define WWW_SOURCE HTAtom_for("www/source")     /* Whatever it was originally*/
 
 /*
 
-   www/present represents the user's perception of the document.  If you convert to
+   www/present represents the user's perception of the document. If you convert to
    www/present, you present the material to the user.
    
  */
@@ -74,7 +75,7 @@ typedef HTAtom* HTFormat;
 
 /*
 
-   These are regular MIME types.  HTML is assumed to be added by the W3 code.
+   These are regular MIME types. HTML is assumed to be added by the W3 code.
    application/octet-stream was mistakenly application/binary in earlier libwww versions
    (pre 2.11).
    
@@ -119,7 +120,7 @@ typedef HTAtom* HTEncoding;
 The HTPresentation and HTConverter types
 
    This HTPresentation structure represents a possible conversion algorithm from one
-   format to annother.  It includes a pointer to a conversion routine. The conversion
+   format to annother. It includes a pointer to a conversion routine. The conversion
    routine returns a stream to which data should be fed. See also HTStreamStack which
    scans the list of registered converters and calls one. See the initialisation module
    for a list of conversion routines.
@@ -141,7 +142,7 @@ struct _HTPresentation {
 
 /*
 
-   The list of presentations is kept by this module.  It is also scanned by modules which
+   The list of presentations is kept by this module. It is also scanned by modules which
    want to know the set of formats supported. for example.
    
  */
@@ -199,7 +200,7 @@ HTStreamStack:   Create a stack of streams
    This is the routine which actually sets up the conversion. It currently checks only for
    direct conversions, but multi-stage conversions are forseen. It takes a stream into
    which the output should be sent in the final format, builds the conversion stack, and
-   returns a stream into which the data in the input format should be fed.  The anchor is
+   returns a stream into which the data in the input format should be fed. The anchor is
    passed because hypertxet objects load information into the anchor object which
    represents them.
    
@@ -291,8 +292,8 @@ char HTGetChararcter (void);
 
 HTParseSocket: Parse a socket given its format
 
-   This routine is called by protocol modules to load an object.  uses HTStreamStack and
-   the copy routines above.  Returns HT_LOADED if succesful, <0 if not.
+   This routine is called by protocol modules to load an object. uses HTStreamStack and
+   the copy routines above. Returns HT_LOADED if succesful, <0 if not.
    
  */
 int HTParseSocket
@@ -305,7 +306,7 @@ int HTParseSocket
 HTParseFile: Parse a File through a file pointer
 
    This routine is called by protocols modules to load an object. uses HTStreamStack and
-   HTFileCopy .  Returns HT_LOADED if succesful, <0 if not.
+   HTFileCopy . Returns HT_LOADED if succesful, <0 if not.
    
  */
 int HTParseFile		(HTFormat format_in, HTFormat format_out, HTParentAnchor * anchor,

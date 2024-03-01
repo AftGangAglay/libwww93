@@ -1,7 +1,7 @@
                                                                         Read Me
                          WORLDWIDEWEB DISTRIBUTED CODE
                                        
-   See the CERN copyright[1] .  This is the README file which you get when you
+   See the CERN copyright[1] . This is the README file which you get when you
    unwrap one of our tar files. These files contain information about
    hypertext, hypertext systems, and the WorldWideWeb project. If you have
    taken this with a .tar file, you will have only a subset of the files.
@@ -13,7 +13,7 @@
 Archive Directory structure
 
    Under /pub/www[2], besides this README file, you'll find bin[3], src[4] and
-   doc[5] directories.  The main archives are as follows:
+   doc[5] directories. The main archives are as follows:
    
   bin/xxx/bbbb            Executable binaries of program bbbb for system xxx.
                          Check what's there before you bother compiling. (Note
@@ -32,7 +32,7 @@ Archive Directory structure
                          
   src/WWWDaemon_v.vv.tar.Z
                           The HTTP daemon, and WWW-WAIS  gateway programs.
-                         Source.  Requires the Library.
+                         Source. Requires the Library.
                          
   src/WWWMailRobot_v.vv.tar.Z
                           The Mail Robot.
@@ -42,7 +42,7 @@ Archive Directory structure
                          
 Basic WWW software installation from source
 
-   This applies to the line mode client and the server.  Below, $prod means
+   This applies to the line mode client and the server. Below, $prod means
    LineMode or Daemon depending on which you are building.
    
   GENERATED DIRECTORY STRUCTURE
@@ -124,7 +124,7 @@ Line Mode browser
    
    If there is no binary, see "Installation from source" above.
    
-    (See Installation notes[8] ).  Do the same thing (in the same directory) to
+    (See Installation notes[8] ). Do the same thing (in the same directory) to
    the WWWLibrary_v.cc.tar.Z file to get the common library.
    
    You will have an ASCII printable manual in the file
@@ -151,7 +151,7 @@ Line Mode browser
 Server
 
    The server can be run very simply under the internet  daemon, to export a
-   file directory tree as a browsable hypertext tree.  Binaries are avilable
+   file directory tree as a browsable hypertext tree. Binaries are avilable
    for some platofrms, otherwise follow instructions above for compiling and
    then go on to " Installing the basic W3 server[9] ".
    
@@ -160,8 +160,8 @@ XMosaic
    XMosaic is an X11/Motif  W3 browser.
    
    The sources and binaries are distributed separately from
-   FTP.NCSA.UIUC.EDU[10], in  /Web/xmosaic[11].  Binaries are available for
-   some platforms.  If you have to build from source, check the README in the
+   FTP.NCSA.UIUC.EDU[10], in  /Web/xmosaic[11]. Binaries are available for
+   some platforms. If you have to build from source, check the README in the
    distribution.
    
    The binaries can be picked up, uncompressed, set "executable" and run
@@ -169,12 +169,12 @@ XMosaic
    
 Viola browser for X11
 
-   Viola is an X11 application for reading global hypertext.  If a binary is
+   Viola is an X11 application for reading global hypertext. If a binary is
    available from your machine, in /pub/www/bin/.../viola*, then take that and
    also the Viola "apps" tar file which contains the scripts you will need.
    
    To generate this from source, you will need both the W3 library and the
-   Viola source files.  There is an Imakefile with the viola source directory.
+   Viola source files. There is an Imakefile with the viola source directory.
    You will need to generate the XPA and XPM libraries and the W3 library
    befere you make viola itself.
    

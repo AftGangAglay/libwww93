@@ -35,10 +35,11 @@
 
 Default values
 
-   These values may be reset and altered by system-specific sections later on.  there are
+   These values may be reset and altered by system-specific sections later on. there are
    also a bunch of defaults at the end .
    
  */
+
 /* Default values of those: */
 #define NETCLOSE close      /* Routine to close a TCP-IP socket         */
 #define NETREAD  read       /* Routine to read from a TCP-IP socket     */
@@ -111,7 +112,7 @@ Regular BSD unix versions
 
 /*                      Directory reading stuff - BSD or SYS V
 */
-#ifdef unix                    /* if this is to compile on a UNIX machine */
+#ifdef unix                    /* if this is to py_compile on a UNIX machine */
 #define GOT_READ_DIR 1    /* if directory reading functions are available */
 #ifdef USE_DIRENT             /* sys v version */
 #include <dirent.h>

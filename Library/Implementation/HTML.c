@@ -1,9 +1,9 @@
 /*		Structured stream to Rich hypertext converter
 **		============================================
 **
-**	This generates of a hypertext object.  It converts from the
+**	This generates of a hypertext object. It converts from the
 **	structured stream interface fro HTMl events into the style-
-**	oriented iunterface of the HText.h interface.  This module is
+**	oriented iunterface of the HText.h interface. This module is
 **	only used in clients and shouldnot be linked into servers.
 **
 **	Override this module if making a new GUI browser.
@@ -469,7 +469,7 @@ HTML_start_element (HTStructured * me, int element_number, const HTBool*
 **
 */
 /*	When we end an element, the style must be returned to that
-**	in effect before that element.  Note that anchors (etc?)
+**	in effect before that element. Note that anchors (etc?)
 **	don't have an associated style, so that we must scan down the
 **	stack for an element with a defined style. (In fact, the styles
 **	should be linked to the whole stack not just the top one.)
@@ -538,7 +538,7 @@ static void HTML_put_entity (HTStructured * me, int entity_number) {
 **
 ** If the document is empty, the text object will not yet exist.
    So we could in fact abandon creating the document and return
-   an error code.  In fact an empty document is an important type
+   an error code. In fact an empty document is an important type
    of document, so we don't.
 **
 **	If non-interactive, everything is freed off.   No: crashes -listrefs
@@ -689,6 +689,7 @@ HTMLToC (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 	html = HTML_new(anchor, WWW_PLAINTEXT, sink);
 	html->comment_start = "/* ";
 	html->comment_end = " */\n";    /* Must start in col 1 for cpp */
+
 /*    HTML_put_string(html,html->comment_start); */
 	return SGML_new(&HTML_dtd, html);
 }

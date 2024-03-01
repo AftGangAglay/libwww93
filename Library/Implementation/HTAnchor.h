@@ -12,6 +12,7 @@
 #define HTANCHOR_H
 
 /* Version 0 (TBL) written in Objective-C for the NeXT browser */
+
 /* Version 1 of 24-Oct-1991 (JFG), written in C, browser-independant */
 
 #include "HTList.h"

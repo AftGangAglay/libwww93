@@ -89,7 +89,7 @@ static void HTWriter_put_string (HTStream * me, const char* s) {
 }
 
 
-/*	Buffer write.  Buffers can (and should!) be big.
+/*	Buffer write. Buffers can (and should!) be big.
 **	------------
 */
 static void HTWriter_write (HTStream * me, const char* s, int l) {

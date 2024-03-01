@@ -14,9 +14,9 @@
    Check the source for latest additions to functionality.
    
    The MIME parser is complicated by the fact that WWW allows real binary to be sent, not
-   ASCII encoded.  Therefore the netascii decoding is included in this module. One cannot
+   ASCII encoded. Therefore the netascii decoding is included in this module. One cannot
    layer it by converting first from Net to local text, then decoding it. Of course, for
-   local files, the net ascii decoding is not needed.  There are therefore two creation
+   local files, the net ascii decoding is not needed. There are therefore two creation
    routines.
    
  */

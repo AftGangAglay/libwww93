@@ -20,6 +20,7 @@ static char* hostname = 0;        /* The name of this host */
 */
 
 /* SockA HTHostAddress; */    /* The internet address of the host */
+
 /* Valid after call to HTHostName() */
 
 /*	Encode INET status (as in sys/errno.h)			  inet_status()
@@ -169,7 +170,7 @@ int HTParseInet (SockA * sin, const char* str) {
 		}
 		else {
 
-#ifdef SUPPRESS        /* 1. crashes!?!.  2. Not recommended */
+#ifdef SUPPRESS        /* 1. crashes!?!. 2. Not recommended */
 			struct servent * serv = getservbyname(port, (char*)0);
 			if (serv) sin->sin_port = serv->s_port;
 			else if (TRACE) fprintf(stderr, "TCP: Unknown service %s\n", port);

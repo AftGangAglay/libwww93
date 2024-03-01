@@ -16,6 +16,7 @@
 extern HTProtocol HTGopher;
 
 #endif /* HTGOPHER_H */
+
 /*
 
     */

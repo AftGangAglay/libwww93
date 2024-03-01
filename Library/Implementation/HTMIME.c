@@ -72,7 +72,7 @@ struct _HTStream {
 **	------------------
 **
 **	This is a FSM parser which is tolerant as it can be of all
-**	syntax errors.  It ignores field names it does not understand,
+**	syntax errors. It ignores field names it does not understand,
 **	and resynchronises on line beginnings.
 */
 
@@ -275,7 +275,7 @@ static void HTMIME_put_string (HTStream * me, const char* s) {
 }
 
 
-/*	Buffer write.  Buffers can (and should!) be big.
+/*	Buffer write. Buffers can (and should!) be big.
 **	------------
 */
 static void HTMIME_write (HTStream * me, const char* s, int l) {

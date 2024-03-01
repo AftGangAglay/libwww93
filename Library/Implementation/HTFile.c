@@ -190,7 +190,7 @@ static char * vms_name(const char * nn, const char * fn)
 		nodename, filename+1, second+1, last+1);
 	*second = *last = '/';	/* restore filename */
 	for (p=strchr(vmsname, '['); *p!=']'; p++)
-		if (*p=='/') *p='.';	/* Convert dir sep.  to dots */
+		if (*p=='/') *p='.';	/* Convert dir sep. to dots */
 	}
 	free(nodename);
 	free(filename);
@@ -780,10 +780,10 @@ HTLoadFile  (const char* addr, HTParentAnchor * anchor, HTFormat
 						/* if the entry is not being used, skip it */
 
 				if (dirbuf->d_namlen > baselen &&      /* Match? */
-					!strncmp(dirbuf->d_name, base, baselen)) {
-					HTFormat rep = HTFileFormat(dirbuf->d_name, &encoding);
+					!strncmp(dirbuf->name, base, baselen)) {
+					HTFormat rep = HTFileFormat(dirbuf->name, &encoding);
 					float value = HTStackValue(rep, format_out,
-									HTFileValue(dirbuf->d_name),
+									HTFileValue(dirbuf->name),
 								0.0  /* @@@@@@ */);
 					if (value != NO_VALUE_FOUND) {
 						if (TRACE) fprintf(stderr,
@@ -804,7 +804,7 @@ HTLoadFile  (const char* addr, HTParentAnchor * anchor, HTFormat
 				format = best_rep;
 				base[-1] = '/';		/* Restore directory name */
 				base[0] = 0;
-				StrAllocCat(localname, best_dirbuf.d_name);
+				StrAllocCat(localname, best_dirbuf.name);
 				goto open_file;
 
 				} else { 			/* If not found suitable file */
@@ -815,9 +815,9 @@ HTLoadFile  (const char* addr, HTParentAnchor * anchor, HTFormat
 				/*NOTREACHED*/
 			} /* if multi suffix */
 		/*
-		**	Check to see if the 'localname' is in fact a directory.  If it is
+		**	Check to see if the 'localname' is in fact a directory. If it is
 		**	create a new hypertext object containing a list of files and
-		**	subdirectories contained in the directory.  All of these are links
+		**	subdirectories contained in the directory. All of these are links
 		**      to the directories or files listed.
 		**      NB This assumes the existance of a type 'STRUCT_DIRENT', which will
 		**      hold the directory entry, and a type 'DIR' which is used to point to
@@ -916,13 +916,13 @@ HTLoadFile  (const char* addr, HTParentAnchor * anchor, HTFormat
 
 
 						/* if the current entry is parent directory */
-					if ((*(dirbuf->d_name)=='.') ||
-						(*(dirbuf->d_name)==','))
+					if ((*(dirbuf->name)=='.') ||
+						(*(dirbuf->name)==','))
 						continue;    /* skip those files whose name begins
 					    with '.' or ',' */
 
 					dirname = (HTBTElement *)malloc(
-							strlen(dirbuf->d_name) + 2);
+							strlen(dirbuf->name) + 2);
 					if (dirname == NULL) outofmem(__FILE__,"DirRead");
 					StrAllocCopy(tmpfilename,localname);
 					if (strcmp(localname,"/"))
@@ -931,11 +931,11 @@ HTLoadFile  (const char* addr, HTParentAnchor * anchor, HTFormat
 						StrAllocCat(tmpfilename,"/");
 
 
-					StrAllocCat(tmpfilename,dirbuf->d_name);
+					StrAllocCat(tmpfilename,dirbuf->name);
 					stat(tmpfilename, &file_info);
 					if (((file_info.st_mode) & S_IFMT) == S_IFDIR)
-								sprintf((char *)dirname,"D%s",dirbuf->d_name);
-					else sprintf((char *)dirname,"F%s",dirbuf->d_name);
+								sprintf((char *)dirname,"D%s",dirbuf->name);
+					else sprintf((char *)dirname,"F%s",dirbuf->name);
 						/* D & F to have first directories, then files */
 					HTBTree_add(bt,dirname); /* Sort dirname in the tree bt */
 					}

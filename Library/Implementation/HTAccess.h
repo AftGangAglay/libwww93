@@ -2,7 +2,7 @@
                                       ACCESS MANAGER
                                              
    This module keeps a list of valid protocol (naming scheme) specifiers with associated
-   access code.  It allows documents to be loaded given various combinations of
+   access code. It allows documents to be loaded given various combinations of
    parameters. New access protocols may be registered at any time.
    
    Part of the libwww library .
@@ -27,6 +27,7 @@
 */
 
 #define HT_NO_DATA -9999        /* return code: OK but no data was loaded */
+
 /* Typically, other app started or forked */
 
 /*
@@ -272,6 +273,7 @@ Generate the anchor for the home page
 HTParentAnchor* HTHomeAnchor (void);
 
 #endif /* HTACCESS_H */
+
 /*
 
    end of HTAccess  */

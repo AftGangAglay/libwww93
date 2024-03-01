@@ -12,12 +12,12 @@ Overiding this module
    Why is the style structure declared in the HTStyle.h module, instead of having the user
    browser define the structure, and the HTStyle routines just use sizeof() for copying?
    
-   It's not obvious whether HTStyle.c should be common code.  It's useful to have common
+   It's not obvious whether HTStyle.c should be common code. It's useful to have common
    code for loading style sheets, especially if the movement toward standard style sheets
    gets going.
    
    If it IS common code, then both the hypertext object and HTStyle.c must know the
-   structure of a style, so HTStyle.h is a suitable place to put that.  HTStyle.c has to
+   structure of a style, so HTStyle.h is a suitable place to put that. HTStyle.c has to
    be compiled with a knowledge of the
    
    It we take it out of the library, then of course HTStyle could be declared as an
@@ -25,7 +25,7 @@ Overiding this module
    HTML.c and HTPlain.c, which only use HTStypeNamed().
    
    You can in any case override this function in your own code, which will prevent the
-   HTStyle from being loaded.  You will be able to redefine your style structure in this
+   HTStyle from being loaded. You will be able to redefine your style structure in this
    case without problems, as no other moule needs to know it.
    
  */

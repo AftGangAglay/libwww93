@@ -8,7 +8,7 @@
 **		Should convert old XMP, LISTING and PLAINTEXT to PRE.
 **
 **	It is not obvious to me right now whether the HEAD should be generated
-**	from the incomming data or the anchor.  Currently itis from the former
+**	from the incomming data or the anchor. Currently itis from the former
 **	which is cleanest.
 */
 
@@ -97,7 +97,7 @@ HTMLGen_start_element (HTStructured * me, int element_number,
 **
 */
 /*	When we end an element, the style must be returned to that
-**	in effect before that element.  Note that anchors (etc?)
+**	in effect before that element. Note that anchors (etc?)
 **	don't have an associated style, so that we must scan down the
 **	stack for an element with a defined style. (In fact, the styles
 **	should be linked to the whole stack not just the top one.)

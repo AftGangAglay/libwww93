@@ -33,6 +33,7 @@ HTAtom* HTAtom_for(const char* string);
 #define HTAtom_name(a) ((a)->name)
 
 #endif  /* HTATOM_H */
+
 /*
 
     */

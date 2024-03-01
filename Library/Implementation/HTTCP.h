@@ -37,7 +37,9 @@ int HTInetStatus(char* where);
 /*      Publicly accessible variables
 */
 /* extern struct sockaddr_in HTHostAddress; */
+
 /* The internet address of the host */
+
 /* Valid after call to HTHostName() */
 
 
@@ -82,6 +84,7 @@ int HTParseInet(struct sockaddr_in* sin, const char* str);
 const char* HTHostName (void);
 
 #endif   /* HTTCP_H */
+
 /*
 
-   End.  */
+   End. */

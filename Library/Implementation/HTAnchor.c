@@ -7,7 +7,7 @@
 ** History
 **
 **         Nov 1990  Written in Objective-C for the NeXT browser (TBL)
-**	24-Oct-1991 (JFG), written in C, browser-independant 
+**	24-Oct-1991 (JFG), written in C, browser-independant
 **	21-Nov-1991 (JFG), first complete version
 **
 **	(c) Copyright CERN 1991 - See Copyright.html

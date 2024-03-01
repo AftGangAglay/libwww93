@@ -1,9 +1,9 @@
 /*                  /Net/dxcern/userd/timbl/hypertext/WWW/Library/Implementation/HTBTree.html
                          BALANCED BINARY TREE FOR SORTING THINGS
                                              
-   Tree creation, traversal and freeing.  User-supplied comparison routine.
+   Tree creation, traversal and freeing. User-supplied comparison routine.
    
-   Author: Arthur Secret, CERN. Public domain.  Please mail bugs and changes to
+   Author: Arthur Secret, CERN. Public domain. Please mail bugs and changes to
    www-request@info.cern.ch
    
    part of libWWW

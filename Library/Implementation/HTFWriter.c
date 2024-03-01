@@ -55,7 +55,7 @@ static void HTFWriter_put_string (HTStream * me, const char* s) {
 }
 
 
-/*	Buffer write.  Buffers can (and should!) be big.
+/*	Buffer write. Buffers can (and should!) be big.
 **	------------
 */
 static void HTFWriter_write (HTStream * me, const char* s, int l) {
@@ -149,7 +149,7 @@ HTStream* HTFWriter_new (FILE * fp) {
 **
 **	See mailcap spec for description of template.
 */
-/* @@ to be written.  sprintfs will do for now.  */
+/* @@ to be written. sprintfs will do for now. */
 
 
 /*	Take action using a system command
@@ -157,7 +157,7 @@ HTStream* HTFWriter_new (FILE * fp) {
 **
 **	originally from Ghostview handling by Marc Andreseen.
 **	Creates temporary file, writes to it, executes system command
-**	on end-document.  The suffix of the temp file can be given
+**	on end-document. The suffix of the temp file can be given
 **	in case the application is fussy, or so that a generic opener can
 **	be used.
 */

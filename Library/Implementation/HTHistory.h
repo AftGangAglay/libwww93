@@ -76,6 +76,7 @@ int HTHistory_count (void);
 void HTHistory_leavingFrom (HTAnchor * anchor);
 
 #endif /* HTHISTORY_H */
+
 /*
 
     */

@@ -33,6 +33,7 @@ extern int HTDirAccess;         /* Directory access level */
 #define HT_DIR_ENABLE_FILE      ".www_browsable" /* If exists, can browse */
 
 extern int HTDirReadme;         /* Include readme files in listing? */
+
 /* Values: */
 #define HT_DIR_README_NONE      0       /* No */
 #define HT_DIR_README_TOP       1       /* Yes, first */
@@ -106,6 +107,7 @@ HTSetSuffix: Define the representation for a file suffix
   quality                 an a priori judgement of the quality of such files (0.0..1.0)
                          
  */
+
 /* Example:   HTSetSuffix(".ps", "application/postscript", "8bit", 1.0);
 **
 */

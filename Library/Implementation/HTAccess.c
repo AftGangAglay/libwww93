@@ -16,7 +16,7 @@
 **
 ** Bugs
 **	This module assumes that that the graphic object is hypertext, as it
-**	needs to select it when it has been loaded.  A superclass needs to be
+**	needs to select it when it has been loaded. A superclass needs to be
 **	defined which accepts select and select_anchor.
 */
 
@@ -78,7 +78,7 @@ HTBool HTRegisterProtocol(protocol)HTProtocol* protocol;
 /*	Register all known protocols
 **	----------------------------
 **
-**	Add to or subtract from this list if you add or remove protocol modules.
+**	Add to or sub from this list if you add or remove protocol modules.
 **	This routine is called the first time the protocol list is needed,
 **	unless any protocols are already registered, in which case it is not called.
 **	Therefore the application can override this list.
@@ -211,7 +211,7 @@ static int get_physical (const char * addr, HTParentAnchor * anchor) {
 **		---------------
 **
 **	This is an internal routine, which has an address AND a matching
-**	anchor.  (The public routines are called with one OR the other.)
+**	anchor. (The public routines are called with one OR the other.)
 **
 ** On entry,
 **	addr		must point to the fully qualified hypertext reference.

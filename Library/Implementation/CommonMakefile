@@ -57,7 +57,7 @@ LOB = $(WTMP)/Library/$(WWW_MACH)
 #
 
 # This path, if relative, is taken relative to the directory
-# in which this makefile is, not the pwd.  This screws up the 
+# in which this makefile is, not the pwd. This screws up the
 # recursive invocation
 # include $(CMN)Version.make
 include $(ABS)$(WWW)/Library/Implementation/Version.make

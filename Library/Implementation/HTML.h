@@ -36,6 +36,7 @@ Record error message as a hypertext object
    implementation just throws up an error message and leaves the document unloaded.
    
  */
+
 /* On entry,
 **      sink    is a stream to the output device if any
 **      number  is the HTTP error number

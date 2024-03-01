@@ -2,7 +2,7 @@
 # $XConsortium: imake.c,v 1.51 89/12/12 12:37:30 jim Exp $
 #
 # The cpp used on this machine replaces all newlines and multiple tabs and
-# spaces in a macro expansion with a single space.  Imake tries to compensate
+# spaces in a macro expansion with a single space. Imake tries to compensate
 # for this, but is not always successful.
 #
 
@@ -11,8 +11,8 @@
 # $XConsortium: Imake.tmpl,v 1.77 89/12/18 17:01:37 jim Exp $
 #
 # Platform-specific parameters may be set in the appropriate .cf
-# configuration files.  Site-wide parameters may be set in the file
-# site.def.  Full rebuilds are recommended if any parameters are changed.
+# configuration files. Site-wide parameters may be set in the file
+# site.def. Full rebuilds are recommended if any parameters are changed.
 #
 # If your C preprocessor doesn't define any unique symbols, you'll need
 # to set BOOTSTRAPCFLAGS when rebuilding imake (usually when doing
@@ -277,7 +277,7 @@ CMN = $(WWW)/Library/Implementation/
 LOB = $(WTMP)/Library/$(WWW_MACH)
 
 # Bug: This path, if relative, is taken relative to the directory
-# in which this makefile is, not the pwd.  This screws up the
+# in which this makefile is, not the pwd. This screws up the
 # recursive invocation
 
 VC = 2.05a

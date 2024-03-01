@@ -70,6 +70,7 @@ HTSimplify: Simplify a UTL
    filename overwrites the old.
    
  */
+
 /*
 **      Thus,   /etc/junk/../fred       becomes /etc/fred
 **              /etc/junk/./fred        becomes /etc/junk/fred

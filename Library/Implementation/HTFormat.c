@@ -210,7 +210,7 @@ int HTOutputBinary (int input, FILE * output) {
 **	If a wildcard match is made, a temporary HTPresentation
 **	structure is made to hold the destination format while the
 **	new stack is generated. This is just to pass the out format to
-**	MIME so far.  Storing the format of a stream in the stream might
+**	MIME so far. Storing the format of a stream in the stream might
 **	be a lot neater.
 **
 **	The www/source format is special, in that if you can take
@@ -480,7 +480,7 @@ HTParseSocket (HTFormat rep_in, HTFormat format_out, HTParentAnchor *
 **
 **
 **   @@  Bug:  This decision ought to be made based on "encoding"
-**   rather than on format.  @@@  When we handle encoding.
+**   rather than on format. @@@  When we handle encoding.
 **   The current method smells anyway.
 */
 	targetClass = *(stream->isa);    /* Copy pointers to procedures */
@@ -531,7 +531,7 @@ HTParseFile (HTFormat rep_in, HTFormat format_out, HTParentAnchor *
 **
 **
 **   @@  Bug:  This decision ought to be made based on "encoding"
-**   rather than on content-type.  @@@  When we handle encoding.
+**   rather than on content-type. @@@  When we handle encoding.
 **   The current method smells anyway.
 */
 	targetClass = *(stream->isa);    /* Copy pointers to procedures */
@@ -547,7 +547,7 @@ HTParseFile (HTFormat rep_in, HTFormat format_out, HTParentAnchor *
 **
 **	The input is assumed to be in ASCII, with lines delimited
 **	by (13,10) pairs, These pairs are converted into ('\r','\n')
-**	pairs in the local representation.  The ('\r','\n') sequence
+**	pairs in the local representation. The ('\r','\n') sequence
 **	when found is changed to a '\n' character, the internal
 **	C representation of a new line.
 */

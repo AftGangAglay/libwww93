@@ -52,9 +52,11 @@ typedef char HTBool;
 
 #define HT_TCP_PORT (80) /* Allocated to http by Jon Postel/ISI 24-Jan-92 */
 #define HT_DNP_OBJ (80) /* This one doesn't look busy, but we must check */
+
 /* That one was for decnet */
 
 /* Inline Function WHITE: Is character c white space? */
+
 /* For speed, include all control characters */
 #define HT_WHITE(c) (((unsigned char) ((c))) <= 32)
 

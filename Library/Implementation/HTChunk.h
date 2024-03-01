@@ -3,7 +3,7 @@
                                      FLEXIBLE ARRAYS
                                              
    This module implements a flexible array. It is a general utility module. A chunk is a
-   structure which may be extended.  These routines create and append data to chunks,
+   structure which may be extended. These routines create and append data to chunks,
    automatically reallocating them as necessary.
    
  */

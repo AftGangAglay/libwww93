@@ -5,7 +5,7 @@
    DTD-related information which is not exactly a DTD itself.
    
    The C modular structure doesn't work very well here, as the dtd is partly in the .h and
-   partly in the .c which are not very independent.  Tant pis.
+   partly in the .c which are not very independent. Tant pis.
    
  */
 #ifndef HTMLDTD_H

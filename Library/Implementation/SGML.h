@@ -91,14 +91,14 @@ typedef struct _HTSGMLContext* HTSGMLContext;   /* Hidden */
 /*              Structured Object definition
 **
 **      A structured object is something which can reasonably be
-**      represented in SGML.  I'll rephrase that.  A structured
+**      represented in SGML. I'll rephrase that. A structured
 **      object is am ordered tree-structured arrangement of data
 **      which is representable as text.
 **
 **      The SGML parer outputs to a Structured object.
 **      A Structured object can output its contents
 **      to another Structured Object.
-**      It's a kind of typed stream.  The architecure
+**      It's a kind of typed stream. The architecure
 **      is largely Dan Conolly's.
 **      Elements and entities are passed to the sob by number, implying
 **      a knowledge of the DTD.

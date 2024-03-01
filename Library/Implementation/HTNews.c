@@ -51,6 +51,7 @@ char* HTNewsHost;
 static struct sockaddr_in soc_address;        /* Binary network address */
 static int s;                    /* Socket for NewsHost */
 static char response_text[LINE_LENGTH + 1];    /* Last response */
+
 /* static HText *	HT;	*/        /* the new hypertext */
 static HTStructured* target;            /* The output sink */
 static HTStructuredClass targetClass;        /* Copy of fn addresses */

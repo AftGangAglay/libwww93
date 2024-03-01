@@ -2,7 +2,7 @@
                   DISPLAYING MESSAGES AND GETTING INPUT FOR WWW LIBRARY
                                              
    This module may be overridden for GUI clients.    It allows progress indications and
-   warning messages to be communicated to the user in a portable way.  It should be used
+   warning messages to be communicated to the user in a portable way. It should be used
    for this purpose throughout the library but isn't yet (July 93)
    
       May 92 Created By C.T. Barker

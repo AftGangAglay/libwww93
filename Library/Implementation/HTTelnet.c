@@ -59,6 +59,7 @@ static int remote_session (char * access, char * host) {
 
 
 /* If the person is already telnetting etc, forbid hopping */
+
 /* This is a security precaution, for us and remote site */
 
 	if(HTSecure) {
@@ -72,7 +73,7 @@ static int remote_session (char * access, char * host) {
 		(void) command;
 #endif
 		printf("\n\nSorry, but the service you have selected is one\n");
-		printf("to which you have to log in.  If you were running www\n");
+		printf("to which you have to log in. If you were running www\n");
 		printf("on your own computer, you would be automatically connected.\n");
 		printf("For security reasons, this is not allowed when\n");
 		printf("you log in to this information service remotely.\n\n");

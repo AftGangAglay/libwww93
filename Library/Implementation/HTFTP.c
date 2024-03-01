@@ -185,7 +185,7 @@ static int close_connection(connection* con)
 **	--------------------------------
 **
 **	See the state machine illustrated in RFC959, p57. This implements
-**	one command/reply sequence.  It also interprets lines which are to
+**	one command/reply sequence. It also interprets lines which are to
 **	be continued, which are marked with a "-" immediately after the
 **	status code.
 **

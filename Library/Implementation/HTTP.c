@@ -15,7 +15,7 @@
 */
 
 /*	MOSAIC_HACK2 is a kludge to guess the file type of trabsferred
-**	file from the URL.  It is STRICTLY illegal to do this!
+**	file from the URL. It is STRICTLY illegal to do this!
 */
 
 /* Implements:
@@ -233,11 +233,11 @@ int HTLoadHTTP  (const char* arg,
 **	HTTP0 servers must return ASCII style text, though it can in
 **	principle be just text without any markup at all.
 **	Full HTTP servers must return a response
-**	line and RFC822 style header.  The response must therefore in
+**	line and RFC822 style header. The response must therefore in
 **	either case have a CRLF somewhere soon.
 **
-**	This is the theory.  In practice, there are (1993) unfortunately
-**	many binary documents just served up with HTTP0.9.  This
+**	This is the theory. In practice, there are (1993) unfortunately
+**	many binary documents just served up with HTTP0.9. This
 **	means we have to preserve the binary buffer (on the assumption that
 **	conversion from ASCII may lose information) in case it turns
 **	out that we want the binary original.
@@ -315,7 +315,7 @@ int HTLoadHTTP  (const char* arg,
 ** if we find them we forget the html default.
 **
 ** Bugs: A HTTP0.9 server returning a document starting "HTTP/"
-**	will be taken as a HTTP 1.0 server.  Failure.
+**	will be taken as a HTTP 1.0 server. Failure.
 **	An HTTP 0.9 server returning a binary document with
 **	characters < 128 will be read as ASCII.
 */
@@ -362,7 +362,7 @@ int HTLoadHTTP  (const char* arg,
 		int server_status;
 
 
-/* Kludge to work with old buggy servers.  They can't handle the third word
+/* Kludge to work with old buggy servers. They can't handle the third word
 ** so we try again without it.
 */
 		if(extensions && 0 == strcmp(

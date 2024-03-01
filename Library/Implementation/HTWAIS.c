@@ -42,7 +42,7 @@
 **	/servername/database?word+word+word
 */
 /* WIDE AREA INFORMATION SERVER SOFTWARE:
-   No guarantees or restrictions.  See the readme file for the full standard
+   No guarantees or restrictions. See the readme file for the full standard
    disclaimer.
 
    Brewster@think.com
@@ -87,6 +87,7 @@ extern FILE* logfile;        /* Log file output */
 static HTBool as_gate;    /* Client is using us as gateway */
 
 static char line[2048];    /* For building strings to display */
+
 /* Must be able to take id */
 
 
@@ -561,7 +562,7 @@ HTLoadWAIS (const char* arg, HTParentAnchor * anAnchor, HTFormat
 /*	Decipher and check syntax of WWW address:
 **	----------------------------------------
 **
-**	First we remove the "wais:" if it was spcified.  920110
+**	First we remove the "wais:" if it was spcified. 920110
 */
 	names = HTParse(arg, "", HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 	key = strchr(names, '?');

@@ -41,13 +41,14 @@ HTStyle* HTStyleFree  (HTStyle * self) {
 
 
 #ifdef SUPPRESS  /* Only on the NeXT */
+
 /*	Read a style from a stream	(without its name)
 **	--------------------------
 **
 **	Reads a style with paragraph information from a stream.
 **	The style name is not read or written by these routines.
 */
-#define NONE_STRING "(None)"
+#define NONE_STRING "(PY_NONE)"
 #define HTStream NXStream
 
 HTStyle * HTStyleRead (HTStyle * style, HTStream * stream)
@@ -284,6 +285,7 @@ HTStyleSheet* HTStyleSheetNew (void) {
 	HTStyleSheet* self = malloc(sizeof(*self));
 
 	memset((void*) self, 0, sizeof(*self));    /* ANSI */
+
 /* Harbison c ref man says (char*)self
    but k&r ansii and abc books and Think_C say (void*) */
 
@@ -308,7 +310,7 @@ HTStyleSheet* HTStyleSheetFree  (HTStyleSheet * self) {
 /*	Read a stylesheet from a typed stream
 **	-------------------------------------
 **
-**	Reads a style sheet from a stream.  If new styles have the same names
+**	Reads a style sheet from a stream. If new styles have the same names
 **	as existing styles, they replace the old ones without changing the ids.
 */
 

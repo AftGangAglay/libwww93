@@ -149,6 +149,7 @@ HTAnchor* HText_linkSelTo(HText * me, HTAnchor * anchor);
 
 
 #endif /* HTEXT_H */
+
 /*
 
    end  */

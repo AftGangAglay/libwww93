@@ -4,7 +4,7 @@
    Author Tim Berners-Lee/CERN. Public domain. Please mail changes to timbl@info.cern.ch.
    
    The configuration information loaded includes tables (file suffixes, presentation
-   methods) in other modules.  The most likely routines needed by developers will be:
+   methods) in other modules. The most likely routines needed by developers will be:
    
   HTSetConfiguration      to load configuration information.
                          
@@ -119,6 +119,7 @@ int HTLoadRules(const char* filename);
 
 
 #endif /* HTUtils.h */
+
 /*
 
    end  */
