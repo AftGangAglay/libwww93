@@ -155,6 +155,8 @@ PRIVATE void parse_menu ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 	char* p = line;
 	const char* title;
 
+	(void) arg;
+
 #define TAB        '\t'
 #define HEX_ESCAPE    '%'
 
@@ -234,7 +236,7 @@ PRIVATE void parse_menu ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 					sprintf(address, "//%s/%c", host, gtype);
 					q = address + strlen(address);
 					for(p = selector; *p; p++) {    /* Encode selector string */
-						if(acceptable[*p]) { *q++ = *p; }
+						if(acceptable[(int) *p]) { *q++ = *p; }
 						else {
 							*q++ = HEX_ESCAPE;    /* Means hex coming */
 							*q++ = hex[(TOASCII(*p)) >> 4];
@@ -289,9 +291,10 @@ PRIVATE void parse_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 	char line[BIG];
 	char* p = line;
 	char* second_colon, last_char = '\0';
-	const char* title;
 
-	title = HTAnchor_title(anAnchor);
+	(void) arg;
+	(void) anAnchor;
+
 	START(HTML_H1);
 	PUTS("CSO Search Results");
 	END(HTML_H1);
@@ -304,7 +307,8 @@ PRIVATE void parse_cso ARGS2 (const char *, arg, HTParentAnchor *, anAnchor) {
 			if(p < &line[BIG - 1]) p++;
 		}
 		else {
-			*p++ = 0;        /* Terminate line */
+			*p = 0;        /* Terminate line */
+			p++;
 			p = line;        /* Scan it to parse it */
 
 			/* OK we now have a line in 'p' lets parse it and

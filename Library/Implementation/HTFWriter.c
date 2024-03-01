@@ -92,6 +92,8 @@ PRIVATE void HTFWriter_free ARGS1(HTStream *, me) {
 */
 
 PRIVATE void HTFWriter_abort ARGS2(HTStream *, me, HTError, e) {
+	(void) e;
+
 	fflush(me->fp);
 	if(me->end_command) {        /* Temp file */
 		fclose(me->fp);
@@ -225,7 +227,13 @@ HTSaveAndExecute ARGS3(HTPresentation *, pres, HTParentAnchor *,
 }
 
 #else	/* can do remove */
-{ return NULL; }
+{
+	(void) pres;
+	(void) anchor;
+	(void) sink;
+
+	return NULL;
+}
 
 #endif
 
@@ -247,6 +255,9 @@ PUBLIC HTStream* HTSaveLocally ARGS3(HTPresentation *, pres, HTParentAnchor *,
 	const char* suffix;
 
 	HTStream* me;
+
+	(void) anchor;
+	(void) sink;
 
 	me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "SaveLocally");
