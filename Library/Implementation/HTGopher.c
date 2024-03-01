@@ -579,7 +579,7 @@ HTLoadGopher ARGS4(const char *, arg, HTParentAnchor *, anAnchor, HTFormat,
 
 		}
 		else {                /* Not index */
-			command = command = malloc(strlen(selector) + 2 + 1);
+			command = malloc(strlen(selector) + 2 + 1);
 			de_escape(command, selector);
 		}
 		free(p1);

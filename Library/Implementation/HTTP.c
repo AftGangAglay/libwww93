@@ -85,7 +85,6 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 	const char* gate = 0;        /* disable this feature */
 	SockA soc_address;            /* Binary network address */
 	SockA* sin = &soc_address;
-	BOOL had_header = NO;        /* Have we had at least one header? */
 	char* text_buffer = NULL;
 	char* binary_buffer = NULL;
 	BOOL extensions = YES;        /* Assume good HTTP server */
@@ -249,8 +248,9 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 		/* Get numeric status etc */
 
 		BOOL end_of_file = NO;
-		HTAtom* encoding = HTAtom_for("7bit");
 		int buffer_length = INIT_LINE_SIZE;    /* Why not? */
+
+		(void) HTAtom_for("7bit");
 
 		binary_buffer = malloc(buffer_length * sizeof(char));
 		if(!binary_buffer) outofmem(__FILE__, "HTLoadHTTP");
@@ -340,7 +340,7 @@ PUBLIC int HTLoadHTTP ARGS4 (const char *, arg,
 			eol = strchr(text_buffer + length, 10);
 			if(eol) {
 				*eol = 0;        /* Terminate the line */
-				if(eol[-1] = CR) eol[-1] = 0;    /* Chop trailing CR */
+				if((eol[-1] = CR)) eol[-1] = 0;    /* Chop trailing CR */
 			}
 
 			length = length + status;

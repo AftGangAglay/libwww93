@@ -79,6 +79,7 @@ PRIVATE void HTPlain_free ARGS1(HTStream *, me) {
 */
 
 PRIVATE void HTPlain_abort ARGS2(HTStream *, me, HTError, e) {
+	(void) e;
 	HTPlain_free(me);
 }
 
@@ -100,6 +101,10 @@ HTPlainPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
 					 HTStream *, sink) {
 
 	HTStream* me = malloc(sizeof(*me));
+
+	(void) pres;
+	(void) sink;
+
 	if(me == NULL) outofmem(__FILE__, "HTPlain_new");
 	me->isa = &HTPlain;
 

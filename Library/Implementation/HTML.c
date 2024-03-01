@@ -799,6 +799,8 @@ HTMLToC ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 
 	HTStructured* html;
 
+	(void) pres;
+
 	(*sink->isa->put_string)(sink, "/* ");    /* Before even title */
 	html = HTML_new(anchor, WWW_PLAINTEXT, sink);
 	html->comment_start = "/* ";
@@ -819,6 +821,8 @@ HTMLToC ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 PUBLIC HTStream*
 HTMLPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 				  sink) {
+	(void) pres;
+
 	return SGML_new(&HTML_dtd, HTML_new(anchor, WWW_PRESENT, sink));
 }
 
@@ -846,6 +850,8 @@ HTMLPresent ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor, HTStream *,
 
 PUBLIC int
 HTLoadError ARGS3(HTStream *, sink, int, number, const char *, message) {
+	(void) sink;
+
 	HTAlert(message);        /* @@@@@@@@@@@@@@@@@@@ */
 	return -number;
 } 

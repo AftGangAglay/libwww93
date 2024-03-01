@@ -137,11 +137,15 @@ PRIVATE void HTMLGen_free ARGS1(HTStructured *, me) {
 
 
 PRIVATE void HTMLGen_abort ARGS2(HTStructured *, me, HTError, e) {
+	(void) e;
+
 	HTMLGen_free(me);
 }
 
 
 PRIVATE void PlainToHTML_abort ARGS2(HTStructured *, me, HTError, e) {
+	(void) e;
+
 	HTMLGen_free(me);
 }
 
@@ -194,6 +198,10 @@ PUBLIC HTStream*
 HTPlainToHTML ARGS3(HTPresentation *, pres, HTParentAnchor *, anchor,
 					HTStream *, sink) {
 	HTStream* me = malloc(sizeof(*me));
+
+	(void) pres;
+	(void) anchor;
+
 	if(me == NULL) outofmem(__FILE__, "PlainToHTML");
 	me->isa = (HTStreamClass*) &PlainToHTMLConversion;
 

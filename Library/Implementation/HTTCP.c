@@ -7,7 +7,6 @@
 **	25 Jun 92  JFG  Added DECNET option through TCP socket emulation.
 */
 
-
 #include "HTUtils.h"
 #include "tcp.h"        /* Defines SHORT_NAMES if necessary */
 
@@ -39,30 +38,6 @@ PRIVATE char* hostname = 0;        /* The name of this host */
 ** On return,
 **	returns		a negative status in the unix way.
 */
-#ifndef PCNFS
-#ifdef vms
-extern int uerrno;	/* Deposit of error info (as per errno.h) */
-extern volatile noshare int vmserrno;	/* Deposit of VMS error info */
-extern volatile noshare int errno;  /* noshare to avoid PSECT conflict */
-#else /* vms */
-#ifndef errno
-extern int errno;
-#endif /* errno */
-#endif /* vms */
-
-#ifndef VM
-#ifndef vms
-#ifndef NeXT
-#ifndef THINK_C
-#undef sys_errlist
-extern char* sys_errlist[];        /* see man perror on cernvax */
-extern int sys_nerr;
-#endif  /* think c */
-#endif    /* NeXT */
-#endif  /* vms */
-#endif    /* VM */
-
-#endif    /* PCNFS */
 
 /*	Report Internet Error
 **	---------------------
@@ -133,7 +108,7 @@ PUBLIC unsigned int HTCardinal ARGS3
 	n = 0;
 	while((**pp >= '0') && (**pp <= '9')) n = n * 10 + *((*pp)++) - '0';
 
-	if(n > max_value) {
+	if(n > (int) max_value) {
 		*pstatus = -4;  /* Cardinal outside range */
 		return 0;
 	}
@@ -188,7 +163,7 @@ PUBLIC int HTParseInet ARGS2(SockA *, sin, const char *, str) {
 
 /*	Parse port number if present
 */
-	if(port = strchr(host, ':')) {
+	if((port = strchr(host, ':'))) {
 		*port++ = 0;        /* Chop off port */
 		if(port[0] >= '0' && port[0] <= '9') {
 

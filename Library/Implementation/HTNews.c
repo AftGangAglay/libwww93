@@ -503,7 +503,7 @@ PRIVATE void read_article NOARGS {
 */
 				char* l = line;
 				char* p;
-				while(p = strchr(l, '<')) {
+				while((p = strchr(l, '<'))) {
 					char* q = strchr(p, '>');
 					char* at = strchr(p, '@');
 					if(q && at && at < q) {
@@ -611,7 +611,8 @@ PRIVATE void read_group ARGS3(const char *, groupName, int, first_required, int,
 	char* p;
 	BOOL done;
 
-	char buffer[LINE_LENGTH];
+	/* TODO: This is a janky solution to buffer safety here. */
+	char buffer[LINE_LENGTH * 3 + 1];
 	char* reference = 0;            /* Href for article */
 	int art;                /* Article number WITHIN GROUP */
 	int status, count, first, last;    /* Response fields */

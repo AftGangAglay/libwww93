@@ -419,6 +419,8 @@ PRIVATE void WSRCParser_free ARGS1(HTStream *, me) {
 }
 
 PRIVATE void WSRCParser_abort ARGS2(HTStream *, me, HTError, e) {
+	(void) e;
+
 	WSRCParser_free(me);
 }
 

@@ -112,6 +112,8 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 			}
 
 			/*	else Falls through */
+			/* TODO: Attribute fallthrough. */
+			/* FALLTHRU */
 
 		case BEGINNING_OF_LINE:
 			switch(c) {
@@ -206,6 +208,8 @@ PRIVATE void HTMIME_put_character ARGS2(HTStream *, me, char, c) {
 			me->value_pointer = me->value;
 			me->state = GET_VALUE;
 			/* Fall through to store first character */
+			/* TODO: Attribute fallthrough. */
+			/* FALLTHRU */
 
 		case GET_VALUE:
 			if(WHITE(c)) {            /* End of field */

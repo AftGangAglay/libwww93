@@ -68,6 +68,8 @@ PRIVATE int remote_session ARGS2(char *, access, char *, host) {
 		  "finger @%s | mail -s \"**telnethopper %s\" tbl@dxcern.cern.ch",
 		   HTClientHost, HTClientHost);
 		system(command);
+#else
+		(void) command;
 #endif
 		printf("\n\nSorry, but the service you have selected is one\n");
 		printf("to which you have to log in.  If you were running www\n");
@@ -128,6 +130,8 @@ PRIVATE int remote_session ARGS2(char *, access, char *, host) {
 	return HT_NO_DATA;		/* Ok - it was done but no data */
 #define TELNET_DONE
 #endif
+#else
+	(void) login_protocol;
 #endif
 
 #ifdef MULTINET                /* VMS varieties */
@@ -208,6 +212,9 @@ PRIVATE int HTLoadTelnet ARGS4
 
 	char* host;
 	int status;
+
+	(void) anchor;
+	(void) format_out;
 
 	if(sink) {
 		HTAlert("Can't output a live session -- it has to be interactive");
