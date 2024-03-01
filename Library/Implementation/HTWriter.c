@@ -31,7 +31,7 @@ struct _HTStream {
 **	----------------------------------
 */
 
-static void flush (HTStream * me) {
+static void flush(HTStream* me) {
 	char* read_pointer = me->buffer;
 	char* write_pointer = me->write_pointer;
 
@@ -69,11 +69,10 @@ static void flush (HTStream * me) {
 **	------------------
 */
 
-static void HTWriter_put_character (HTStream * me, char c) {
+static void HTWriter_put_character(HTStream* me, char c) {
 	if(me->write_pointer == &me->buffer[BUFFER_SIZE]) flush(me);
 	*me->write_pointer++ = c;
 }
-
 
 
 /*	String handling
@@ -81,7 +80,7 @@ static void HTWriter_put_character (HTStream * me, char c) {
 **
 **	Strings must be smaller than this buffer size.
 */
-static void HTWriter_put_string (HTStream * me, const char* s) {
+static void HTWriter_put_string(HTStream* me, const char* s) {
 	int l = strlen(s);
 	if(me->write_pointer + l > &me->buffer[BUFFER_SIZE]) flush(me);
 	strcpy(me->write_pointer, s);
@@ -92,7 +91,7 @@ static void HTWriter_put_string (HTStream * me, const char* s) {
 /*	Buffer write. Buffers can (and should!) be big.
 **	------------
 */
-static void HTWriter_write (HTStream * me, const char* s, int l) {
+static void HTWriter_write(HTStream* me, const char* s, int l) {
 
 	const char* read_pointer = s;
 	const char* write_pointer = s + l;
@@ -115,21 +114,19 @@ static void HTWriter_write (HTStream * me, const char* s, int l) {
 }
 
 
-
-
 /*	Free an HTML object
 **	-------------------
 **
 **	Note that the SGML parsing context is freed, but the created object is not,
 **	as it takes on an existence of its own unless explicitly freed.
 */
-static void HTWriter_free (HTStream * me) {
+static void HTWriter_free(HTStream* me) {
 	flush(me);
 	NETCLOSE(me->soc);
 	free(me);
 }
 
-static void HTWriter_abort (HTStream * me, HTError e) {
+static void HTWriter_abort(HTStream* me, HTError e) {
 	(void) e;
 
 	HTWriter_free(me);
@@ -149,7 +146,7 @@ static const HTStreamClass HTWriter = /* As opposed to print etc */
 **	-------------------------
 */
 
-HTStream* HTWriter_new (int soc) {
+HTStream* HTWriter_new(int soc) {
 	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
 	me->isa = &HTWriter;
@@ -166,7 +163,7 @@ HTStream* HTWriter_new (int soc) {
 **	-------------------------
 */
 
-HTStream* HTASCIIWriter (int soc) {
+HTStream* HTASCIIWriter(int soc) {
 	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
 	me->isa = &HTWriter;

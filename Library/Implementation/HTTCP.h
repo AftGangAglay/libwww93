@@ -57,9 +57,8 @@ int HTInetStatus(char* where);
 **      *pstatus points to status updated iff bad
 */
 
-unsigned int HTCardinal (int *pstatus,
-											  char            **pp,
-											  unsigned int max_value);
+unsigned int HTCardinal(
+		int* pstatus, char** pp, unsigned int max_value);
 
 
 /*      Parse an internet node address and port
@@ -81,7 +80,7 @@ int HTParseInet(struct sockaddr_in* sin, const char* str);
 **
 */
 
-const char* HTHostName (void);
+const char* HTHostName(void);
 
 #endif   /* HTTCP_H */
 

@@ -38,14 +38,14 @@ static HTList** adult_table = 0;  /* Point to table of lists of all parents */
 **	anchor you are creating : use newWithParent or newWithAddress.
 */
 
-static HTParentAnchor* HTParentAnchor_new (void) {
+static HTParentAnchor* HTParentAnchor_new(void) {
 	HTParentAnchor* newAnchor = (HTParentAnchor*) calloc(
 			1, sizeof(HTParentAnchor));  /* zero-filled */
 	newAnchor->parent = newAnchor;
 	return newAnchor;
 }
 
-static HTChildAnchor* HTChildAnchor_new (void) {
+static HTChildAnchor* HTChildAnchor_new(void) {
 	return (HTChildAnchor*) calloc(1, sizeof(HTChildAnchor));  /* zero-filled */
 }
 
@@ -60,7 +60,7 @@ static HTChildAnchor* HTChildAnchor_new (void) {
 **		HT_FALSE if they differ in more than  their case.
 */
 
-static HTBool equivalent  (const char* s, const char* t) {
+static HTBool equivalent(const char* s, const char* t) {
 	if(s && t) {  /* Make sure they point to something */
 		for(; *s && *t; s++, t++) {
 			if(toupper(*s) != toupper(*t)) {
@@ -82,8 +82,7 @@ static HTBool equivalent  (const char* s, const char* t) {
 **	document. The parent anchor must already exist.
 */
 
-HTChildAnchor*
-HTAnchor_findChild  (HTParentAnchor * parent, const char* tag) {
+HTChildAnchor* HTAnchor_findChild(HTParentAnchor* parent, const char* tag) {
 	HTChildAnchor* child;
 	HTList* kids;
 
@@ -130,12 +129,12 @@ HTAnchor_findChild  (HTParentAnchor * parent, const char* tag) {
 **	a name, and possibly a link to a _relatively_ named anchor.
 **	(Code originally in ParseHTML.h)
 */
-HTChildAnchor*
-HTAnchor_findChildAndLink (HTParentAnchor * parent,    /* May not be 0 */
-								const char* tag,    /* May be "" or 0 */
-								const char* href,    /* May be "" or 0 */
-								HTLinkType * ltype    /* May be 0 */
-							   ) {
+HTChildAnchor* HTAnchor_findChildAndLink(
+		HTParentAnchor* parent,    /* May not be 0 */
+		const char* tag,    /* May be "" or 0 */
+		const char* href,    /* May be "" or 0 */
+		HTLinkType* ltype    /* May be 0 */
+										) {
 	HTChildAnchor* child = HTAnchor_findChild(parent, tag);
 	if(href && *href) {
 		char* relative_to = HTAnchor_address((HTAnchor*) parent);
@@ -158,7 +157,7 @@ HTAnchor_findChildAndLink (HTParentAnchor * parent,    /* May not be 0 */
 **	like with fonts.
 */
 
-HTAnchor* HTAnchor_findAddress  (const char* address) {
+HTAnchor* HTAnchor_findAddress(const char* address) {
 	char* tag = HTParse(
 			address, "", HT_PARSE_ANCHOR);  /* Anchor tag specified ? */
 
@@ -166,7 +165,8 @@ HTAnchor* HTAnchor_findAddress  (const char* address) {
 	   then we create a child anchor within that document. */
 	if(*tag) {
 		char* docAddress = HTParse(
-				address, "", HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
+				address, "", HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH |
+							 HT_PARSE_PUNCTUATION);
 		HTParentAnchor* foundParent = (HTParentAnchor*) HTAnchor_findAddress(
 				docAddress);
 		HTChildAnchor* foundAnchor = HTAnchor_findChild(foundParent, tag);
@@ -233,7 +233,7 @@ HTAnchor* HTAnchor_findAddress  (const char* address) {
 **	If this anchor's source list is empty, we delete it and its children.
 */
 
-static void deleteLinks  (HTAnchor * me) {
+static void deleteLinks(HTAnchor* me) {
 	if(!me) {
 		return;
 	}
@@ -258,7 +258,7 @@ static void deleteLinks  (HTAnchor * me) {
 	}
 }
 
-HTBool HTAnchor_delete  (HTParentAnchor * me) {
+HTBool HTAnchor_delete(HTParentAnchor* me) {
 	HTChildAnchor* child;
 
 	/* Don't delete if document is loaded */
@@ -302,7 +302,7 @@ HTBool HTAnchor_delete  (HTParentAnchor * me) {
 **	is put in the correct order as we load the document.
 */
 
-void HTAnchor_makeLastChild (HTChildAnchor * me) {
+void HTAnchor_makeLastChild(HTChildAnchor* me) {
 	if(me->parent != (HTParentAnchor*) me) {  /* Make sure it's a child */
 		HTList* siblings = me->parent->children;
 		HTList_removeObject(siblings, me);
@@ -314,29 +314,27 @@ void HTAnchor_makeLastChild (HTChildAnchor * me) {
 **	---------------------
 */
 
-HTParentAnchor* HTAnchor_parent  (HTAnchor * me) {
+HTParentAnchor* HTAnchor_parent(HTAnchor* me) {
 	return me ? me->parent : NULL;
 }
 
-void HTAnchor_setDocument  (HTParentAnchor * me, HyperDoc * doc) {
+void HTAnchor_setDocument(HTParentAnchor* me, HyperDoc* doc) {
 	if(me) {
 		me->document = doc;
 	}
 }
 
-HyperDoc* HTAnchor_document  (HTParentAnchor * me) {
+HyperDoc* HTAnchor_document(HTParentAnchor* me) {
 	return me ? me->document : NULL;
 }
 
 
-void HTAnchor_setAddress
-   (HTAnchor *me, char *addr)
-{
-  if (me)
-    StrAllocCopy (me->parent->address, addr);
+void HTAnchor_setAddress(HTAnchor* me, char* addr) {
+	if(me)
+		StrAllocCopy (me->parent->address, addr);
 }
 
-char* HTAnchor_address  (HTAnchor * me) {
+char* HTAnchor_address(HTAnchor* me) {
 	char* addr = NULL;
 	if(me) {
 		if(((HTParentAnchor*) me == me->parent) ||
@@ -357,43 +355,43 @@ char* HTAnchor_address  (HTAnchor * me) {
 }
 
 
-void HTAnchor_setFormat  (HTParentAnchor * me, HTFormat form) {
+void HTAnchor_setFormat(HTParentAnchor* me, HTFormat form) {
 	if(me) {
 		me->format = form;
 	}
 }
 
-HTFormat HTAnchor_format  (HTParentAnchor * me) {
+HTFormat HTAnchor_format(HTParentAnchor* me) {
 	return me ? me->format : NULL;
 }
 
 
-void HTAnchor_setIndex  (HTParentAnchor * me) {
+void HTAnchor_setIndex(HTParentAnchor* me) {
 	if(me) {
 		me->isIndex = HT_TRUE;
 	}
 }
 
-HTBool HTAnchor_isIndex  (HTParentAnchor * me) {
+HTBool HTAnchor_isIndex(HTParentAnchor* me) {
 	return me ? me->isIndex : HT_FALSE;
 }
 
 
-HTBool HTAnchor_hasChildren  (HTParentAnchor * me) {
+HTBool HTAnchor_hasChildren(HTParentAnchor* me) {
 	return me ? !HTList_isEmpty(me->children) : HT_FALSE;
 }
 
 /*	Title handling
 */
-const char* HTAnchor_title  (HTParentAnchor * me) {
+const char* HTAnchor_title(HTParentAnchor* me) {
 	return me ? me->title : 0;
 }
 
-void HTAnchor_setTitle (HTParentAnchor * me, const char* title) {
+void HTAnchor_setTitle(HTParentAnchor* me, const char* title) {
 	StrAllocCopy(me->title, title);
 }
 
-void HTAnchor_appendTitle (HTParentAnchor * me, const char* title) {
+void HTAnchor_appendTitle(HTParentAnchor* me, const char* title) {
 	StrAllocCat(me->title, title);
 }
 
@@ -401,9 +399,8 @@ void HTAnchor_appendTitle (HTParentAnchor * me, const char* title) {
 **	-------------------------------------
 */
 
-HTBool
-HTAnchor_link (HTAnchor * source, HTAnchor * destination, HTLinkType *
-					type) {
+HTBool HTAnchor_link(
+		HTAnchor* source, HTAnchor* destination, HTLinkType* type) {
 	if(!(source && destination)) {
 		return HT_FALSE;
 	}  /* Can't link to/from non-existing anchor */
@@ -438,11 +435,11 @@ HTAnchor_link (HTAnchor * source, HTAnchor * destination, HTLinkType *
 **	---------------------
 */
 
-HTAnchor* HTAnchor_followMainLink  (HTAnchor * me) {
+HTAnchor* HTAnchor_followMainLink(HTAnchor* me) {
 	return me->mainLink.dest;
 }
 
-HTAnchor* HTAnchor_followTypedLink  (HTAnchor * me, HTLinkType * type) {
+HTAnchor* HTAnchor_followTypedLink(HTAnchor* me, HTLinkType* type) {
 	if(me->mainLink.type == type) {
 		return me->mainLink.dest;
 	}
@@ -460,7 +457,7 @@ HTAnchor* HTAnchor_followTypedLink  (HTAnchor * me, HTLinkType * type) {
 
 /*	Make main link
 */
-HTBool HTAnchor_makeMainLink  (HTAnchor * me, HTLink * movingLink) {
+HTBool HTAnchor_makeMainLink(HTAnchor* me, HTLink* movingLink) {
 	/* Check that everything's OK */
 	if(!(me && HTList_removeObject(me->links, movingLink))) {
 		return HT_FALSE;  /* link not found or NULL anchor */
@@ -484,7 +481,7 @@ HTBool HTAnchor_makeMainLink  (HTAnchor * me, HTLink * movingLink) {
 **	------------
 */
 
-HTList* HTAnchor_methods (HTParentAnchor * me) {
+HTList* HTAnchor_methods(HTParentAnchor* me) {
 	if(!me->methods) {
 		me->methods = HTList_new();
 	}
@@ -495,11 +492,11 @@ HTList* HTAnchor_methods (HTParentAnchor * me) {
 **	--------
 */
 
-void* HTAnchor_protocol (HTParentAnchor * me) {
+void* HTAnchor_protocol(HTParentAnchor* me) {
 	return me->protocol;
 }
 
-void HTAnchor_setProtocol (HTParentAnchor * me, void* protocol) {
+void HTAnchor_setProtocol(HTParentAnchor* me, void* protocol) {
 	me->protocol = protocol;
 }
 
@@ -507,10 +504,10 @@ void HTAnchor_setProtocol (HTParentAnchor * me, void* protocol) {
 **	----------------
 */
 
-char* HTAnchor_physical (HTParentAnchor * me) {
+char* HTAnchor_physical(HTParentAnchor* me) {
 	return me->physical;
 }
 
-void HTAnchor_setPhysical (HTParentAnchor * me, char * physical) {
+void HTAnchor_setPhysical(HTParentAnchor* me, char* physical) {
 	StrAllocCopy(me->physical, physical);
 }

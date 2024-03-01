@@ -195,9 +195,8 @@ struct _HTStructured {
 	/* ... */
 };
 
-void
-HTStartAnchor (HTStructured * obj, const char* name, const char*
-					href) {
+void HTStartAnchor(
+		HTStructured* obj, const char* name, const char* href) {
 	HTBool present[HTML_A_ATTRIBUTES];
 	const char* value[HTML_A_ATTRIBUTES];
 

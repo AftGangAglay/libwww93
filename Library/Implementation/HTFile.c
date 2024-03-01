@@ -101,9 +101,9 @@ static HTSuffix unknown_suffix = { "*.*", NULL, NULL, 1.0 };
 **	Calling this with suffix set to "*.*" will set the default
 **	representation for unknown suffix files which contain a ".".
 */
-void
-HTSetSuffix (const char* suffix, const char* representation,
-				  const char* encoding, float value) {
+void HTSetSuffix(
+		const char* suffix, const char* representation, const char* encoding,
+		float value) {
 
 	HTSuffix* suff;
 
@@ -261,7 +261,7 @@ Bug removed thanks to joe@athena.mit.edu */
 ** On exit,
 **	returns	a malloc'ed string which must be freed by the caller.
 */
-char* HTCacheFileName (const char* name) {
+char* HTCacheFileName(const char* name) {
 	char* access = HTParse(name, "", HT_PARSE_ACCESS);
 	char* host = HTParse(name, "", HT_PARSE_HOST);
 	char* path = HTParse(name, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
@@ -299,7 +299,7 @@ static int HTCreatePath (const char*path)
 ** On exit,
 **	returns	a malloc'ed string which must be freed by the caller.
 */
-char* HTLocalName (const char* name) {
+char* HTLocalName(const char* name) {
 	char* access = HTParse(name, "", HT_PARSE_ACCESS);
 	char* host = HTParse(name, "", HT_PARSE_HOST);
 	char* path = HTParse(name, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
@@ -356,7 +356,7 @@ char* HTLocalName (const char* name) {
 **	the general case.
 */
 
-char* WWW_nameOfFile  (const char* name) {
+char* WWW_nameOfFile(const char* name) {
 	char* result;
 #ifdef NeXT
 	if (0==strncmp("/private/Net/", name, 13)) {
@@ -390,7 +390,7 @@ char* WWW_nameOfFile  (const char* name) {
 **	returns	a pointer to a suitable suffix string if one has been
 **		found, else "".
 */
-const char* HTFileSuffix (HTAtom* rep) {
+const char* HTFileSuffix(HTAtom* rep) {
 	HTSuffix* suff;
 	int n;
 	int i;
@@ -418,8 +418,7 @@ const char* HTFileSuffix (HTAtom* rep) {
 **	It will handle for example  x.txt, x.txt,Z, x.Z
 */
 
-HTFormat
-HTFileFormat  (const char* filename, HTAtom ** pencoding) {
+HTFormat HTFileFormat(const char* filename, HTAtom** pencoding) {
 	HTSuffix* suff;
 	int n;
 	int i;
@@ -471,7 +470,7 @@ HTFileFormat  (const char* filename, HTAtom ** pencoding) {
 **
 */
 
-float HTFileValue  (const char* filename) {
+float HTFileValue(const char* filename) {
 	HTSuffix* suff;
 	int n;
 	int i;
@@ -522,7 +521,7 @@ float HTFileValue  (const char* filename) {
 #define NO_GROUPS
 #endif
 
-HTBool HTEditable  (const char* filename) {
+HTBool HTEditable(const char* filename) {
 #ifdef NO_GROUPS
 	(void) filename;
 
@@ -577,7 +576,7 @@ HTBool HTEditable  (const char* filename) {
 **	The stream must be used for writing back the file.
 **	@@@ no backup done
 */
-HTStream* HTFileSaveStream (HTParentAnchor * anchor) {
+HTStream* HTFileSaveStream(HTParentAnchor* anchor) {
 
 	const char* addr = HTAnchor_address((HTAnchor*) anchor);
 	char* localname = HTLocalName(addr);
@@ -592,9 +591,8 @@ HTStream* HTFileSaveStream (HTParentAnchor * anchor) {
 /*      Output one directory entry
 **
 */
-void
-HTDirEntry (HTStructured * target, const char* tail, const char*
-				 entry) {
+void HTDirEntry(
+		HTStructured* target, const char* tail, const char* entry) {
 	char* relative;
 	char* escaped = HTEscape(entry, URL_XPALPHAS);
 
@@ -615,7 +613,7 @@ HTDirEntry (HTStructured * target, const char* tail, const char*
 **    This gives the TITLE and H1 header, and also a link
 **    to the parent directory if appropriate.
 */
-void HTDirTitles (HTStructured * target, HTAnchor * anchor) {
+void HTDirTitles(HTStructured* target, HTAnchor* anchor) {
 	char* logical = HTAnchor_address(anchor);
 	char* path = HTParse(logical, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 	char* current;
@@ -672,7 +670,6 @@ void HTDirTitles (HTStructured * target, HTAnchor * anchor) {
 }
 
 
-
 /*	Load a document
 **	---------------
 **
@@ -685,9 +682,9 @@ void HTDirTitles (HTStructured * target, HTAnchor * anchor) {
 **			HTLOADED	OK 
 **
 */
-int
-HTLoadFile  (const char* addr, HTParentAnchor * anchor, HTFormat
-				  format_out, HTStream * sink) {
+int HTLoadFile(
+		const char* addr, HTParentAnchor* anchor, HTFormat format_out,
+		HTStream* sink) {
 	char* filename;
 	HTFormat format;
 	char* nodename = 0;

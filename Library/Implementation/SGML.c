@@ -88,8 +88,7 @@ struct _HTStream {
 */
 /* const char * SGML_default = "";   ?? */
 
-static void handle_attribute_name(HTStream* context, const char* s)
-{
+static void handle_attribute_name(HTStream* context, const char* s) {
 
 	HTTag* tag = context->current_tag;
 	attr* attributes = tag->attributes;
@@ -123,8 +122,7 @@ static void handle_attribute_name(HTStream* context, const char* s)
 /*	Handle attribute value
 **	----------------------
 */
-static void handle_attribute_value(HTStream* context, const char* s)
-{
+static void handle_attribute_value(HTStream* context, const char* s) {
 	if(context->current_attribute_number != INVALID) {
 		StrAllocCopy(context->value[context->current_attribute_number], s);
 	}
@@ -145,8 +143,7 @@ static void handle_attribute_value(HTStream* context, const char* s)
 **	a printable non-special character in all cases, even if it is '<'
 */
 
-static void handle_entity(HTStream* context, char term)
-{
+static void handle_entity(HTStream* context, char term) {
 
 	const char** entities = context->dtd->entity_names;
 	const char* s = context->string->data;
@@ -179,8 +176,7 @@ static void handle_entity(HTStream* context, char term)
 /*	End element
 **	-----------
 */
-static void end_element(HTStream* context, HTTag* old_tag)
-{
+static void end_element(HTStream* context, HTTag* old_tag) {
 	if(TRACE) fprintf(stderr, "SGML: End   </%s>\n", old_tag->name);
 	if(old_tag->contents == SGML_EMPTY) {
 		if(TRACE) {
@@ -234,8 +230,7 @@ static void end_element(HTStream* context, HTTag* old_tag)
 
 /*	Start a element
 */
-static void start_element(HTStream* context)
-{
+static void start_element(HTStream* context) {
 	HTTag* new_tag = context->current_tag;
 
 	if(TRACE) fprintf(stderr, "SGML: Start <%s>\n", new_tag->name);
@@ -284,7 +279,7 @@ static HTTag* find_tag(const SGML_dtd* dtd, char* string) {
 
 /*	Could check that we are back to bottom of stack! @@  */
 
-void SGML_free(HTStream * context) {
+void SGML_free(HTStream* context) {
 	int i;
 	(*context->actions->free)(context->target);
 	HTChunkFree(context->string);
@@ -479,7 +474,8 @@ void SGML_character(HTStream* context, char c) {
 
 			/* accumulating value */
 		case S_attr:
-			if(HT_WHITE(c) || (c == '>') || (c == '=')) {        /* End of word */
+			if(HT_WHITE(c) || (c == '>') ||
+			   (c == '=')) {        /* End of word */
 				HTChunkTerminate(string);
 				handle_attribute_name(context, string->data);
 				string->size = 0;

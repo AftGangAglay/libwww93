@@ -64,11 +64,11 @@ static int diagnostic;            /* level: 0=none 2=source */
 #define START(e) (*targetClass.start_element)(target, e, 0, 0)
 #define END(e) (*targetClass.end_element)(target, e)
 
-const char* HTGetNewsHost (void) {
+const char* HTGetNewsHost(void) {
 	return HTNewsHost;
 }
 
-void HTSetNewsHost (const char* value) {
+void HTSetNewsHost(const char* value) {
 	StrAllocCopy(HTNewsHost, value);
 }
 
@@ -92,7 +92,7 @@ void HTSetNewsHost (const char* value) {
 */
 static HTBool initialized = HT_FALSE;
 
-static HTBool initialize (void) {
+static HTBool initialize(void) {
 	const struct hostent* phost;      /* Pointer to host - See netdb.h */
 	struct sockaddr_in* sin = &soc_address;
 
@@ -172,7 +172,6 @@ static HTBool initialize (void) {
 }
 
 
-
 /*	Send NNTP Command line to remote host & Check Response
 **	------------------------------------------------------
 **
@@ -185,7 +184,7 @@ static HTBool initialize (void) {
 */
 
 
-static int response (const char* command) {
+static int response(const char* command) {
 	int result;
 	char* p = response_text;
 	if(command) {
@@ -243,7 +242,7 @@ static int response (const char* command) {
 **	template must be already un upper case.
 **	unknown may be in upper or lower or mixed case to match.
 */
-static HTBool match  (const char* unknown, const char* template) {
+static HTBool match(const char* unknown, const char* template) {
 	const char* u = unknown;
 	const char* t = template;
 	for(; *u && *t && (toupper(*u) == *t);
@@ -261,7 +260,7 @@ static HTBool match  (const char* unknown, const char* template) {
 **	" Tim Berners-Lee <tim@online.cern.ch> "
 **  or	" tim@online.cern.ch ( Tim Berners-Lee ) "
 */
-static char* author_name  (char * email) {
+static char* author_name(char* email) {
 	char* s, * e;
 
 	if((s = strchr(email, '(')) && (e = strchr(email, ')'))) {
@@ -285,7 +284,7 @@ static char* author_name  (char * email) {
 /*	Start anchor element
 **	--------------------
 */
-static void start_anchor (const char* href) {
+static void start_anchor(const char* href) {
 	HTBool present[HTML_A_ATTRIBUTES];
 	const char* value[HTML_A_ATTRIBUTES];
 
@@ -310,7 +309,7 @@ static void start_anchor (const char* href) {
 **	addr	points to the hypertext refernce address,
 **		terminated by white space, comma, NULL or '>' 
 */
-static void write_anchor (const char* text, const char* addr) {
+static void write_anchor(const char* text, const char* addr) {
 	char href[LINE_LENGTH + 1];
 
 	{
@@ -340,7 +339,7 @@ static void write_anchor (const char* text, const char* addr) {
 ** On exit,
 **	*text	is NOT any more chopped up into substrings.
 */
-static void write_anchors  (char * text) {
+static void write_anchors(char* text) {
 	char* start = text;
 	char* end;
 	char c;
@@ -361,7 +360,7 @@ static void write_anchors  (char * text) {
 /*	Abort the connection					abort_socket
 **	--------------------
 */
-static void abort_socket (void) {
+static void abort_socket(void) {
 	if(TRACE) {
 		fprintf(stderr, "HTNews: EOF on read, closing socket %d\n", s);
 	}
@@ -384,7 +383,7 @@ static void abort_socket (void) {
 **	s	Global socket number is OK
 **	HT	Global hypertext object is ready for appending text
 */
-static void read_article (void) {
+static void read_article(void) {
 
 	char line[LINE_LENGTH + 1];
 	char* references = NULL;            /* Hrefs for other articles */
@@ -538,7 +537,7 @@ static void read_article (void) {
 **	RFC 977 specifies that the line "folding" of RFC850 is not used, so we
 **	do not handle it here.
 */
-static void read_list (void) {
+static void read_list(void) {
 
 	char line[LINE_LENGTH + 1];
 	char* p;
@@ -601,8 +600,8 @@ static void read_list (void) {
 **	want more than one field.
 **
 */
-static void read_group (const char* groupName, int first_required, int
-							  last_required) {
+static void
+read_group(const char* groupName, int first_required, int last_required) {
 	char line[LINE_LENGTH + 1];
 	char author[LINE_LENGTH + 1];
 	char subject[LINE_LENGTH + 1];
@@ -865,9 +864,9 @@ static void read_group (const char* groupName, int first_required, int
 /*		Load by name					HTLoadNews
 **		============
 */
-int
-HTLoadNews (const char* arg, HTParentAnchor * anAnchor, HTFormat
-				 format_out, HTStream* stream) {
+int HTLoadNews(
+		const char* arg, HTParentAnchor* anAnchor, HTFormat format_out,
+		HTStream* stream) {
 	char command[257];            /* The whole command */
 	char groupName[GROUP_NAME_LENGTH];    /* Just the group name */
 	int status;                /* tcp return */

@@ -15,7 +15,6 @@ typedef struct {
 } HTChunk;
 
 
-
 /*
 
 Create new chunk
@@ -32,7 +31,7 @@ Create new chunk
                          
  */
 
-HTChunk* HTChunkCreate (int growby);
+HTChunk* HTChunkCreate(int growby);
 
 
 /*
@@ -49,7 +48,7 @@ Free a chunk
                          
  */
 
-void HTChunkFree (HTChunk * ch);
+void HTChunkFree(HTChunk* ch);
 
 
 /*
@@ -66,7 +65,7 @@ Clear a chunk
                          
  */
 
-void HTChunkClear (HTChunk * ch);
+void HTChunkClear(HTChunk* ch);
 
 
 /*
@@ -85,7 +84,7 @@ Ensure a chunk has a certain space in
                          
  */
 
-void HTChunkEnsure (HTChunk * ch, int s);
+void HTChunkEnsure(HTChunk* ch, int s);
 
 
 /*
@@ -103,7 +102,7 @@ Append a character to a  chunk
   *ch                    Is one character bigger
                          
  */
-void HTChunkPutc (HTChunk * ch, char c);
+void HTChunkPutc(HTChunk* ch, char c);
 
 /*
 
@@ -122,7 +121,7 @@ Append a string to a  chunk
  */
 
 
-void HTChunkPuts (HTChunk * ch, const char* str);
+void HTChunkPuts(HTChunk* ch, const char* str);
 
 
 /*
@@ -144,7 +143,7 @@ Append a zero character to a  chunk
  */
 
 
-void HTChunkTerminate (HTChunk * ch);
+void HTChunkTerminate(HTChunk* ch);
 
 /*
 

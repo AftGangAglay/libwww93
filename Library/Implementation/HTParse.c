@@ -26,8 +26,7 @@ struct struct_parts {
 **	All trailing white space is OVERWRITTEN with zero.
 */
 
-char* HTStrip(char* s)
-{
+char* HTStrip(char* s) {
 #define SPACE(c) ((c==' ')||(c=='\t')||(c=='\n'))
 	char* p = s;
 	for(p = s; *p; p++);                /* Find end of string */
@@ -52,8 +51,7 @@ char* HTStrip(char* s)
 **	host, anchor and access may be nonzero if they were specified.
 **	Any which are nonzero point to zero terminated strings.
 */
-static void scan(char* name, struct struct_parts* parts)
-{
+static void scan(char* name, struct struct_parts* parts) {
 	char* after_access;
 	char* p;
 	int length = strlen(name);
@@ -138,9 +136,7 @@ static void scan(char* name, struct struct_parts* parts)
 ** On exit,
 **	returns		A pointer to a malloc'd string which MUST BE FREED
 */
-char* HTParse(const char* aName, const char* relatedName, int wanted)
-
-{
+char* HTParse(const char* aName, const char* relatedName, int wanted) {
 	char* result = 0;
 	char* return_value = 0;
 	int len;
@@ -272,9 +268,7 @@ char* HTParse(const char* aName, const char* relatedName, int wanted)
 //
 //	or	../../albert.html
 */
-void HTSimplify(char* filename)
-
-{
+void HTSimplify(char* filename) {
 	char* p;
 	char* q;
 	if(filename[0] && filename[1]) {    /* Bug fix 12 Mar 93 TBL */
@@ -322,8 +316,7 @@ void HTSimplify(char* filename)
 **	The caller is responsible for freeing the resulting name later.
 **
 */
-char* HTRelative(const char* aName, const char* relatedName)
-{
+char* HTRelative(const char* aName, const char* relatedName) {
 	char* result = 0;
 	const char* p = aName;
 	const char* q = relatedName;
@@ -405,7 +398,7 @@ static const unsigned char isAcceptable[96] =
 
 static char* hex = "0123456789ABCDEF";
 
-char* HTEscape  (const char* str, unsigned char mask) {
+char* HTEscape(const char* str, unsigned char mask) {
 #define ACCEPTABLE(a)    ( a>=32 && a<128 && ((isAcceptable[a-32]) & mask))
 	const char* p;
 	char* q;
@@ -441,13 +434,13 @@ char* HTEscape  (const char* str, unsigned char mask) {
 **	The string is converted in place, as it will never grow.
 */
 
-static char from_hex (char c) {
+static char from_hex(char c) {
 	return c >= '0' && c <= '9' ? c - '0' : c >= 'A' && c <= 'F' ? c - 'A' + 10
 																 : c - 'a' +
 																   10;    /* accept small letters just in case */
 }
 
-char* HTUnEscape (char * str) {
+char* HTUnEscape(char* str) {
 	char* p = str;
 	char* q = str;
 	while(*p) {

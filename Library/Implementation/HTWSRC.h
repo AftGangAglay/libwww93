@@ -15,8 +15,8 @@
 
 #include "HTFormat.h"
 
-HTStream* HTWSRCConvert
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
+HTStream*
+HTWSRCConvert(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink);
 
 /*
 

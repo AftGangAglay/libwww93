@@ -50,8 +50,9 @@ static rule* rule_tail = 0;    /* Pointer to last on list */
 **	returns		0 if success, -1 if error.
 */
 
-int HTAddRule(HTRuleOp op, const char* pattern, const char* equiv)
-{ /* BYTE_ADDRESSING removed and memory check - AS - 1 Sep 93 */
+int HTAddRule(
+		HTRuleOp op, const char* pattern,
+		const char* equiv) { /* BYTE_ADDRESSING removed and memory check - AS - 1 Sep 93 */
 	rule* temp;
 	char* pPattern;
 
@@ -99,8 +100,7 @@ int HTAddRule(HTRuleOp op, const char* pattern, const char* equiv)
 ** See also
 **	HTAddRule()
 */
-int HTClearRules(void)
-{
+int HTClearRules(void) {
 	while(rules) {
 		rule* temp = rules;
 		rules = temp->next;
@@ -129,8 +129,7 @@ int HTClearRules(void)
 **			occured, then it is a copy of te original.
 */
 
-char* HTTranslate(const char* required)
-{
+char* HTTranslate(const char* required) {
 	rule* r;
 	char* current = malloc(strlen(required) + 1);
 	if(current == NULL) outofmem(__FILE__, "HTTranslate"); /* NT */
@@ -232,7 +231,7 @@ char* HTTranslate(const char* required)
 **
 ** returns	0 OK, < 0 syntax error.
 */
-int HTSetConfiguration (const char* config) {
+int HTSetConfiguration(const char* config) {
 	HTRuleOp op;
 	char* line = NULL;
 	char* pointer = line;
@@ -309,7 +308,7 @@ int HTSetConfiguration (const char* config) {
 **	The strings may not contain spaces.
 */
 
-int HTLoadRules (const char* filename) {
+int HTLoadRules(const char* filename) {
 	FILE* fp = fopen(filename, "r");
 	char line[LINE_LENGTH + 1];
 

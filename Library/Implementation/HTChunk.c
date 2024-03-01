@@ -10,7 +10,7 @@
 /*	Create a chunk with a certain allocation unit
 **	--------------
 */
-HTChunk* HTChunkCreate  (int grow) {
+HTChunk* HTChunkCreate(int grow) {
 	HTChunk* ch = malloc(sizeof(HTChunk));
 	if(ch == NULL) outofmem(__FILE__, "cretion of chunk");
 
@@ -25,7 +25,7 @@ HTChunk* HTChunkCreate  (int grow) {
 /*	Clear a chunk of all data
 **	--------------------------
 */
-void HTChunkClear  (HTChunk * ch) {
+void HTChunkClear(HTChunk* ch) {
 	if(ch->data) {
 		free(ch->data);
 		ch->data = 0;
@@ -38,7 +38,7 @@ void HTChunkClear  (HTChunk * ch) {
 /*	Free a chunk
 **	------------
 */
-void HTChunkFree  (HTChunk * ch) {
+void HTChunkFree(HTChunk* ch) {
 	if(ch->data) free(ch->data);
 	free(ch);
 }
@@ -47,11 +47,11 @@ void HTChunkFree  (HTChunk * ch) {
 /*	Append a character
 **	------------------
 */
-void HTChunkPutc  (HTChunk * ch, char c) {
+void HTChunkPutc(HTChunk* ch, char c) {
 	if(ch->size >= ch->allocated) {
 		ch->allocated = ch->allocated + ch->growby;
-		ch->data = ch->data ? realloc(ch->data, ch->allocated)
-							: malloc(ch->allocated);
+		ch->data = ch->data ? realloc(ch->data, ch->allocated) : malloc(
+				ch->allocated);
 		if(!ch->data) outofmem(__FILE__, "HTChunkPutc");
 	}
 	ch->data[ch->size++] = c;
@@ -61,12 +61,12 @@ void HTChunkPutc  (HTChunk * ch, char c) {
 /*	Ensure a certain size
 **	---------------------
 */
-void HTChunkEnsure  (HTChunk * ch, int needed) {
+void HTChunkEnsure(HTChunk* ch, int needed) {
 	if(needed <= ch->allocated) return;
 	ch->allocated = needed - 1 - ((needed - 1) % ch->growby) +
 					ch->growby; /* Round up */
-	ch->data = ch->data ? realloc(ch->data, ch->allocated)
-						: malloc(ch->allocated);
+	ch->data = ch->data ? realloc(ch->data, ch->allocated) : malloc(
+			ch->allocated);
 	if(ch->data == NULL) outofmem(__FILE__, "HTChunkEnsure");
 }
 
@@ -74,7 +74,7 @@ void HTChunkEnsure  (HTChunk * ch, int needed) {
 /*	Terminate a chunk
 **	-----------------
 */
-void HTChunkTerminate  (HTChunk * ch) {
+void HTChunkTerminate(HTChunk* ch) {
 	HTChunkPutc(ch, (char) 0);
 }
 
@@ -82,7 +82,7 @@ void HTChunkTerminate  (HTChunk * ch) {
 /*	Append a string
 **	---------------
 */
-void HTChunkPuts  (HTChunk * ch, const char* s) {
+void HTChunkPuts(HTChunk* ch, const char* s) {
 	const char* p;
 	for(p = s; *p; p++) {
 		HTChunkPutc(ch, *p);

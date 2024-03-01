@@ -42,27 +42,25 @@ struct _HTStream {
 **	------------------
 */
 
-static void HTPlain_put_character (HTStream * me, char c) {
+static void HTPlain_put_character(HTStream* me, char c) {
 	HText_appendCharacter(me->text, c);
 }
-
 
 
 /*	String handling
 **	---------------
 **
 */
-static void HTPlain_put_string (HTStream * me, const char* s) {
+static void HTPlain_put_string(HTStream* me, const char* s) {
 	HText_appendText(me->text, s);
 }
 
 
-static void HTPlain_write (HTStream * me, const char* s, int l) {
+static void HTPlain_write(HTStream* me, const char* s, int l) {
 	const char* p;
 	const char* e = s + l;
 	for(p = s; p < e; p++) HText_appendCharacter(me->text, *p);
 }
-
 
 
 /*	Free an HTML object
@@ -71,18 +69,17 @@ static void HTPlain_write (HTStream * me, const char* s, int l) {
 **	Note that the SGML parsing context is freed, but the created object is not,
 **	as it takes on an existence of its own unless explicitly freed.
 */
-static void HTPlain_free (HTStream * me) {
+static void HTPlain_free(HTStream* me) {
 	free(me);
 }
 
 /*	End writing
 */
 
-static void HTPlain_abort (HTStream * me, HTError e) {
+static void HTPlain_abort(HTStream* me, HTError e) {
 	(void) e;
 	HTPlain_free(me);
 }
-
 
 
 /*		Structured Object Class
@@ -96,9 +93,8 @@ const HTStreamClass HTPlain = {
 /*		New object
 **		----------
 */
-HTStream*
-HTPlainPresent (HTPresentation * pres, HTParentAnchor * anchor,
-					 HTStream * sink) {
+HTStream* HTPlainPresent(
+		HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 
 	HTStream* me = malloc(sizeof(*me));
 

@@ -17,16 +17,16 @@ extern const HTStructuredClass HTMLPresentation;
 HTConverter to present HTML
 
  */
-HTStream* HTMLToPlain
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
+HTStream*
+HTMLToPlain(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink);
 
-HTStream* HTMLToC
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
+HTStream* HTMLToC(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink);
 
-HTStream* HTMLPresent
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
+HTStream*
+HTMLPresent(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink);
 
-HTStructured* HTML_new(HTParentAnchor * anchor, HTFormat format_out, HTStream * target);
+HTStructured*
+HTML_new(HTParentAnchor* anchor, HTFormat format_out, HTStream* target);
 
 /*
 
@@ -45,9 +45,8 @@ Record error message as a hypertext object
 **      a retrun code like HT_LOADED if object exists else 60; 0
 */
 
-int HTLoadError (HTStream * sink,
-									  int number,
-									  const char* message);
+int HTLoadError(
+		HTStream* sink, int number, const char* message);
 
 #endif
 

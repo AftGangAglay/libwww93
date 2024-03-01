@@ -68,7 +68,6 @@ static HTStructuredClass targetClass;        /* Its action routines */
 #define NEXT_CHAR HTGetChararcter()
 
 
-
 /*	Module-wide variables
 */
 static int s;                    /* Socket for GopherHost */
@@ -82,7 +81,7 @@ static int s;                    /* Socket for GopherHost */
 static HTBool acceptable[256];
 static HTBool acceptable_inited = HT_FALSE;
 
-static void init_acceptable (void) {
+static void init_acceptable(void) {
 	unsigned int i;
 	char* good = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./-_$";
 	for(i = 0; i < 256; i++) acceptable[i] = HT_FALSE;
@@ -95,7 +94,7 @@ static const char hex[17] = "0123456789abcdef";
 /*	Decdoe one hex character
 */
 
-static char from_hex (char c) {
+static char from_hex(char c) {
 	return (c >= '0') && (c <= '9') ? c - '0' : (c >= 'A') && (c <= 'F') ? c -
 																		   'A' +
 																		   10 :
@@ -104,7 +103,6 @@ static char from_hex (char c) {
 																		   10
 																		 : 0;
 }
-
 
 
 /*	Paste in an Anchor
@@ -118,7 +116,7 @@ static char from_hex (char c) {
 **	text 	points to the text to be put into the file, 0 terminated.
 **	addr	points to the hypertext refernce address 0 terminated.
 */
-static void write_anchor (const char* text, const char* addr) {
+static void write_anchor(const char* text, const char* addr) {
 
 
 	HTBool present[HTML_A_ATTRIBUTES];
@@ -144,7 +142,7 @@ static void write_anchor (const char* text, const char* addr) {
 **
 */
 
-static void parse_menu  (const char* arg, HTParentAnchor * anAnchor) {
+static void parse_menu(const char* arg, HTParentAnchor* anAnchor) {
 	char gtype;
 	char ch;
 	char line[BIG];
@@ -272,6 +270,7 @@ static void parse_menu  (const char* arg, HTParentAnchor * anAnchor) {
 
 	return;
 }
+
 /*	Parse a Gopher CSO document
  **	============================
  **
@@ -286,7 +285,7 @@ static void parse_menu  (const char* arg, HTParentAnchor * anAnchor) {
  **  secret@dxcern.cern.ch .
  */
 
-static void parse_cso  (const char* arg, HTParentAnchor * anAnchor) {
+static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 	char ch;
 	char line[BIG];
 	char* p = line;
@@ -404,8 +403,7 @@ static void parse_cso  (const char* arg, HTParentAnchor * anAnchor) {
  **	-------------------------------
  */
 
-static void
-display_index  (const char* arg, HTParentAnchor * anAnchor) {
+static void display_index(const char* arg, HTParentAnchor* anAnchor) {
 
 	START(HTML_H1);
 	PUTS(arg);
@@ -428,7 +426,7 @@ display_index  (const char* arg, HTParentAnchor * anAnchor) {
 **      -------------------------------
 */
 
-static void display_cso  (const char* arg, HTParentAnchor * anAnchor) {
+static void display_cso(const char* arg, HTParentAnchor* anAnchor) {
 	START(HTML_H1);
 	PUTS(arg);
 	PUTS(" index");
@@ -452,7 +450,7 @@ static void display_cso  (const char* arg, HTParentAnchor * anAnchor) {
 **
 **	The % hex escapes are converted. Otheriwse, the string is copied.
 */
-static void de_escape (char * command, const char* selector) {
+static void de_escape(char* command, const char* selector) {
 	const char* p = selector;
 	char* q = command;
 	if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
@@ -482,9 +480,9 @@ static void de_escape (char * command, const char* selector) {
 **	 Bug:	No decoding of strange data types as yet.
 **
 */
-int
-HTLoadGopher (const char* arg, HTParentAnchor * anAnchor, HTFormat
-				   format_out, HTStream* sink) {
+int HTLoadGopher(
+		const char* arg, HTParentAnchor* anAnchor, HTFormat format_out,
+		HTStream* sink) {
 	char* command;            /* The whole command */
 	int status;                /* tcp return */
 	char gtype;                /* Gopher Node type */

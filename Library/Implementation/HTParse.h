@@ -44,7 +44,7 @@ HTParse:  Parse a URL relative to another URL
                          
  */
 
-char* HTParse(const char * aName, const char * relatedName, int wanted);
+char* HTParse(const char* aName, const char* relatedName, int wanted);
 
 
 /*
@@ -130,7 +130,7 @@ HTUnEscape: Decode %xx escaped characters
    in place, as it will never grow.
    
  */
-char* HTUnEscape( char * str);
+char* HTUnEscape(char* str);
 
 
 #endif  /* HTPARSE_H */

@@ -25,7 +25,7 @@ typedef struct _HTBTree_element {
 	int right_depth;
 } HTBTElement;
 
-typedef int (* HTComparer)(void * a, void * b);
+typedef int (* HTComparer)(void* a, void* b);
 
 typedef struct _HTBTree_top {
 	HTComparer compare;
@@ -38,7 +38,7 @@ typedef struct _HTBTree_top {
 Create a binary tree given its discrimination routine
 
  */
-HTBTree* HTBTree_new (HTComparer comp);
+HTBTree* HTBTree_new(HTComparer comp);
 
 
 /*
@@ -46,7 +46,7 @@ HTBTree* HTBTree_new (HTComparer comp);
 Free storage of the tree but not of the objects
 
  */
-void HTBTree_free (HTBTree * tree);
+void HTBTree_free(HTBTree* tree);
 
 
 /*
@@ -54,7 +54,7 @@ void HTBTree_free (HTBTree * tree);
 Free storage of the tree and of the objects
 
  */
-void HTBTreeAndObject_free (HTBTree * tree);
+void HTBTreeAndObject_free(HTBTree* tree);
 
 
 /*
@@ -63,7 +63,7 @@ Add an object to a binary tree
 
  */
 
-void HTBTree_add (HTBTree * tree, void* object);
+void HTBTree_add(HTBTree* tree, void* object);
 
 
 /*
@@ -86,7 +86,7 @@ Find next element in depth-first order
   returns                Pointer to element ot NULL if none left.
                          
  */
-HTBTElement* HTBTree_next (HTBTree * tree, HTBTElement * ele);
+HTBTElement* HTBTree_next(HTBTree* tree, HTBTElement* ele);
 
 /*
 

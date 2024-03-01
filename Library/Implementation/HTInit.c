@@ -19,7 +19,7 @@
 #include "HTWSRC.h"
 #include "HTFWriter.h"
 
-void HTFormatInit (void) {
+void HTFormatInit(void) {
 #ifdef NeXT
 	HTSetPresentation("application/postscript", "open %s",	1.0, 2.0, 0.0);
 	/* The following needs the GIF previewer -- you might not have it. */
@@ -65,8 +65,9 @@ void HTFormatInit (void) {
 */
 
 #ifndef NO_INIT
-void
-HTFileInit (void) {    /* 	Suffix     Contenet-Type   Content-Encoding    Quality  */
+
+void HTFileInit(
+		void) {    /* 	Suffix     Contenet-Type   Content-Encoding    Quality  */
 
 	HTSetSuffix(
 			".ai", "application/postscript", "8bit",

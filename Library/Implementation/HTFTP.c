@@ -138,7 +138,7 @@ static char* data_write_pointer;
 /*	Procedure: Read a character from the data connection
 **	----------------------------------------------------
 */
-static char next_data_char (void) {
+static char next_data_char(void) {
 	int status;
 	if(data_read_pointer >= data_write_pointer) {
 		status = NETREAD(data_soc, data_buffer, DATA_BUFFER_SIZE);
@@ -161,8 +161,7 @@ static char next_data_char (void) {
 /*	Close an individual connection
 **
 */
-static int close_connection(connection* con)
-{
+static int close_connection(connection* con) {
 	connection* scan;
 	int status = NETCLOSE(con->socket);
 	if(TRACE) fprintf(stderr, "FTP: Closing control socket %d\n", con->socket);
@@ -202,8 +201,7 @@ static int close_connection(connection* con)
 **	returns:  The first digit of the reply type,
 **		  or negative for communication failure.
 */
-static int response(char* cmd)
-{
+static int response(char* cmd) {
 	int result;                /* Three-digit decimal code */
 	int continuation_response = -1;
 	int status;
@@ -302,7 +300,7 @@ static int response(char* cmd)
 **	It ensures that all connections are logged in if they exist.
 **	It ensures they have the port number transferred.
 */
-static int get_connection  (const char* arg) {
+static int get_connection(const char* arg) {
 	struct sockaddr_in soc_address;    /* Binary network address */
 	struct sockaddr_in* sin = &soc_address;
 
@@ -502,8 +500,7 @@ static int get_connection  (const char* arg) {
 **
 **
 */
-static int close_master_socket(void)
-{
+static int close_master_socket(void) {
 	int status;
 	FD_CLR(master_socket, &open_sockets);
 	status = NETCLOSE(master_socket);
@@ -528,8 +525,7 @@ static int close_master_socket(void)
 **	master_socket	is socket number if good, else negative.
 **	port_number	is valid if good.
 */
-static int get_listen_socket(void)
-{
+static int get_listen_socket(void) {
 	struct sockaddr_in soc_address;    /* Binary network address */
 	struct sockaddr_in* sin = &soc_address;
 	int new_socket;            /* Will be master_socket */
@@ -645,7 +641,6 @@ static int get_listen_socket(void)
 #endif
 
 
-
 /*	Read a directory into an hypertext object from the data socket
 **	--------------------------------------------------------------
 **
@@ -656,9 +651,9 @@ static int get_listen_socket(void)
 **	returns		HT_LOADED if OK
 **			<0 if error.
 */
-static int
-read_directory  (HTParentAnchor * parent, const char* address, HTFormat
-					  format_out, HTStream * sink) {
+static int read_directory(
+		HTParentAnchor* parent, const char* address, HTFormat format_out,
+		HTStream* sink) {
 	HTStructured* target = HTML_new(parent, format_out, sink);
 	HTStructuredClass targetClass;
 	char* filename = HTParse(address, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
@@ -753,9 +748,9 @@ read_directory  (HTParentAnchor * parent, const char* address, HTFormat
 **	returns		Socket number for file if good.
 **			<0 if bad.
 */
-int
-HTFTPLoad  (const char* name, HTParentAnchor * anchor, HTFormat
-				 format_out, HTStream * sink) {
+int HTFTPLoad(
+		const char* name, HTParentAnchor* anchor, HTFormat format_out,
+		HTStream* sink) {
 	HTBool isDirectory = HT_FALSE;
 	int status;
 	int retry;            /* How many times tried? */
@@ -849,7 +844,8 @@ HTFTPLoad  (const char* name, HTParentAnchor * anchor, HTFormat
 /*	Ask for the file:
 */
 	{
-		char* filename = HTParse(name, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
+		char* filename = HTParse(
+				name, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 		char command[LINE_LENGTH + 1];
 		HTBool binary;
 		HTAtom* encoding;

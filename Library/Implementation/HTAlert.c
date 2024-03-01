@@ -15,7 +15,7 @@
 #include "tcp.h"        /* for toupper */
 #include <ctype.h>        /* for toupper - should be in tcp.h */
 
-void HTAlert (const char * Msg) {
+void HTAlert(const char* Msg) {
 #ifdef NeXTStep
 	NXRunAlertPanel(NULL, "%s", NULL, NULL, NULL, Msg);
 #else
@@ -24,12 +24,12 @@ void HTAlert (const char * Msg) {
 }
 
 
-void HTProgress (const char * Msg) {
+void HTProgress(const char* Msg) {
 	fprintf(stderr, "   %s ...\n", Msg);
 }
 
 
-HTBool HTConfirm (const char * Msg) {
+HTBool HTConfirm(const char* Msg) {
 	char Reply[3];
 	char* URep;
 
@@ -53,7 +53,7 @@ HTBool HTConfirm (const char * Msg) {
 
 /*	Prompt for answer and get text back
 */
-char* HTPrompt (const char * Msg, const char* deflt) {
+char* HTPrompt(const char* Msg, const char* deflt) {
 	char Tmp[200];
 	char* rep = 0;
 	fprintf(stderr, "WWW: %s", Msg);

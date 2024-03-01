@@ -118,26 +118,25 @@ typedef struct _HTStructuredClass {
 
 	char* name;                            /* Just for diagnostics */
 
-	void (* free)(HTStructured * me);
+	void (* free)(HTStructured* me);
 
-	void (* abort)(HTStructured * me, HTError e);
+	void (* abort)(HTStructured* me, HTError e);
 
-	void (* put_character)(HTStructured * me, char ch);
+	void (* put_character)(HTStructured* me, char ch);
 
-	void (* put_string)(HTStructured * me, const char* str);
+	void (* put_string)(HTStructured* me, const char* str);
 
-	void (* write)(HTStructured * me, const char* str, int len);
+	void (* write)(HTStructured* me, const char* str, int len);
 
-	void (* start_element)(HTStructured * me,
-										 int element_number,
-										 const HTBool* attribute_present,
-										 const char** attribute_value);
+	void (* start_element)(
+			HTStructured* me, int element_number,
+			const HTBool* attribute_present, const char** attribute_value);
 
-	void (* end_element)(HTStructured * me,
-									   int element_number);
+	void (* end_element)(
+			HTStructured* me, int element_number);
 
-	void (* put_entity)(HTStructured * me,
-									  int entity_number);
+	void (* put_entity)(
+			HTStructured* me, int entity_number);
 
 } HTStructuredClass;
 
@@ -153,8 +152,8 @@ typedef struct _HTStructuredClass {
 */
 
 
-HTStream* SGML_new (const SGML_dtd* dtd,
-										 HTStructured* target);
+HTStream* SGML_new(
+		const SGML_dtd* dtd, HTStructured* target);
 
 extern const HTStreamClass SGMLParser;
 

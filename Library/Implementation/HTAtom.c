@@ -22,8 +22,7 @@
 static HTAtom* hash_table[HASH_SIZE];
 static HTBool initialised = HT_FALSE;
 
-HTAtom* HTAtom_for(const char* string)
-{
+HTAtom* HTAtom_for(const char* string) {
 	int hash;
 	const char* p;
 	HTAtom* a;

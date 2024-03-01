@@ -88,7 +88,7 @@ HTBool HTRegisterProtocol(protocol)HTProtocol* protocol;
 */
 #ifndef NO_INIT
 
-static void HTAccessInit (void)            /* Call me once */
+static void HTAccessInit(void)            /* Call me once */
 {
 	extern HTProtocol HTTP, HTFile, HTTelnet, HTTn3270, HTRlogin;
 #ifndef DECNET
@@ -127,7 +127,7 @@ static void HTAccessInit (void)            /* Call me once */
 **			HT_OK			Success
 **
 */
-static int get_physical (const char * addr, HTParentAnchor * anchor) {
+static int get_physical(const char* addr, HTParentAnchor* anchor) {
 	char* access = 0;    /* Name of access method */
 	char* physical = 0;
 
@@ -168,7 +168,8 @@ static int get_physical (const char * addr, HTParentAnchor * anchor) {
 #endif
 		if(gateway) {
 			char* path = HTParse(
-					addr, "", HT_PARSE_HOST + HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
+					addr, "",
+					HT_PARSE_HOST + HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 			/* Chop leading / off to make host into part of path */
 			char* gatewayed = HTParse(path + 1, gateway, HT_PARSE_ALL);
 			free(path);
@@ -224,9 +225,9 @@ static int get_physical (const char * addr, HTParentAnchor * anchor) {
 **					(telnet sesssion started etc)
 **
 */
-static int
-HTLoad (const char * addr, HTParentAnchor * anchor, HTFormat format_out,
-			 HTStream * sink) {
+static int HTLoad(
+		const char* addr, HTParentAnchor* anchor, HTFormat format_out,
+		HTStream* sink) {
 	HTProtocol* p;
 	int status = get_physical(addr, anchor);
 	if(status == HT_FORBIDDEN) {
@@ -243,7 +244,7 @@ HTLoad (const char * addr, HTParentAnchor * anchor, HTFormat format_out,
 /*		Get a save stream for a document
 **		--------------------------------
 */
-HTStream* HTSaveStream (HTParentAnchor * anchor) {
+HTStream* HTSaveStream(HTParentAnchor* anchor) {
 	HTProtocol* p = HTAnchor_protocol(anchor);
 	if(!p) return NULL;
 
@@ -271,9 +272,9 @@ HTStream* HTSaveStream (HTParentAnchor * anchor) {
 **
 */
 
-static HTBool
-HTLoadDocument (const char * full_address, HTParentAnchor * anchor,
-					 HTFormat format_out, HTStream* sink) {
+static HTBool HTLoadDocument(
+		const char* full_address, HTParentAnchor* anchor, HTFormat format_out,
+		HTStream* sink) {
 	int status;
 	HText* text;
 
@@ -366,7 +367,7 @@ HTLoadDocument (const char * full_address, HTParentAnchor * anchor,
 **
 */
 
-HTBool HTLoadAbsolute (const char * addr) {
+HTBool HTLoadAbsolute(const char* addr) {
 	return HTLoadDocument(
 			addr, HTAnchor_parent(HTAnchor_findAddress(addr)),
 			HTOutputFormat ? HTOutputFormat : WWW_PRESENT, HTOutputStream);
@@ -387,15 +388,12 @@ HTBool HTLoadAbsolute (const char * addr) {
 **
 */
 
-HTBool
-HTLoadToStream (const char * addr, HTBool filter, HTStream* sink) {
+HTBool HTLoadToStream(const char* addr, HTBool filter, HTStream* sink) {
 	(void) filter;
 	return HTLoadDocument(
 			addr, HTAnchor_parent(HTAnchor_findAddress(addr)),
 			HTOutputFormat ? HTOutputFormat : WWW_PRESENT, sink);
 }
-
-
 
 
 /*		Load a document from relative name
@@ -412,8 +410,7 @@ HTLoadToStream (const char * addr, HTBool filter, HTStream* sink) {
 **
 */
 
-HTBool
-HTLoadRelative (const char * relative_name, HTParentAnchor * here) {
+HTBool HTLoadRelative(const char* relative_name, HTParentAnchor* here) {
 	char* full_address = 0;
 	HTBool result;
 	char* mycopy = 0;
@@ -424,7 +421,9 @@ HTLoadRelative (const char * relative_name, HTParentAnchor * here) {
 
 	stripped = HTStrip(mycopy);
 	full_address = HTParse(
-			stripped, current_address, HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
+			stripped, current_address,
+			HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH |
+			HT_PARSE_PUNCTUATION);
 	result = HTLoadAbsolute(full_address);
 	free(full_address);
 	free(current_address);
@@ -445,7 +444,7 @@ HTLoadRelative (const char * relative_name, HTParentAnchor * here) {
 **
 */
 
-HTBool HTLoadAnchor (HTAnchor * destination) {
+HTBool HTLoadAnchor(HTAnchor* destination) {
 	HTParentAnchor* parent;
 	HTBool loaded = HT_FALSE;
 	if(!destination) return HT_FALSE;    /* No link */
@@ -491,13 +490,12 @@ HTBool HTLoadAnchor (HTAnchor * destination) {
 **	here		is anchor search is to be done on.
 */
 
-static char hex(int i)
-{
+static char hex(int i) {
 	char* hexchars = "0123456789ABCDEF";
 	return hexchars[i];
 }
 
-HTBool HTSearch (const char * keywords, HTParentAnchor * here) {
+HTBool HTSearch(const char* keywords, HTParentAnchor* here) {
 
 #define acceptable \
 "1234567890abcdefghijlkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-_"
@@ -532,7 +530,8 @@ HTBool HTSearch (const char * keywords, HTParentAnchor * here) {
 */
 	for(s = keywords; *s && HT_WHITE(*s);
 			s++) { /*scan */ }    /* Skip white space */
-	for(e = s + strlen(s); e > s && HT_WHITE(*(e - 1)); e--); /* Skip trailers */
+	for(e = s + strlen(s); e > s && HT_WHITE(*(e - 1));
+			e--) { } /* Skip trailers */
 	for(q = escaped, p = s; p < e; p++) {            /* scan stripped field */
 		int c = (int) (*p);
 		if(HT_WHITE(*p)) {
@@ -573,8 +572,7 @@ HTBool HTSearch (const char * keywords, HTParentAnchor * here) {
 **	*addres		is name of object search is to be done on.
 */
 
-HTBool
-HTSearchAbsolute (const char * keywords, const char * indexname) {
+HTBool HTSearchAbsolute(const char* keywords, const char* indexname) {
 	HTParentAnchor* anchor = (HTParentAnchor*) HTAnchor_findAddress(indexname);
 	return HTSearch(keywords, anchor);
 }
@@ -596,7 +594,7 @@ HTSearchAbsolute (const char * keywords, const char * indexname) {
 **		4	http://info.cern.ch/default.html
 **
 */
-HTParentAnchor* HTHomeAnchor (void) {
+HTParentAnchor* HTHomeAnchor(void) {
 	char* my_home_document = NULL;
 	char* home = (char*) getenv(LOGICAL_DEFAULT);
 	char* ref;
@@ -656,7 +654,8 @@ HTParentAnchor* HTHomeAnchor (void) {
 	ref = HTParse(
 			my_home_document ? my_home_document : HTClientHost ? REMOTE_ADDRESS
 															   : LAST_RESORT,
-			"file:", HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
+			"file:", HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH |
+					 HT_PARSE_PUNCTUATION);
 	if(my_home_document) {
 		if(TRACE) {
 			fprintf(

@@ -73,18 +73,16 @@ struct _HTStream {
 
 /*		Forward declarations of routines
 */
-static void get_styles (void);
+static void get_styles(void);
 
 
-static void actually_set_style (HTStructured * me);
+static void actually_set_style(HTStructured* me);
 
-static void
-change_paragraph_style (HTStructured * me, HTStyle * style);
+static void change_paragraph_style(HTStructured* me, HTStyle* style);
 
 /*	Style buffering avoids dummy paragraph begin/ends.
 */
 #define UPDATE_STYLE if (me->style_change) { actually_set_style(me); }
-
 
 
 /* 	Entity values -- for ISO Latin 1 local representation
@@ -184,7 +182,7 @@ a sequence of styles.
 
 /*		If style really needs to be set, call this
 */
-static void actually_set_style (HTStructured * me) {
+static void actually_set_style(HTStructured* me) {
 	if(!me->text) {            /* First time through */
 		me->text = HText_new2(me->node_anchor, me->target);
 		HText_beginAppend(me->text);
@@ -201,8 +199,7 @@ static void actually_set_style (HTStructured * me) {
 /*      If you THINK you need to change style, call this
 */
 
-static void
-change_paragraph_style (HTStructured * me, HTStyle * style) {
+static void change_paragraph_style(HTStructured* me, HTStyle* style) {
 	if(me->new_style != style) {
 		me->style_change = HT_TRUE;
 		me->new_style = style;
@@ -218,7 +215,7 @@ change_paragraph_style (HTStructured * me, HTStyle * style) {
 /*	Character handling
 **	------------------
 */
-static void HTML_put_character (HTStructured * me, char c) {
+static void HTML_put_character(HTStructured* me, char c) {
 
 	switch(me->sp[0].tag_number) {
 		case HTML_COMMENT: break;                    /* Do Nothing */
@@ -255,14 +252,13 @@ static void HTML_put_character (HTStructured * me, char c) {
 }
 
 
-
 /*	String handling
 **	---------------
 **
 **	This is written separately from put_character becuase the loop can
 **	in some cases be promoted to a higher function call level for speed.
 */
-static void HTML_put_string (HTStructured * me, const char* s) {
+static void HTML_put_string(HTStructured* me, const char* s) {
 
 	switch(me->sp[0].tag_number) {
 		case HTML_COMMENT: break;                    /* Do Nothing */
@@ -314,7 +310,7 @@ static void HTML_put_string (HTStructured * me, const char* s) {
 /*	Buffer write
 **	------------
 */
-static void HTML_write (HTStructured * me, const char* s, int l) {
+static void HTML_write(HTStructured* me, const char* s, int l) {
 	const char* p;
 	const char* e = s + l;
 	for(p = s; s < e; p++) HTML_put_character(me, *p);
@@ -324,9 +320,9 @@ static void HTML_write (HTStructured * me, const char* s, int l) {
 /*	Start Element
 **	-------------
 */
-static void
-HTML_start_element (HTStructured * me, int element_number, const HTBool*
-						 present, const char ** value) {
+static void HTML_start_element(
+		HTStructured* me, int element_number, const HTBool* present,
+		const char** value) {
 	switch(element_number) {
 		case HTML_A: {
 			HTChildAnchor* source;
@@ -479,7 +475,7 @@ HTML_start_element (HTStructured * me, int element_number, const HTBool*
 **	(internal code errors apart) good nesting. The parser checks
 **	incoming code errors, not this module.
 */
-static void HTML_end_element (HTStructured * me, int element_number) {
+static void HTML_end_element(HTStructured* me, int element_number) {
 #ifdef CAREFUL            /* parser assumed to produce good nesting */
 	if (element_number != me->sp[0].tag_number) {
 		fprintf(stderr, "HTMLText: end of element %s when expecting end of %s\n",
@@ -526,11 +522,10 @@ static void HTML_end_element (HTStructured * me, int element_number) {
 /*	(In fact, they all shrink!)
 */
 
-static void HTML_put_entity (HTStructured * me, int entity_number) {
+static void HTML_put_entity(HTStructured* me, int entity_number) {
 	HTML_put_string(
 			me, ISO_Latin1[entity_number]);    /* @@ Other representations */
 }
-
 
 
 /*	Free an HTML object
@@ -544,7 +539,7 @@ static void HTML_put_entity (HTStructured * me, int entity_number) {
 **	If non-interactive, everything is freed off.   No: crashes -listrefs
 **	Otherwise, the interactive object is left.	
 */
-void HTML_free (HTStructured * me) {
+void HTML_free(HTStructured* me) {
 	UPDATE_STYLE;        /* Creates empty document here! */
 	if(me->comment_end) {
 		HTML_put_string(me, me->comment_end);
@@ -558,7 +553,7 @@ void HTML_free (HTStructured * me) {
 }
 
 
-static void HTML_abort (HTStructured * me, HTError e) {
+static void HTML_abort(HTStructured* me, HTError e) {
 	if(me->target) {
 		(*me->targetClass.abort)(me->target, e);
 	}
@@ -570,7 +565,7 @@ static void HTML_abort (HTStructured * me, HTError e) {
 /*	Get Styles from style sheet
 **	---------------------------
 */
-static void get_styles (void) {
+static void get_styles(void) {
 	got_styles = HT_TRUE;
 
 	default_style = HTStyleNamed(styleSheet, "Normal");
@@ -614,9 +609,8 @@ const HTStructuredClass HTMLPresentation = /* As opposed to print etc */
 **	The strutcured stream can generate either presentation,
 **	or plain text, or HTML.
 */
-HTStructured*
-HTML_new (HTParentAnchor * anchor, HTFormat format_out, HTStream*
-			   stream) {
+HTStructured* HTML_new(
+		HTParentAnchor* anchor, HTFormat format_out, HTStream* stream) {
 
 	HTStructured* me;
 
@@ -663,9 +657,8 @@ HTML_new (HTParentAnchor * anchor, HTFormat format_out, HTStream*
 **
 **	This will convert from HTML to presentation or plain text.
 */
-HTStream*
-HTMLToPlain (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
-				  sink) {
+HTStream* HTMLToPlain(
+		HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 	return SGML_new(&HTML_dtd, HTML_new(anchor, pres->rep_out, sink));
 }
 
@@ -677,9 +670,8 @@ HTMLToPlain (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 **	is commented out.
 **	This will convert from HTML to presentation or plain text.
 */
-HTStream*
-HTMLToC (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
-			  sink) {
+HTStream* HTMLToC(
+		HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 
 	HTStructured* html;
 
@@ -703,9 +695,9 @@ HTMLToC (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 **	Override this if you have a windows version
 */
 #ifndef GUI
-HTStream*
-HTMLPresent (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
-				  sink) {
+
+HTStream* HTMLPresent(
+		HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 	(void) pres;
 
 	return SGML_new(&HTML_dtd, HTML_new(anchor, WWW_PRESENT, sink));
@@ -733,8 +725,7 @@ HTMLPresent (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
 **	returns	a negative number to indicate lack of success in the load.
 */
 
-int
-HTLoadError (HTStream * sink, int number, const char* message) {
+int HTLoadError(HTStream* sink, int number, const char* message) {
 	(void) sink;
 
 	HTAlert(message);        /* @@@@@@@@@@@@@@@@@@@ */

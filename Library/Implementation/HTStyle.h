@@ -119,11 +119,11 @@ typedef struct _HTStyle {
 
 /*      Style functions:
 */
-HTStyle* HTStyleNew (void);
+HTStyle* HTStyleNew(void);
 
-HTStyle* HTStyleNewNamed (const char* name);
+HTStyle* HTStyleNewNamed(const char* name);
 
-HTStyle* HTStyleFree (HTStyle * self);
+HTStyle* HTStyleFree(HTStyle* self);
 
 #ifdef SUPRESS
 HTStyle * HTStyleRead (HTStyle * self, HTStream * stream);
@@ -140,28 +140,27 @@ typedef struct _HTStyleSheet {
 
 /*      Stylesheet functions:
 */
-HTStyleSheet* HTStyleSheetNew (void);
+HTStyleSheet* HTStyleSheetNew(void);
 
-HTStyleSheet* HTStyleSheetFree (HTStyleSheet * self);
+HTStyleSheet* HTStyleSheetFree(HTStyleSheet* self);
 
-HTStyle* HTStyleNamed (HTStyleSheet * self, const char* name);
+HTStyle* HTStyleNamed(HTStyleSheet* self, const char* name);
 
-HTStyle*
-HTStyleForParagraph (HTStyleSheet * self, HTParagraphStyle * paraStyle);
+HTStyle* HTStyleForParagraph(HTStyleSheet* self, HTParagraphStyle* paraStyle);
 
-HTStyle* HTStyleMatching (HTStyleSheet * self, HTStyle * style);
+HTStyle* HTStyleMatching(HTStyleSheet* self, HTStyle* style);
 
 /* extern HTStyle * HTStyleForRun (HTStyleSheet *self, NXRun * run); */
-HTStyleSheet*
-HTStyleSheetAddStyle (HTStyleSheet * self, HTStyle * style);
+HTStyleSheet* HTStyleSheetAddStyle(HTStyleSheet* self, HTStyle* style);
 
-HTStyleSheet*
-HTStyleSheetRemoveStyle (HTStyleSheet * self, HTStyle * style);
+HTStyleSheet* HTStyleSheetRemoveStyle(HTStyleSheet* self, HTStyle* style);
 
-HTStyleSheet * HTStyleSheetRead(HTStyleSheet * self,
-												HTStream * stream);
-HTStyleSheet * HTStyleSheetWrite (HTStyleSheet * self,
-												HTStream * stream);
+HTStyleSheet* HTStyleSheetRead(
+		HTStyleSheet* self, HTStream* stream);
+
+HTStyleSheet* HTStyleSheetWrite(
+		HTStyleSheet* self, HTStream* stream);
+
 #define CLEAR_POINTER ((void *)-1)      /* Pointer value means "clear me" */
 #endif /* HTStyle_H */
 

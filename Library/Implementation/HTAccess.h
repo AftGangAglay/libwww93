@@ -100,8 +100,8 @@ Load a document from relative name
   HT_FALSE                      Failure
                          
  */
-HTBool HTLoadRelative (const char* relative_name,
-										  HTParentAnchor* here);
+HTBool HTLoadRelative(
+		const char* relative_name, HTParentAnchor* here);
 
 
 /*
@@ -129,7 +129,7 @@ Load a document from absolute name
   HT_FALSE                      Failure
                          
  */
-HTBool HTLoadAbsolute (const char* addr);
+HTBool HTLoadAbsolute(const char* addr);
 
 
 /*
@@ -151,8 +151,7 @@ Load a document from absolute name to a stream
    Note: This is equivalent to HTLoadDocument
    
  */
-HTBool
-HTLoadToStream (const char* addr, HTBool filter, HTStream * sink);
+HTBool HTLoadToStream(const char* addr, HTBool filter, HTStream* sink);
 
 
 /*
@@ -181,7 +180,7 @@ Load if necessary, and select an anchor
 
 
 
-HTBool HTLoadAnchor (HTAnchor * destination);
+HTBool HTLoadAnchor(HTAnchor* destination);
 
 
 /*
@@ -199,7 +198,7 @@ Make a stream for Saving object back
  */
 
 
-HTStream* HTSaveStream (HTParentAnchor * anchor);
+HTStream* HTSaveStream(HTParentAnchor* anchor);
 
 
 /*
@@ -216,7 +215,7 @@ Search
   here                    The anchor of the object being searched
                          
  */
-HTBool HTSearch (const char* keywords, HTParentAnchor*here);
+HTBool HTSearch(const char* keywords, HTParentAnchor* here);
 
 
 /*
@@ -233,8 +232,8 @@ Search Given Indexname
   *indexname              is name of object search is to be done on.
                          
  */
-HTBool HTSearchAbsolute (const char* keywords,
-											const char* indexname);
+HTBool HTSearchAbsolute(
+		const char* keywords, const char* indexname);
 
 
 /*
@@ -246,16 +245,15 @@ Register an access method
 typedef struct _HTProtocol {
 	char* name;
 
-	int (* load)(const char* full_address,
-							   HTParentAnchor* anchor,
-							   HTFormat format_out,
-							   HTStream* sink);
+	int (* load)(
+			const char* full_address, HTParentAnchor* anchor,
+			HTFormat format_out, HTStream* sink);
 
-	HTStream* (* saveStream)(HTParentAnchor * anchor);
+	HTStream* (* saveStream)(HTParentAnchor* anchor);
 
 } HTProtocol;
 
-HTBool HTRegisterProtocol (HTProtocol * protocol);
+HTBool HTRegisterProtocol(HTProtocol* protocol);
 
 
 /*
@@ -270,7 +268,7 @@ Generate the anchor for the home page
    This is a default algorithm -- browser don't HAVE to use this.
    
  */
-HTParentAnchor* HTHomeAnchor (void);
+HTParentAnchor* HTHomeAnchor(void);
 
 #endif /* HTACCESS_H */
 

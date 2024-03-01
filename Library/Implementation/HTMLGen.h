@@ -15,10 +15,10 @@
 
 /* Special Creation:
 */
-HTStructured* HTMLGenerator (HTStream * output);
+HTStructured* HTMLGenerator(HTStream* output);
 
-HTStream* HTPlainToHTML
-		(HTPresentation * pres, HTParentAnchor * anchor, HTStream * sink);
+HTStream*
+HTPlainToHTML(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink);
 
 
 #endif

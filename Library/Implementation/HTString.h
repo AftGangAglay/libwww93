@@ -34,9 +34,9 @@ Malloced string manipulation
 #define StrAllocCopy(dest, src) HTSACopy (&(dest), src)
 #define StrAllocCat(dest, src)  HTSACat  (&(dest), src)
 
-char* HTSACopy(char **dest, const char *src);
+char* HTSACopy(char** dest, const char* src);
 
-char* HTSACat(char **dest, const char *src);
+char* HTSACat(char** dest, const char* src);
 
 /*
 

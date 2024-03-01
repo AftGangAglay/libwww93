@@ -11,9 +11,9 @@
 
 #include "HTUtils.h"
 
-void HTFormatInit (void);
+void HTFormatInit(void);
 
-void HTFileInit (void);
+void HTFileInit(void);
 /*
 
     */

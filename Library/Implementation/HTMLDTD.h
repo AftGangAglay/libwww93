@@ -119,8 +119,8 @@ Start anchor element
    name and href point to attribute strings or are NULL if the attribute is to be omitted.
    
  */
-void HTStartAnchor (HTStructured * targetstream, const char* name,
-										 const char* href);
+void HTStartAnchor(
+		HTStructured* targetstream, const char* name, const char* href);
 
 
 #endif /* HTMLDTD_H */

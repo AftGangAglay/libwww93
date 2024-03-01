@@ -76,7 +76,7 @@ struct _HTStream {
 **	and resynchronises on line beginnings.
 */
 
-static void HTMIME_put_character (HTStream * me, char c) {
+static void HTMIME_put_character(HTStream* me, char c) {
 	if(me->state == MIME_TRANSPARENT) {
 		(*me->targetClass.put_character)(me->target, c);/* MUST BE FAST */
 		return;
@@ -258,13 +258,12 @@ static void HTMIME_put_character (HTStream * me, char c) {
 }
 
 
-
 /*	String handling
 **	---------------
 **
 **	Strings must be smaller than this buffer size.
 */
-static void HTMIME_put_string (HTStream * me, const char* s) {
+static void HTMIME_put_string(HTStream* me, const char* s) {
 	const char* p;
 	if(me->state == MIME_TRANSPARENT) {        /* Optimisation */
 		(*me->targetClass.put_string)(me->target, s);
@@ -278,7 +277,7 @@ static void HTMIME_put_string (HTStream * me, const char* s) {
 /*	Buffer write. Buffers can (and should!) be big.
 **	------------
 */
-static void HTMIME_write (HTStream * me, const char* s, int l) {
+static void HTMIME_write(HTStream* me, const char* s, int l) {
 	const char* p;
 	if(me->state == MIME_TRANSPARENT) {        /* Optimisation */
 		(*me->targetClass.put_block)(me->target, s, l);
@@ -289,13 +288,11 @@ static void HTMIME_write (HTStream * me, const char* s, int l) {
 }
 
 
-
-
 /*	Free an HTML object
 **	-------------------
 **
 */
-static void HTMIME_free (HTStream * me) {
+static void HTMIME_free(HTStream* me) {
 	if(me->target) (*me->targetClass.free)(me->target);
 	free(me);
 }
@@ -303,11 +300,10 @@ static void HTMIME_free (HTStream * me) {
 /*	End writing
 */
 
-static void HTMIME_abort (HTStream * me, HTError e) {
+static void HTMIME_abort(HTStream* me, HTError e) {
 	if(me->target) (*me->targetClass.abort)(me->target, e);
 	free(me);
 }
-
 
 
 /*	Structured Object Class
@@ -323,8 +319,7 @@ static const HTStreamClass HTMIME = {
 */
 
 HTStream*
-HTMIMEConvert (HTPresentation * pres, HTParentAnchor * anchor,
-					HTStream * sink) {
+HTMIMEConvert(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 	HTStream* me;
 
 	me = malloc(sizeof(*me));
@@ -343,8 +338,7 @@ HTMIMEConvert (HTPresentation * pres, HTParentAnchor * anchor,
 }
 
 HTStream*
-HTNetMIME (HTPresentation * pres, HTParentAnchor * anchor, HTStream *
-				sink) {
+HTNetMIME(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 	HTStream* me = HTMIMEConvert(pres, anchor, sink);
 	if(!me) return NULL;
 

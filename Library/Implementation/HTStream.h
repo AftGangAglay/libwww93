@@ -30,16 +30,16 @@ typedef struct _HTStreamClass {
 
 	char* name;                            /* Just for diagnostics */
 
-	void (* free)(HTStream * me);
+	void (* free)(HTStream* me);
 
-	void (* abort)(HTStream * me, HTError e);
+	void (* abort)(HTStream* me, HTError e);
 
-	void (* put_character)(HTStream * me,char ch);
+	void (* put_character)(HTStream* me, char ch);
 
-	void (* put_string)(HTStream * me, const char* str);
+	void (* put_string)(HTStream* me, const char* str);
 
-	void (* put_block)(HTStream * me, const char* str,
-									 int len);
+	void (* put_block)(
+			HTStream* me, const char* str, int len);
 
 
 } HTStreamClass;

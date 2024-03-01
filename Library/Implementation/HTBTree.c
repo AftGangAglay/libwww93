@@ -12,7 +12,7 @@
 #define MAXIMUM(a, b) ((a)>(b)?(a):(b))
 
 
-HTBTree* HTBTree_new (HTComparer comp)
+HTBTree* HTBTree_new(HTComparer comp)
 /*********************************************************
 ** This function returns an HTBTree with memory allocated
 ** for it when given a mean to compare things
@@ -28,7 +28,7 @@ HTBTree* HTBTree_new (HTComparer comp)
 }
 
 
-static void HTBTElement_free (HTBTElement* element)
+static void HTBTElement_free(HTBTElement* element)
 /**********************************************************
 ** This void will free the memory allocated for one element
 */
@@ -40,7 +40,7 @@ static void HTBTElement_free (HTBTElement* element)
 	}
 }
 
-void HTBTree_free (HTBTree* tree)
+void HTBTree_free(HTBTree* tree)
 /**************************************************************
 ** This void will free the memory allocated for the whole tree
 */
@@ -50,7 +50,7 @@ void HTBTree_free (HTBTree* tree)
 }
 
 
-static void HTBTElementAndObject_free (HTBTElement* element)
+static void HTBTElementAndObject_free(HTBTElement* element)
 /**********************************************************
 ** This void will free the memory allocated for one element
 */
@@ -65,7 +65,7 @@ static void HTBTElementAndObject_free (HTBTElement* element)
 	}
 }
 
-void HTBTreeAndObject_free (HTBTree* tree)
+void HTBTreeAndObject_free(HTBTree* tree)
 /**************************************************************
 ** This void will free the memory allocated for the whole tree
 */
@@ -75,7 +75,7 @@ void HTBTreeAndObject_free (HTBTree* tree)
 }
 
 
-void HTBTree_add (HTBTree* tree, void* object)
+void HTBTree_add(HTBTree* tree, void* object)
 /**********************************************************************
 ** This void is the core of HTBTree.c . It will
 **       1/ add a new element to the tree at the right place
@@ -404,7 +404,7 @@ void HTBTree_add (HTBTree* tree, void* object)
 }
 
 
-HTBTElement* HTBTree_next (HTBTree* tree, HTBTElement* ele)
+HTBTElement* HTBTree_next(HTBTree* tree, HTBTElement* ele)
 /**************************************************************************
 ** this function returns a pointer to the leftmost element if ele is NULL,
 ** and to the next object to the right otherways.

@@ -46,20 +46,19 @@ struct _HTStructured {
 /*	Character handling
 **	------------------
 */
-static void HTMLGen_put_character (HTStructured * me, char c) {
+static void HTMLGen_put_character(HTStructured* me, char c) {
 	PUTC(c);
 }
-
 
 
 /*	String handling
 **	---------------
 */
-static void HTMLGen_put_string (HTStructured * me, const char* s) {
+static void HTMLGen_put_string(HTStructured* me, const char* s) {
 	PUTS(s);
 }
 
-static void HTMLGen_write (HTStructured * me, const char* s, int l) {
+static void HTMLGen_write(HTStructured* me, const char* s, int l) {
 	PUTB(s, l);
 }
 
@@ -67,9 +66,9 @@ static void HTMLGen_write (HTStructured * me, const char* s, int l) {
 /*	Start Element
 **	-------------
 */
-static void
-HTMLGen_start_element (HTStructured * me, int element_number,
-							const HTBool* present, const char ** value) {
+static void HTMLGen_start_element(
+		HTStructured* me, int element_number, const HTBool* present,
+		const char** value) {
 	int i;
 
 	HTTag* tag = &HTML_dtd.tags[element_number];
@@ -103,8 +102,7 @@ HTMLGen_start_element (HTStructured * me, int element_number,
 **	should be linked to the whole stack not just the top one.)
 **	TBL 921119
 */
-static void
-HTMLGen_end_element (HTStructured * me, int element_number) {
+static void HTMLGen_end_element(HTStructured* me, int element_number) {
 	PUTS("</");
 	PUTS(HTML_dtd.tags[element_number].name);
 	PUTC('>');
@@ -116,12 +114,11 @@ HTMLGen_end_element (HTStructured * me, int element_number) {
 **
 */
 
-static void HTMLGen_put_entity (HTStructured * me, int entity_number) {
+static void HTMLGen_put_entity(HTStructured* me, int entity_number) {
 	PUTC('&');
 	PUTS(HTML_dtd.entity_names[entity_number]);
 	PUTC(';');
 }
-
 
 
 /*	Free an HTML object
@@ -130,25 +127,24 @@ static void HTMLGen_put_entity (HTStructured * me, int entity_number) {
 **	Note that the SGML parsing context is freed, but the created object is not,
 **	as it takes on an existence of its own unless explicitly freed.
 */
-static void HTMLGen_free (HTStructured * me) {
+static void HTMLGen_free(HTStructured* me) {
 	(*me->targetClass.free)(me->target);    /* ripple through */
 	free(me);
 }
 
 
-static void HTMLGen_abort (HTStructured * me, HTError e) {
+static void HTMLGen_abort(HTStructured* me, HTError e) {
 	(void) e;
 
 	HTMLGen_free(me);
 }
 
 
-static void PlainToHTML_abort (HTStructured * me, HTError e) {
+static void PlainToHTML_abort(HTStructured* me, HTError e) {
 	(void) e;
 
 	HTMLGen_free(me);
 }
-
 
 
 /*	Structured Object Class
@@ -165,7 +161,7 @@ static const HTStructuredClass HTMLGeneration = /* As opposed to print etc */
 **	-------------------------
 */
 
-HTStructured* HTMLGenerator (HTStream * output) {
+HTStructured* HTMLGenerator(HTStream* output) {
 	HTStructured* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTMLGenerator");
 	me->isa = &HTMLGeneration;
@@ -194,9 +190,8 @@ static const HTStructuredClass PlainToHTMLConversion = {
 **	------------------------------------------
 */
 
-HTStream*
-HTPlainToHTML (HTPresentation * pres, HTParentAnchor * anchor,
-					HTStream * sink) {
+HTStream* HTPlainToHTML(
+		HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 	HTStream* me = malloc(sizeof(*me));
 
 	(void) pres;

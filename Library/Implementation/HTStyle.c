@@ -13,7 +13,7 @@
 
 /*	Create a new style
 */
-HTStyle* HTStyleNew (void) {
+HTStyle* HTStyleNew(void) {
 	HTStyle* self = malloc(sizeof(*self));
 	memset(self, 0, sizeof(*self));
 	self->font = (HTFont) 0;
@@ -23,7 +23,7 @@ HTStyle* HTStyleNew (void) {
 
 /*	Create a new style with a name
 */
-HTStyle* HTStyleNewNamed  (const char* name) {
+HTStyle* HTStyleNewNamed(const char* name) {
 	HTStyle* self = HTStyleNew();
 	StrAllocCopy(self->name, name);
 	return self;
@@ -32,7 +32,7 @@ HTStyle* HTStyleNewNamed  (const char* name) {
 
 /*	Free a style
 */
-HTStyle* HTStyleFree  (HTStyle * self) {
+HTStyle* HTStyleFree(HTStyle* self) {
 	if(self->name) free(self->name);
 	if(self->SGMLTag) free(self->SGMLTag);
 	free(self);
@@ -177,7 +177,7 @@ HTStyle * HTStyleDump (HTStyle * style)
 
 /*	Searching for styles:
 */
-HTStyle* HTStyleNamed  (HTStyleSheet * self, const char* name) {
+HTStyle* HTStyleNamed(HTStyleSheet* self, const char* name) {
 	HTStyle* scan;
 	for(scan = self->styles; scan; scan = scan->next) {
 		if(0 == strcmp(scan->name, name)) return scan;
@@ -243,8 +243,7 @@ HTStyle * HTStyleForRun (HTStyleSheet *self, NXRun *run)
 /*	Add a style to a sheet
 **	----------------------
 */
-HTStyleSheet* HTStyleSheetAddStyle
-(HTStyleSheet * self, HTStyle * style) {
+HTStyleSheet* HTStyleSheetAddStyle(HTStyleSheet* self, HTStyle* style) {
 	style->next = 0;        /* The style will go on the end */
 	if(!self->styles) {
 		self->styles = style;
@@ -260,8 +259,7 @@ HTStyleSheet* HTStyleSheetAddStyle
 
 /*	Remove the given object from a style sheet if it exists
 */
-HTStyleSheet* HTStyleSheetRemoveStyle
-(HTStyleSheet * self, HTStyle * style) {
+HTStyleSheet* HTStyleSheetRemoveStyle(HTStyleSheet* self, HTStyle* style) {
 	if((self->styles = style)) {
 		self->styles = style->next;
 		return self;
@@ -281,7 +279,7 @@ HTStyleSheet* HTStyleSheetRemoveStyle
 /*	Create new style sheet
 */
 
-HTStyleSheet* HTStyleSheetNew (void) {
+HTStyleSheet* HTStyleSheetNew(void) {
 	HTStyleSheet* self = malloc(sizeof(*self));
 
 	memset((void*) self, 0, sizeof(*self));    /* ANSI */
@@ -296,7 +294,7 @@ HTStyleSheet* HTStyleSheetNew (void) {
 
 /*	Free off a style sheet pointer
 */
-HTStyleSheet* HTStyleSheetFree  (HTStyleSheet * self) {
+HTStyleSheet* HTStyleSheetFree(HTStyleSheet* self) {
 	HTStyle* style;
 	while((style = self->styles) != 0) {
 		self->styles = style->next;

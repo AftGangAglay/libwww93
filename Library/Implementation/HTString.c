@@ -23,7 +23,7 @@ const char* HTLibraryVersion = VC; /* String for help screen etc */
 /*	Strings of any length
 **	---------------------
 */
-int strcasecomp  (const char* a, const char* b) {
+int strcasecomp(const char* a, const char* b) {
 	const char* p = a;
 	const char* q = b;
 	for(p = a, q = b; *p && *q; p++, q++) {
@@ -39,7 +39,7 @@ int strcasecomp  (const char* a, const char* b) {
 /*	With count limit
 **	----------------
 */
-int strncasecomp (const char* a, const char* b, int n) {
+int strncasecomp(const char* a, const char* b, int n) {
 	const char* p = a;
 	const char* q = b;
 
@@ -57,7 +57,7 @@ int strncasecomp (const char* a, const char* b, int n) {
 
 /*	Allocate a new copy of a string, and returns it
 */
-char* HTSACopy  (char ** dest, const char* src) {
+char* HTSACopy(char** dest, const char* src) {
 	if(*dest) free(*dest);
 	if(!src) {
 		*dest = NULL;
@@ -72,7 +72,7 @@ char* HTSACopy  (char ** dest, const char* src) {
 
 /*	String Allocate and Concatenate
 */
-char* HTSACat  (char ** dest, const char* src) {
+char* HTSACat(char** dest, const char* src) {
 	if(src && *src) {
 		if(*dest) {
 			int length = strlen(*dest);
@@ -104,7 +104,7 @@ char* HTSACat  (char ** dest, const char* src) {
 **
 **	returns	a pointer to the first field
 */
-char* HTNextField (char ** pstr) {
+char* HTNextField(char** pstr) {
 	char* p = *pstr;
 	char* start;            /* start of field */
 

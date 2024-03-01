@@ -37,8 +37,7 @@ static char* hostname = 0;        /* The name of this host */
 /*	Report Internet Error
 **	---------------------
 */
-int HTInetStatus(char* where)
-{
+int HTInetStatus(char* where) {
 	CTRACE(
 				stderr,
 				"TCP: Error %d in `errno' after call to %s() failed.\n\t%s\n",
@@ -87,8 +86,7 @@ int HTInetStatus(char* where)
 **	*pstatus    points to status updated iff bad
 */
 
-unsigned int HTCardinal
-(int * pstatus, char ** pp, unsigned int max_value) {
+unsigned int HTCardinal(int* pstatus, char** pp, unsigned int max_value) {
 	int n;
 	if((**pp < '0') || (**pp > '9')) {        /* Null string is error */
 		*pstatus = -3;  /* No number where one expeceted */
@@ -117,7 +115,7 @@ unsigned int HTCardinal
 **		it is to be kept.
 */
 
-const char* HTInetString (SockA* sin) {
+const char* HTInetString(SockA* sin) {
 	static char string[16];
 	sprintf(
 			string, "%d.%d.%d.%d",
@@ -143,7 +141,7 @@ const char* HTInetString (SockA* sin) {
 **	*sin	is filled in. If no port is specified in str, that
 **		field is left unchanged in *sin.
 */
-int HTParseInet (SockA * sin, const char* str) {
+int HTParseInet(SockA* sin, const char* str) {
 	char* port;
 	char host[256];
 	struct hostent* phost;    /* Pointer to host - See netdb.h */
@@ -274,8 +272,7 @@ static void get_host_details(void)
 #endif /* not Decnet */
 }
 
-const char* HTHostName(void)
-{
+const char* HTHostName(void) {
 	get_host_details();
 	return hostname;
 }

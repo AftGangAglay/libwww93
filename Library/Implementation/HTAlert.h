@@ -27,7 +27,7 @@ HTPrompt: Display a message and get the input
                          
  */
 
-char* HTPrompt (const char* Msg, const char* deflt);
+char* HTPrompt(const char* Msg, const char* deflt);
 
 
 /*
@@ -40,7 +40,7 @@ Display a message, don't wait for input
                          
  */
 
-void HTAlert (const char* Msg);
+void HTAlert(const char* Msg);
 
 
 /*
@@ -52,7 +52,7 @@ Display a progress message for information (and diagnostics) only
    The input is a list of parameters for printf.
    
  */
-void HTProgress (const char* Msg);
+void HTProgress(const char* Msg);
 
 
 /*
@@ -70,7 +70,7 @@ Display a message, then wait for 'yes' or 'no'.
                          
  */
 
-HTBool HTConfirm (const char* Msg);
+HTBool HTConfirm(const char* Msg);
 
 
 

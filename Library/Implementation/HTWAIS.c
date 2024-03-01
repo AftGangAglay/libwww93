@@ -121,7 +121,7 @@ struct _HTStream {
 */
 /* modified from Jonny G's version in ui/question.c */
 
-void showDiags (HTStream * target, diagnosticRecord * * d) {
+void showDiags(HTStream* target, diagnosticRecord** d) {
 	long i;
 
 	for(i = 0; d[i] != NULL; i++) {
@@ -142,7 +142,7 @@ void showDiags (HTStream * target, diagnosticRecord * * d) {
 static HTBool acceptable[256];
 static HTBool acceptable_inited = HT_FALSE;
 
-static void init_acceptable (void) {
+static void init_acceptable(void) {
 	unsigned int i;
 	char* good = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./-_$";
 	for(i = 0; i < 256; i++) acceptable[i] = HT_FALSE;
@@ -158,7 +158,7 @@ static void init_acceptable (void) {
 **	returns		nil if error
 **			pointer to malloced string (must be freed) if ok
 */
-char* WWW_from_archie  (char * file) {
+char* WWW_from_archie(char* file) {
 	char* end;
 	char* result;
 	char* colon;
@@ -186,9 +186,9 @@ char* WWW_from_archie  (char * file) {
 */
 static char hex[17] = "0123456789ABCDEF";
 
-char from_hex (char a);            /* In HTWSRC @@ */
+char from_hex(char a);            /* In HTWSRC @@ */
 
-static char* WWW_from_WAIS (any * docid) {
+static char* WWW_from_WAIS(any* docid) {
 	static char buf[BIG];
 	char* q = buf;
 	char* p = (docid->bytes);
@@ -258,7 +258,7 @@ static char* WWW_from_WAIS (any * docid) {
 **	docid->size	is valid
 **	docid->bytes	is malloced and must later be freed.
 */
-static any* WAIS_from_WWW  (any * docid, char * docname) {
+static any* WAIS_from_WWW(any* docid, char* docname) {
 	char* z;    /* Output pointer */
 	char* sor;    /* Start of record - points to size field. */
 	char* p;    /* Input pointer */
@@ -338,9 +338,9 @@ static any* WAIS_from_WWW  (any * docid, char * docname) {
 **	--------------------------------------
 */
 
-static void
-output_text_record (HTStream * target, WAISDocumentText * record,
-						 boolean, quote_string_quotes, boolean, binary) {
+static void output_text_record(
+		HTStream* target, WAISDocumentText* record, boolean,
+		quote_string_quotes, boolean, binary) {
 	long count;
 	/* printf(" Text\n");
 	   print_any("     DocumentID:  ", record->DocumentID);
@@ -383,9 +383,9 @@ output_text_record (HTStream * target, WAISDocumentText * record,
 /* modified from tracy shen's version in wutil.c
  * displays either a text record or a set of headlines.
  */
-void display_search_response (HTStructured * target, SearchResponseAPDU *
-								   response, char * database, char *
-								   keywords) {
+void display_search_response(
+		HTStructured* target, SearchResponseAPDU* response, char* database,
+		char* keywords) {
 	WAISSearchResponse* info;
 	long i, k;
 
@@ -517,16 +517,14 @@ void display_search_response (HTStructured * target, SearchResponseAPDU *
 }
 
 
-
-
 /*		Load by name					HTLoadWAIS
 **		============
 **
 **	This renders any object or search as required
 */
-int
-HTLoadWAIS (const char* arg, HTParentAnchor * anAnchor, HTFormat
-				 format_out, HTStream* sink)
+int HTLoadWAIS(
+		const char* arg, HTParentAnchor* anAnchor, HTFormat format_out,
+		HTStream* sink)
 
 #define MAX_KEYWORDS_LENGTH 1000
 #define MAX_SERVER_LENGTH 1000
@@ -564,7 +562,8 @@ HTLoadWAIS (const char* arg, HTParentAnchor * anAnchor, HTFormat
 **
 **	First we remove the "wais:" if it was spcified. 920110
 */
-	names = HTParse(arg, "", HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
+	names = HTParse(
+			arg, "", HT_PARSE_HOST | HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 	key = strchr(names, '?');
 
 	if(key) {

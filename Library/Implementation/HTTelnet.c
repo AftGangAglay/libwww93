@@ -37,7 +37,7 @@
 /*	Telnet or "rlogin" access
 **	-------------------------
 */
-static int remote_session (char * access, char * host) {
+static int remote_session(char* access, char* host) {
 	char* user = host;
 	char* hostname = strchr(host, '@');
 	char* port = strchr(host, ':');
@@ -205,10 +205,10 @@ static int remote_session (char * access, char * host) {
 **			(See WWW.h)
 **
 */
-static int HTLoadTelnet
-(const char* addr, HTParentAnchor * anchor, HTFormat format_out, HTStream *
- sink            /* Ignored */
-) {
+static int HTLoadTelnet(
+		const char* addr, HTParentAnchor* anchor, HTFormat format_out,
+		HTStream* sink            /* Ignored */
+					   ) {
 	char* access;
 
 	char* host;

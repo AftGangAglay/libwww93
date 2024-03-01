@@ -68,10 +68,10 @@ extern char* HTAppVersion;    /* Application version: please supply */
 **	read.
 **
 */
-int HTLoadHTTP  (const char* arg,
+int HTLoadHTTP(
+		const char* arg,
 /*	const char*		gate, */
-							 HTParentAnchor * anAnchor, HTFormat format_out,
-							 HTStream* sink) {
+		HTParentAnchor* anAnchor, HTFormat format_out, HTStream* sink) {
 	int s;                /* Socket number for returned data */
 	char* command;            /* The whole command */
 	char* eol = 0;            /* End of line if found */
@@ -189,8 +189,8 @@ int HTLoadHTTP  (const char* arg,
 				}
 				else {
 					sprintf(
-							line, "Accept: %s%c%c", HTAtom_name(pres->rep), '\r',
-							'\n');
+							line, "Accept: %s%c%c", HTAtom_name(pres->rep),
+							'\r', '\n');
 				}
 				StrAllocCat(command, line);
 
@@ -200,7 +200,8 @@ int HTLoadHTTP  (const char* arg,
 		sprintf(
 				line, "User-Agent:  %s/%s  libwww/%s%c%c",
 				HTAppName ? HTAppName : "unknown",
-				HTAppVersion ? HTAppVersion : "0.0", HTLibraryVersion, '\r', '\n');
+				HTAppVersion ? HTAppVersion : "0.0", HTLibraryVersion, '\r',
+				'\n');
 		StrAllocCat(command, line);
 	}
 

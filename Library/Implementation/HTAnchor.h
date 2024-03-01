@@ -82,8 +82,7 @@ typedef struct {
 **      document. The parent anchor must already exist.
 */
 
-HTChildAnchor*
-HTAnchor_findChild (HTParentAnchor * parent, const char* tag);
+HTChildAnchor* HTAnchor_findChild(HTParentAnchor* parent, const char* tag);
 
 /*      Create or find a child anchor with a possible link
 **      --------------------------------------------------
@@ -92,12 +91,12 @@ HTAnchor_findChild (HTParentAnchor * parent, const char* tag);
 **      a name, and possibly a link to a _relatively_ named anchor.
 **      (Code originally in ParseHTML.h)
 */
-HTChildAnchor*
-HTAnchor_findChildAndLink (HTParentAnchor * parent,  /* May not be 0 */
+HTChildAnchor* HTAnchor_findChildAndLink(
+		HTParentAnchor* parent,  /* May not be 0 */
 		const char* tag,         /* May be "" or 0 */
-const char* href,        /* May be "" or 0 */
-HTLinkType *ltype        /* May be 0 */
-								 );
+		const char* href,        /* May be "" or 0 */
+		HTLinkType* ltype        /* May be 0 */
+										);
 
 
 /*      Create new or find old named anchor
@@ -109,7 +108,7 @@ HTLinkType *ltype        /* May be 0 */
 **      like with fonts.
 */
 
-HTAnchor* HTAnchor_findAddress (const char* address);
+HTAnchor* HTAnchor_findAddress(const char* address);
 
 
 /*      Delete an anchor and possibly related things (auto garbage collection)
@@ -122,7 +121,7 @@ HTAnchor* HTAnchor_findAddress (const char* address);
 **      If this anchor's source list is empty, we delete it and its children.
 */
 
-HTBool HTAnchor_delete (HTParentAnchor * me);
+HTBool HTAnchor_delete(HTParentAnchor* me);
 
 
 /*              Move an anchor to the head of the list of its siblings
@@ -132,83 +131,81 @@ HTBool HTAnchor_delete (HTParentAnchor * me);
 **      is put in the correct order as we load the document.
 */
 
-void HTAnchor_makeLastChild (HTChildAnchor * me);
+void HTAnchor_makeLastChild(HTChildAnchor* me);
 
 /*      Data access functions
 **      ---------------------
 */
 
-HTParentAnchor* HTAnchor_parent (HTAnchor * me);
+HTParentAnchor* HTAnchor_parent(HTAnchor* me);
 
-void HTAnchor_setDocument (HTParentAnchor * me, HyperDoc * doc);
+void HTAnchor_setDocument(HTParentAnchor* me, HyperDoc* doc);
 
-HyperDoc* HTAnchor_document (HTParentAnchor * me);
+HyperDoc* HTAnchor_document(HTParentAnchor* me);
+
 void HTAnchor_setAddress
 
-     (HTAnchor *me, char *addr)
-     ;
+		(HTAnchor* me, char* addr);
 
 /*      Returns the full URI of the anchor, child or parent
 **      as a malloc'd string to be freed by the caller.
 */
-char* HTAnchor_address (HTAnchor * me);
+char* HTAnchor_address(HTAnchor* me);
 
-void HTAnchor_setFormat (HTParentAnchor * me, HTFormat form);
+void HTAnchor_setFormat(HTParentAnchor* me, HTFormat form);
 
-HTFormat HTAnchor_format (HTParentAnchor * me);
+HTFormat HTAnchor_format(HTParentAnchor* me);
 
-void HTAnchor_setIndex (HTParentAnchor * me);
+void HTAnchor_setIndex(HTParentAnchor* me);
 
-HTBool HTAnchor_isIndex (HTParentAnchor * me);
+HTBool HTAnchor_isIndex(HTParentAnchor* me);
 
-HTBool HTAnchor_hasChildren (HTParentAnchor * me);
+HTBool HTAnchor_hasChildren(HTParentAnchor* me);
 
 /*      Title handling
 */
-const char* HTAnchor_title (HTParentAnchor * me);
+const char* HTAnchor_title(HTParentAnchor* me);
 
-void HTAnchor_setTitle (HTParentAnchor * me, const char* title);
+void HTAnchor_setTitle(HTParentAnchor* me, const char* title);
 
-void
-HTAnchor_appendTitle (HTParentAnchor * me, const char* title);
+void HTAnchor_appendTitle(HTParentAnchor* me, const char* title);
 
 /*      Link this Anchor to another given one
 **      -------------------------------------
 */
 
-HTBool HTAnchor_link 		(HTAnchor * source, HTAnchor * destination, HTLinkType * type);
+HTBool HTAnchor_link(HTAnchor* source, HTAnchor* destination, HTLinkType* type);
 
 /*      Manipulation of links
 **      ---------------------
 */
 
-HTAnchor* HTAnchor_followMainLink (HTAnchor * me);
+HTAnchor* HTAnchor_followMainLink(HTAnchor* me);
 
-HTAnchor*
-HTAnchor_followTypedLink (HTAnchor * me, HTLinkType * type);
+HTAnchor* HTAnchor_followTypedLink(HTAnchor* me, HTLinkType* type);
 
-HTBool HTAnchor_makeMainLink (HTAnchor * me, HTLink * movingLink);
+HTBool HTAnchor_makeMainLink(HTAnchor* me, HTLink* movingLink);
 
 /*      Read and write methods
 **      ----------------------
 */
-HTList* HTAnchor_methods (HTParentAnchor * me);
+HTList* HTAnchor_methods(HTParentAnchor* me);
 
 /*      Protocol
 **      --------
 */
-void* HTAnchor_protocol (HTParentAnchor * me);
+void* HTAnchor_protocol(HTParentAnchor* me);
 
-void HTAnchor_setProtocol (HTParentAnchor * me,
-												void* protocol);
+void HTAnchor_setProtocol(
+		HTParentAnchor* me, void* protocol);
 
 /*      Physical address
 **      ----------------
 */
-char* HTAnchor_physical (HTParentAnchor * me);
+char* HTAnchor_physical(HTParentAnchor* me);
 
-void HTAnchor_setPhysical (HTParentAnchor * me,
-												char* protocol);
+void HTAnchor_setPhysical(
+		HTParentAnchor* me, char* protocol);
 
 #endif /* HTANCHOR_H */
 
