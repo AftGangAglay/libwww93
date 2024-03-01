@@ -9,14 +9,6 @@
    part of libWWW
    
  */
-#ifdef SHORT_NAMES
-#define HTBTree_new             HTBTNew
-#define HTBTree_free            HTBTFree
-#define HTBTreeAndObject_free   HTBTAOFr
-#define HTBTree_add             HTBTAdd
-#define HTBTree_next            HTBTNext
-/* #define      HTBTree_object          HTBTObje already a macro */
-#endif
 
 
 /*

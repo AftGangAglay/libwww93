@@ -17,35 +17,6 @@
 #include "HTList.h"
 #include "HTAtom.h"
 
-#ifdef SHORT_NAMES
-#define HTAnchor_findChild                      HTAnFiCh
-#define HTAnchor_findChildAndLink               HTAnFiLi
-#define HTAnchor_findAddress                    HTAnFiAd
-#define HTAnchor_delete                         HTAnDele
-#define HTAnchor_makeLastChild                  HTAnMaLa
-#define HTAnchor_parent                         HTAnPare
-#define HTAnchor_setDocument                    HTAnSeDo
-#define HTAnchor_document                       HTAnDocu
-#define HTAnchor_setFormat                      HTAnSeFo
-#define HTAnchor_format                         HTAnForm
-#define HTAnchor_setIndex                       HTAnSeIn
-#define HTAnchor_isIndex                        HTAnIsIn
-#define HTAnchor_address                        HTAnAddr
-#define HTAnchor_hasChildren                    HTAnHaCh
-#define HTAnchor_title                          HTAnTitl
-#define HTAnchor_setTitle                       HTAnSeTi
-#define HTAnchor_appendTitle                    HTAnApTi
-#define HTAnchor_link                           HTAnLink
-#define HTAnchor_followMainLink                 HTAnFoMa
-#define HTAnchor_followTypedLink                HTAnFoTy
-#define HTAnchor_makeMainLink                   HTAnMaMa
-#define HTAnchor_setProtocol                    HTAnSePr
-#define HTAnchor_protocol                       HTAnProt
-#define HTAnchor_physical                       HTAnPhys
-#define HTAnchor_setPhysical                    HTAnSePh
-#define HTAnchor_methods                        HtAnMeth
-#endif
-
 /*                      Main definition of anchor
 **                      =========================
 */

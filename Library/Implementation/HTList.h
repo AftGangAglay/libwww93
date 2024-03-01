@@ -17,17 +17,6 @@ struct _HTList {
 	HTList* next;
 };
 
-#ifdef SHORT_NAMES
-#define HTList_new                      HTLiNew
-#define HTList_delete                   HTLiDele
-#define HTList_addObject                HTLiAdOb
-#define HTList_removeObject             HTLiReOb
-#define HTList_removeLastObject         HTLiReLa
-#define HTList_removeFirstObject        HTLiReFi
-#define HTList_count                    HTLiCoun
-#define HTList_indexOf                  HTLiInOf
-#define HTList_objectAt                 HTLiObAt
-#endif
 
 extern HTList* HTList_new NOPARAMS;
 

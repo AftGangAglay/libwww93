@@ -10,12 +10,6 @@
 #include "HTUtils.h"
 #include "tcp.h"        /* Defines SHORT_NAMES if necessary */
 
-#ifdef SHORT_NAMES
-#define HTInetStatus		HTInStat
-#define HTInetString 		HTInStri
-#define HTParseInet		HTPaInet
-#endif
-
 /*	Module-Wide variables
 */
 

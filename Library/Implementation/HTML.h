@@ -9,10 +9,6 @@
 #include "HTAnchor.h"
 #include "HTMLDTD.h"
 
-#ifdef SHORT_NAMES
-#define HTMLPresentation        HTMLPren
-#define HTMLPresent             HTMLPres
-#endif
 
 extern CONST HTStructuredClass HTMLPresentation;
 

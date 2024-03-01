@@ -17,10 +17,6 @@
 #define BOOLEAN_DEFINED
 #endif
 
-#ifdef SHORT_NAMES
-#define WWW_TraceFlag HTTrFlag
-#endif
-
 
 #ifdef _MSC_VER
 typedef unsigned long u_long;

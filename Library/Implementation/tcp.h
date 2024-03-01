@@ -223,9 +223,6 @@ IBM VM-CMS, VM-XA Mainframes
 #define NO_UNIX_IO              /* Unix I/O routines are not supported */
 #define NO_GETPID               /* getpid() does not exist */
 #define NO_GETWD                /* getwd() does not exist */
-#ifndef SHORT_NAMES
-#define SHORT_NAMES             /* 8 character uniqueness for globals */
-#endif
 #include <manifest.h>
 #include <bsdtypes.h>
 #include <stdefs.h>

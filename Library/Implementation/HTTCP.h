@@ -11,12 +11,6 @@
 
 #include "tcp.h"
 
-#ifdef SHORT_NAMES
-#define HTInetStatus            HTInStat
-#define HTInetString            HTInStri
-#define HTParseInet             HTPaInet
-#endif
-
 
 /*      Produce a string for an internet address
 **      ---------------------------------------

@@ -12,10 +12,6 @@
 #include <stdio.h>
 #include "HTFormat.h"
 
-#ifdef SHORT_NAMES
-#define HTFWriter_new   HTFWnew
-#endif
-
 extern HTStream* HTFWriter_new PARAMS((FILE * fp));
 
 extern HTStream* HTSaveAndExecute PARAMS(

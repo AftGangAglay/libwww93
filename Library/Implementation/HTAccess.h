@@ -18,12 +18,6 @@
 #include "HTAnchor.h"
 #include "HTFormat.h"
 
-#ifdef SHORT_NAMES
-#define HTClientHost            HTClHost
-#define HTSearchAbsolute        HTSeAbso
-#define HTOutputStream          HTOuStre
-#define HTOutputFormat          HTOuForm
-#endif
 
 /*      Return codes from load routines:
 **

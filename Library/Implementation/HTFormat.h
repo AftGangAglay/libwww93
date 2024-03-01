@@ -19,10 +19,6 @@ Preamble
 #include "HTAtom.h"
 #include "HTList.h"
 
-#ifdef SHORT_NAMES
-#define HTOutputSource HTOuSour
-#define HTOutputBinary HTOuBina
-#endif
 
 /*
 
