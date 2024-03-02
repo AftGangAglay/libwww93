@@ -110,7 +110,7 @@ static HTBool initialize(void) {
 		HTNewsHost = DEFAULT_NEWS_HOST;
 #else
 	if(getenv("NNTPSERVER")) {
-		StrAllocCopy(HTNewsHost, (char*) getenv("NNTPSERVER"));
+		StrAllocCopy(HTNewsHost, getenv("NNTPSERVER"));
 		if(TRACE) {
 			fprintf(stderr, "HTNews: NNTPSERVER defined as `%s'\n", HTNewsHost);
 		}
@@ -136,11 +136,11 @@ static HTBool initialize(void) {
 
 	if(*HTNewsHost >= '0' && *HTNewsHost <= '9') {   /* Numeric node address: */
 		sin->sin_addr.s_addr = inet_addr(
-				(char*) HTNewsHost); /* See arpa/inet.h */
+				HTNewsHost); /* See arpa/inet.h */
 
 	}
 	else {            /* Alphanumeric node name: */
-		phost = gethostbyname((char*) HTNewsHost);    /* See netdb.h */
+		phost = gethostbyname(HTNewsHost);    /* See netdb.h */
 		if(!phost) {
 			char message[150];        /* @@@ */
 			sprintf(

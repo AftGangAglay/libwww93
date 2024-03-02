@@ -214,7 +214,7 @@ char* HTTranslate(const char* required) {
 			case HT_Invalid:
 			case HT_Fail:                /* Unauthorised */
 				if(TRACE) printf("HTRule: *** FAIL `%s'\n", current);
-				return (char*) 0;
+				return 0;
 
 		} /* if tail matches ... switch operation */
 

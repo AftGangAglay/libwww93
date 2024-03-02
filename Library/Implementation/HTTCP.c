@@ -39,57 +39,34 @@ static char* hostname = 0;        /* The name of this host */
 */
 int HTInetStatus(char* where) {
 	CTRACE(
-				stderr,
-				"TCP: Error %d in `errno' after call to %s() failed.\n\t%s\n",
-				errno, where,
-#ifdef VM
-				"(Error number not translated)");	/* What Is the VM equiv? */
-#define ER_NO_TRANS_DONE
-#endif
-#ifdef vms
-				"(Error number not translated)");
-#define ER_NO_TRANS_DONE
-#endif
-#ifdef NeXT
-				strerror(errno));
-#define ER_NO_TRANS_DONE
-#endif
-#ifdef THINK_C
-				strerror(errno));
-#define ER_NO_TRANS_DONE
-#endif
+			stderr,
+			"TCP: Error %d in `errno' after call to %s() failed.\n\t%s\n",
+			errno, where, strerror(errno));
 
-#ifndef ER_NO_TRANS_DONE
-				errno < sys_nerr ? sys_errlist[errno] : "Unknown error");
-#endif
-
-
-#ifdef vms
-	CTRACE(stderr, "         Unix error number (uerrno) = %ld dec\n", uerrno);
-	CTRACE(stderr, "         VMS error (vmserrno)       = %lx hex\n", vmserrno);
-#endif
 	return -errno;
 }
 
 
-/*	Parse a cardinal value				       parse_cardinal()
-**	----------------------
-**
-** On entry,
-**	*pp	    points to first character to be interpreted, terminated by
-**		    non 0:9 character.
-**	*pstatus    points to status already valid
-**	maxvalue    gives the largest allowable value.
-**
-** On exit,
-**	*pp	    points to first unread character
-**	*pstatus    points to status updated iff bad
-*/
+/*
+ *  Parse a cardinal value				       parse_cardinal()
+ *	----------------------
+ *
+ * On entry,
+ *	*pp	    points to first character to be interpreted, terminated by
+ *		    non 0:9 character.
+ *	*pstatus    points to status already valid
+ *	maxvalue    gives the largest allowable value.
+ *
+ * On exit,
+ *	*pp	    points to first unread character
+ *	*pstatus    points to status updated iff bad
+ */
 
 unsigned HTCardinal(int* pstatus, char** pp, unsigned max_value) {
 	int n;
-	if((**pp < '0') || (**pp > '9')) {        /* Null string is error */
-		*pstatus = -3;  /* No number where one expeceted */
+
+	if((**pp < '0') || (**pp > '9')) { /* Null string is error */
+		*pstatus = -3; /* No number where one expeceted */
 		return 0;
 	}
 
@@ -97,7 +74,7 @@ unsigned HTCardinal(int* pstatus, char** pp, unsigned max_value) {
 	while((**pp >= '0') && (**pp <= '9')) n = n * 10 + *((*pp)++) - '0';
 
 	if(n > (int) max_value) {
-		*pstatus = -4;  /* Cardinal outside range */
+		*pstatus = -4; /* Cardinal outside range */
 		return 0;
 	}
 
@@ -105,15 +82,15 @@ unsigned HTCardinal(int* pstatus, char** pp, unsigned max_value) {
 }
 
 
-#ifndef DECNET  /* Function only used below for a trace message */
+#ifndef DECNET /* Function only used below for a trace message */
 
 /*	Produce a string for an Internet address
-**	----------------------------------------
-**
-** On exit,
-**	returns	a pointer to a static string which must be copied if
-**		it is to be kept.
-*/
+ *	----------------------------------------
+ *
+ * On exit,
+ *	returns	a pointer to a static string which must be copied if
+ *		it is to be kept.
+ */
 
 const char* HTInetString(SockA* sin) {
 	static char string[16];

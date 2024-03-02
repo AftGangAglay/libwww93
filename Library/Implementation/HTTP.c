@@ -265,10 +265,10 @@ int HTLoadHTTP(
 
 			if(buffer_length - length < LINE_EXTEND_THRESH) {
 				buffer_length = buffer_length + buffer_length;
-				binary_buffer = (char*) realloc(
+				binary_buffer = realloc(
 						binary_buffer, buffer_length * sizeof(char));
 				if(!binary_buffer) outofmem(__FILE__, "HTLoadHTTP");
-				text_buffer = (char*) realloc(
+				text_buffer = realloc(
 						text_buffer, buffer_length * sizeof(char));
 				if(!text_buffer) outofmem(__FILE__, "HTLoadHTTP");
 			}

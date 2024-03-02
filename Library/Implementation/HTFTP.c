@@ -726,7 +726,7 @@ static int read_directory(
 			for(ele = HTBTree_next(bt, NULL); ele != NULL;
 					ele = HTBTree_next(bt, ele)) {
 				START(HTML_LI);
-				HTDirEntry(target, lastpath, (char*) HTBTree_object(ele));
+				HTDirEntry(target, lastpath, HTBTree_object(ele));
 			}
 		}
 		END(HTML_DIR);

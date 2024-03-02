@@ -158,7 +158,7 @@ static int get_physical(const char* addr, HTParentAnchor* anchor) {
 		strcpy(gateway_parameter, "WWW_");
 		strcat(gateway_parameter, access);
 		strcat(gateway_parameter, "_GATEWAY");
-		gateway = (char*) getenv(gateway_parameter); /* coerce for decstation */
+		gateway = getenv(gateway_parameter); /* coerce for decstation */
 		free(gateway_parameter);
 
 #ifndef DIRECT_WAIS
@@ -596,7 +596,7 @@ HTBool HTSearchAbsolute(const char* keywords, const char* indexname) {
 */
 HTParentAnchor* HTHomeAnchor(void) {
 	char* my_home_document = NULL;
-	char* home = (char*) getenv(LOGICAL_DEFAULT);
+	char* home = getenv(LOGICAL_DEFAULT);
 	char* ref;
 	HTParentAnchor* anchor;
 

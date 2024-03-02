@@ -639,8 +639,8 @@ int HTLoadWAIS(
 	HTUnEscape(wais_database);
 
 	/* This below fixed size stuff is terrible */
-	request_message = (char*) s_malloc((size_t) MAX_MESSAGE_LEN * sizeof(char));
-	response_message = (char*) s_malloc(
+	request_message = s_malloc((size_t) MAX_MESSAGE_LEN * sizeof(char));
+	response_message = s_malloc(
 			(size_t) MAX_MESSAGE_LEN * sizeof(char));
 
 /*	If keyword search is performed but there are no keywords,

@@ -15,15 +15,7 @@
 #include "HTStyle.h"
 #include "HTStream.h"
 
-
-#ifndef THINK_C
-#ifndef HyperText               /* Objective C version defined HyperText */
 typedef struct _HText HText;    /* Normal Library */
-#endif
-#else
-class CHyperText;               /* Mac Think-C browser hook */
-typedef CHyperText HText;
-#endif
 
 extern HText* HTMainText;              /* Pointer to current main text */
 extern HTParentAnchor* HTMainAnchor;   /* Pointer to current text's anchor */

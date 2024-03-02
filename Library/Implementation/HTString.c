@@ -76,7 +76,7 @@ char* HTSACat(char** dest, const char* src) {
 	if(src && *src) {
 		if(*dest) {
 			int length = strlen(*dest);
-			*dest = (char*) realloc(*dest, length + strlen(src) + 1);
+			*dest = realloc(*dest, length + strlen(src) + 1);
 			if(*dest == NULL) outofmem(__FILE__, "HTSACat");
 			strcpy(*dest + length, src);
 		}
