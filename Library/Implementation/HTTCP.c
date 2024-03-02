@@ -86,7 +86,7 @@ int HTInetStatus(char* where) {
 **	*pstatus    points to status updated iff bad
 */
 
-unsigned int HTCardinal(int* pstatus, char** pp, unsigned int max_value) {
+unsigned HTCardinal(int* pstatus, char** pp, unsigned max_value) {
 	int n;
 	if((**pp < '0') || (**pp > '9')) {        /* Null string is error */
 		*pstatus = -3;  /* No number where one expeceted */

@@ -143,10 +143,10 @@ static HTBool acceptable[256];
 static HTBool acceptable_inited = HT_FALSE;
 
 static void init_acceptable(void) {
-	unsigned int i;
+	unsigned i;
 	char* good = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./-_$";
 	for(i = 0; i < 256; i++) acceptable[i] = HT_FALSE;
-	for(; *good; good++) acceptable[(unsigned int) *good] = HT_TRUE;
+	for(; *good; good++) acceptable[(unsigned) *good] = HT_TRUE;
 	acceptable_inited = HT_TRUE;
 }
 
@@ -214,7 +214,7 @@ static char* WWW_from_WAIS(any* docid) {
 			return 0;
 		}
 		{    /* Bug fix -- allow any byte value 15 Apr 93 */
-			unsigned int i = (unsigned) *p++;
+			unsigned i = (unsigned) *p++;
 
 			if(i > 99) {
 				*q++ = (i / 100) + '0';
@@ -300,7 +300,7 @@ static any* WAIS_from_WWW(any* docid, char* docname) {
 		for(p = q + 1; *p != ';';) {
 			if(*p == HEX_ESCAPE) {
 				char c;
-				unsigned int b;
+				unsigned b;
 				p++;
 				c = *p++;
 				b = from_hex(c);

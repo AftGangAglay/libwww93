@@ -818,7 +818,7 @@ int HTFTPLoad(
 				soc_address.sin_family = AF_INET;	    /* Family, host order  */
 				if (TRACE) fprintf(stderr,
 				"FTP: Data remote address is port %d, inet %d.%d.%d.%d\n",
-					(unsigned int)ntohs(soc_address.sin_port),
+					(unsigned)ntohs(soc_address.sin_port),
 					(int)*((unsigned char *)(&soc_address.sin_addr)+0),
 					(int)*((unsigned char *)(&soc_address.sin_addr)+1),
 					(int)*((unsigned char *)(&soc_address.sin_addr)+2),

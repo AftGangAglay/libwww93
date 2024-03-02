@@ -82,10 +82,10 @@ static HTBool acceptable[256];
 static HTBool acceptable_inited = HT_FALSE;
 
 static void init_acceptable(void) {
-	unsigned int i;
+	unsigned i;
 	char* good = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./-_$";
 	for(i = 0; i < 256; i++) acceptable[i] = HT_FALSE;
-	for(; *good; good++) acceptable[(unsigned int) *good] = HT_TRUE;
+	for(; *good; good++) acceptable[(unsigned) *good] = HT_TRUE;
 	acceptable_inited = HT_TRUE;
 }
 
@@ -457,7 +457,7 @@ static void de_escape(char* command, const char* selector) {
 	while(*p) {        /* Decode hex */
 		if(*p == HEX_ESCAPE) {
 			char c;
-			unsigned int b;
+			unsigned b;
 			p++;
 			c = *p++;
 			b = from_hex(c);

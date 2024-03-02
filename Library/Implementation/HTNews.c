@@ -159,7 +159,7 @@ static HTBool initialize(void) {
 		fprintf(
 				stderr,
 				"HTNews: Parsed address as port %4x, inet %d.%d.%d.%d\n",
-				(unsigned int) ntohs(sin->sin_port),
+				(unsigned) ntohs(sin->sin_port),
 				(int) *((unsigned char*) (&sin->sin_addr) + 0),
 				(int) *((unsigned char*) (&sin->sin_addr) + 1),
 				(int) *((unsigned char*) (&sin->sin_addr) + 2),

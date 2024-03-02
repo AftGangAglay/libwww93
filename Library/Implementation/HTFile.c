@@ -543,7 +543,7 @@ HTBool HTEditable(const char* filename) {
 		int i;
 	fprintf(stderr,
 		"File mode is 0%o, uid=%d, gid=%d. My uid=%d, %d groups (",
-			(unsigned int) fileStatus.st_mode, fileStatus.st_uid,
+			(unsigned) fileStatus.st_mode, fileStatus.st_uid,
 		fileStatus.st_gid,
 		myUid, ngroups);
 	for (i=0; i<ngroups; i++) fprintf(stderr, " %d", groups[i]);
