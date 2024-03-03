@@ -313,7 +313,7 @@ static void HTML_put_string(HTStructured* me, const char* s) {
 static void HTML_write(HTStructured* me, const char* s, int l) {
 	const char* p;
 	const char* e = s + l;
-	for(p = s; s < e; p++) HTML_put_character(me, *p);
+	for(p = s; p < e; p++) HTML_put_character(me, *p);
 }
 
 

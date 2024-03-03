@@ -19,7 +19,7 @@ static char* hostname = 0;        /* The name of this host */
 /*	VARIABLES
 */
 
-/* SockA HTHostAddress; */    /* The internet address of the host */
+/* struct sockaddr_in HTHostAddress; */    /* The internet address of the host */
 
 /* Valid after call to HTHostName() */
 
@@ -92,7 +92,7 @@ unsigned HTCardinal(int* pstatus, char** pp, unsigned max_value) {
  *		it is to be kept.
  */
 
-const char* HTInetString(SockA* sin) {
+const char* HTInetString(struct sockaddr_in* sin) {
 	static char string[16];
 	sprintf(
 			string, "%d.%d.%d.%d",
@@ -118,7 +118,7 @@ const char* HTInetString(SockA* sin) {
 **	*sin	is filled in. If no port is specified in str, that
 **		field is left unchanged in *sin.
 */
-int HTParseInet(SockA* sin, const char* str) {
+int HTParseInet(struct sockaddr_in* sin, const char* str) {
 	char* port;
 	char host[256];
 	struct hostent* phost;    /* Pointer to host - See netdb.h */

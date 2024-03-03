@@ -44,7 +44,7 @@ static void flush(HTStream* me) {
 #endif
 	while(read_pointer < write_pointer) {
 		int status;
-		status = NETWRITE(me->soc, me->buffer, write_pointer - read_pointer);
+		status = write(me->soc, me->buffer, write_pointer - read_pointer);
 		if(status < 0) {
 			if(TRACE) {
 				fprintf(
@@ -99,7 +99,7 @@ static void HTWriter_write(HTStream* me, const char* s, int l) {
 	flush(me);        /* First get rid of our buffer */
 
 	while(read_pointer < write_pointer) {
-		int status = NETWRITE(me->soc, read_pointer,
+		int status = write(me->soc, read_pointer,
 							  write_pointer - read_pointer);
 		if(status < 0) {
 			if(TRACE) {
@@ -122,7 +122,7 @@ static void HTWriter_write(HTStream* me, const char* s, int l) {
 */
 static void HTWriter_free(HTStream* me) {
 	flush(me);
-	NETCLOSE(me->soc);
+	close(me->soc);
 	free(me);
 }
 

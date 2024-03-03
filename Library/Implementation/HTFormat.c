@@ -167,7 +167,7 @@ char HTGetChararcter(void) {
 	char ch;
 	do {
 		if(input_pointer >= input_limit) {
-			int status = NETREAD(input_file_number, input_buffer,
+			int status = read(input_file_number, input_buffer,
 								 INPUT_BUFFER_SIZE);
 			if(status <= 0) {
 				if(status == 0) return (char) EOF;
@@ -190,7 +190,7 @@ char HTGetChararcter(void) {
 */
 int HTOutputBinary(int input, FILE* output) {
 	do {
-		int status = NETREAD(input, input_buffer, INPUT_BUFFER_SIZE);
+		int status = read(input, input_buffer, INPUT_BUFFER_SIZE);
 		if(status <= 0) {
 			if(status == 0) return 0;
 			if(TRACE) {
@@ -348,7 +348,7 @@ void HTCopy(int file_number, HTStream* sink) {
 	**		This operation could be put into a main event loop
 	*/
 	for(;;) {
-		int status = NETREAD(file_number, input_buffer, INPUT_BUFFER_SIZE);
+		int status = read(file_number, input_buffer, INPUT_BUFFER_SIZE);
 		if(status <= 0) {
 			if(status == 0) break;
 			if(TRACE) {

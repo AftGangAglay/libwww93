@@ -8,13 +8,12 @@
 **	
 **	 6 Feb 93  Binary seraches used. Intreface modified.
 */
+
 #include "SGML.h"
 
-#include <ctype.h>
-#include <stdio.h>
 #include "HTUtils.h"
 #include "HTChunk.h"
-#include "tcp.h"        /* For  */
+#include "tcp.h"
 
 #define INVALID (-1)
 

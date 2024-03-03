@@ -87,8 +87,7 @@ static void HTMIME_put_character(HTStream* me, char c) {
 	** See NetToText for an implementation which preserves single '\r' or '\n'.
 	*/
 	if(me->net_ascii) {
-		c = (c);
-		if(c == '\r') { return; }
+		if(c == '\r') return;
 		else if(c == '\n') c = '\n';
 	}
 

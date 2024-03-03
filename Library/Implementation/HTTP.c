@@ -83,8 +83,8 @@ int HTLoadHTTP(
 	HTFormat format_in;            /* Format arriving in the message */
 
 	const char* gate = 0;        /* disable this feature */
-	SockA soc_address;            /* Binary network address */
-	SockA* sin = &soc_address;
+	struct sockaddr_in soc_address;            /* Binary network address */
+	struct sockaddr_in* sin = &soc_address;
 	char* text_buffer = NULL;
 	char* binary_buffer = NULL;
 	HTBool extensions = HT_TRUE;        /* Assume good HTTP server */
@@ -220,7 +220,7 @@ int HTLoadHTTP(
 	}
 #endif
 
-	status = NETWRITE(s, command, (int) strlen(command));
+	status = write(s, command, (int) strlen(command));
 	free(command);
 	if(status < 0) {
 		if(TRACE) fprintf(stderr, "HTTPAccess: Unable to send command.\n");
@@ -272,11 +272,11 @@ int HTLoadHTTP(
 						text_buffer, buffer_length * sizeof(char));
 				if(!text_buffer) outofmem(__FILE__, "HTLoadHTTP");
 			}
-			status = NETREAD(s, binary_buffer + length,
+			status = read(s, binary_buffer + length,
 							 buffer_length - length - 1);
 			if(status < 0) {
 				HTAlert("Unexpected network read error on response");
-				NETCLOSE(s);
+				close(s);
 				return status;
 			}
 
@@ -377,7 +377,7 @@ int HTLoadHTTP(
 						stderr, "HTTP: close socket %d to retry with HTTP0\n",
 						s);
 			}
-			NETCLOSE(s);
+			close(s);
 			goto retry;        /* @@@@@@@@@@ */
 		}
 /* end kludge */
@@ -480,7 +480,7 @@ int HTLoadHTTP(
 	if(text_buffer) free(text_buffer);
 
 	if(TRACE) fprintf(stderr, "HTTP: close socket %d.\n", s);
-	(void) NETCLOSE(s);
+	(void) close(s);
 
 	return status;            /* Good return */
 

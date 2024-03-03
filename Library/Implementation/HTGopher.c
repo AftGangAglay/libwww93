@@ -624,7 +624,7 @@ int HTLoadGopher(
 	}
 #endif
 
-	status = NETWRITE(s, command, (int) strlen(command));
+	status = write(s, command, (int) strlen(command));
 	free(command);
 	if(status < 0) {
 		if(TRACE) fprintf(stderr, "HTGopher: Unable to send command.\n");
@@ -676,7 +676,7 @@ int HTLoadGopher(
 
 	} /* switch(gtype) */
 
-	NETCLOSE(s);
+	close(s);
 	return HT_LOADED;
 }
 

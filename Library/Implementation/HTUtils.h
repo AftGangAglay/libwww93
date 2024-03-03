@@ -8,15 +8,6 @@
 #ifndef HTUTILS_H
 #define HTUTILS_H
 
-/*
- * Standard C library for malloc() etc
- */
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <stdarg.h>
-#include <ctype.h>
-
 #include "HTString.h" /* String utilities */
 
 /*
@@ -71,10 +62,7 @@ typedef char HTBool;
 /*
  * Out Of Memory checking for malloc() return:
  */
-#define outofmem(file, func) \
- { fprintf(stderr, "%s %s: out of memory.\nProgram aborted.\n", file, func); \
-  exit(1);}
-/* void outofmem (const char *fname, const char *func); */
+void outofmem(const char* file, const char* func);
 
 #endif /* HTUTILS_H */
 

@@ -42,6 +42,7 @@
 #endif
 
 #include <stdio.h>
+#include <time.h>
 
 #include "HTList.h"
 #include "HText.h"    /* See bugs above */

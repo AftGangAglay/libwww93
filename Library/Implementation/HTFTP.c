@@ -22,7 +22,7 @@
 **	DD	Denis DeLaRoca 310 825-4580 <CSP1DWD@mvs.oac.ucla.edu>
 ** History:
 **	 2 May 91	Written TBL, as a part of the WorldWideWeb project.
-**	15 Jan 92	Bug fix: close() was used for NETCLOSE for control soc
+**	15 Jan 92	Bug fix: close() was used for close for control soc
 **	10 Feb 92	Retry if cached connection times out or breaks
 **	 8 Dec 92	Bug fix 921208 TBL after DD
 **	17 Dec 92	Anon FTP password now just WWWuser@ suggested by DD
@@ -141,7 +141,7 @@ static char* data_write_pointer;
 static char next_data_char(void) {
 	int status;
 	if(data_read_pointer >= data_write_pointer) {
-		status = NETREAD(data_soc, data_buffer, DATA_BUFFER_SIZE);
+		status = read(data_soc, data_buffer, DATA_BUFFER_SIZE);
 		/* Get some more data */
 		if(status <= 0) return (char) -1;
 		data_write_pointer = data_buffer + status;
@@ -163,7 +163,7 @@ static char next_data_char(void) {
 */
 static int close_connection(connection* con) {
 	connection* scan;
-	int status = NETCLOSE(con->socket);
+	int status = close(con->socket);
 	if(TRACE) fprintf(stderr, "FTP: Closing control socket %d\n", con->socket);
 	if(connections == con) {
 		connections = con->next;
@@ -223,7 +223,7 @@ static int response(char* cmd) {
 			}
 		}
 #endif
-		status = NETWRITE(control->socket, cmd, (int) strlen(cmd));
+		status = write(control->socket, cmd, (int) strlen(cmd));
 		if(status < 0) {
 			if(TRACE) {
 				fprintf(
@@ -403,7 +403,7 @@ static int get_connection(const char* arg) {
 						"FTP: Unable to connect to remote host for `%s'.\n",
 						arg);
 			}
-			NETCLOSE(con->socket);
+			close(con->socket);
 			free(con);
 			if(username) free(username);
 			return status;            /* Bad return */
@@ -503,7 +503,7 @@ static int get_connection(const char* arg) {
 static int close_master_socket(void) {
 	int status;
 	FD_CLR(master_socket, &open_sockets);
-	status = NETCLOSE(master_socket);
+	status = close(master_socket);
 	if(TRACE) fprintf(stderr, "FTP: Closed master socket %d\n", master_socket);
 	master_socket = -1;
 	if(status < 0) { return HTInetStatus("close master socket"); }
@@ -579,10 +579,10 @@ static int get_listen_socket(void) {
 #else
 	{
 		int status;
-		int address_length = sizeof(soc_address);
+		unsigned address_length = sizeof(soc_address);
 		status = getsockname(
 				control->socket, (struct sockaddr*) &soc_address,
-				&address_length);
+				(void*) &address_length);
 		if(status < 0) return HTInetStatus("getsockname");
 		CTRACE(stderr, "FTP: This host is %s\n", HTInetString(sin));
 
@@ -595,7 +595,8 @@ static int get_listen_socket(void) {
 
 		address_length = sizeof(soc_address);
 		status = getsockname(
-				new_socket, (struct sockaddr*) &soc_address, &address_length);
+				new_socket, (struct sockaddr*) &soc_address,
+				(void*)  &address_length);
 		if(status < 0) return HTInetStatus("getsockname");
 	}
 #endif
@@ -828,7 +829,7 @@ int HTFTPLoad(
 					sizeof(soc_address));
 				if (status<0){
 				(void) HTInetStatus("connect for data");
-				NETCLOSE(data_soc);
+				close(data_soc);
 				return status;			/* Bad return */
 				}
 
@@ -880,9 +881,10 @@ int HTFTPLoad(
 */
 	{
 		struct sockaddr_in soc_address;
-		int soc_addrlen = sizeof(soc_address);
+		unsigned soc_addrlen = sizeof(soc_address);
 		status = accept(
-				master_socket, (struct sockaddr*) &soc_address, &soc_addrlen);
+				master_socket, (struct sockaddr*) &soc_address,
+				(void*) &soc_addrlen);
 		if(status < 0) {
 			return HTInetStatus("accept");
 		}
@@ -902,7 +904,7 @@ int HTFTPLoad(
 		HTInitInput(control->socket);
 		/* Reset buffering to control connection DD 921208 */
 
-		status = NETCLOSE(data_soc);
+		status = close(data_soc);
 		if(TRACE) fprintf(stderr, "FTP: Closing data socket %d\n", data_soc);
 		if(status < 0) (void) HTInetStatus("close");    /* Comment only */
 		data_soc = -1;    /* invalidate it */

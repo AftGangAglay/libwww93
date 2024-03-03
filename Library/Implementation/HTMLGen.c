@@ -16,7 +16,6 @@
 */
 #include "HTMLGen.h"
 
-#include <stdio.h>
 #include "HTMLDTD.h"
 #include "HTStream.h"
 #include "SGML.h"

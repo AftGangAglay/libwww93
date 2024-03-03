@@ -199,10 +199,10 @@ static int response(const char* command) {
 			for(p = command, q=ascii; *p; p++, q++) {
 			*q = (*p);
 			}
-				status = NETWRITE(s, ascii, length);
+				status = write(s, ascii, length);
 		}
 #else
-		status = NETWRITE(s, command, length);
+		status = write(s, command, length);
 #endif
 		if(status < 0) {
 			if(TRACE) {
@@ -210,7 +210,7 @@ static int response(const char* command) {
 						stderr,
 						"HTNews: Unable to send command. Disconnecting.\n");
 			}
-			NETCLOSE(s);
+			close(s);
 			s = -1;
 			return status;
 		} /* if bad status */
@@ -228,7 +228,7 @@ static int response(const char* command) {
 			if(TRACE) {
 				fprintf(stderr, "HTNews: EOF on read, closing socket %d\n", s);
 			}
-			NETCLOSE(s);    /* End of file, close socket */
+			close(s);    /* End of file, close socket */
 			return s = -1;    /* End of file on response */
 		}
 	} /* Loop over characters */
@@ -364,7 +364,7 @@ static void abort_socket(void) {
 	if(TRACE) {
 		fprintf(stderr, "HTNews: EOF on read, closing socket %d\n", s);
 	}
-	NETCLOSE(s);    /* End of file, close socket */
+	close(s);    /* End of file, close socket */
 	PUTS("Network Error: connection lost");
 	PUTC('\n');
 	s = -1;        /* End of file on response */
@@ -959,7 +959,7 @@ int HTLoadNews(
 					s, (struct sockaddr*) &soc_address, sizeof(soc_address));
 			if(status < 0) {
 				char message[256];
-				NETCLOSE(s);
+				close(s);
 				s = -1;
 				if(TRACE) {
 					fprintf(
@@ -982,7 +982,7 @@ int HTLoadNews(
 				HTInitInput(s);        /* set up buffering */
 				if((response(NULL) / 100) != 2) {
 					char message[BIG];
-					NETCLOSE(s);
+					close(s);
 					s = -1;
 					sprintf(
 							message,
@@ -1002,7 +1002,7 @@ int HTLoadNews(
 /*	    NXRunAlertPanel("News access", response_text,
 	    	NULL,NULL,NULL);
 */
-			NETCLOSE(s);
+			close(s);
 			s = -1;
 /* return HT; -- no:the message might be "Timeout-disconnected" left over */
 			continue;    /*	Try again */

@@ -18,15 +18,12 @@ Preamble
 #include "HTStream.h"
 #include "HTAtom.h"
 #include "HTList.h"
-
+#include "tcp.h"
 
 /*
-
-The HTFormat type
-
-   We use the HTAtom object for holding representations. This allows faster manipulation
-   (comparison and copying) that if we stayed with strings.
-   
+ * The HTFormat type
+ * We use the HTAtom object for holding representations. This allows faster manipulation
+ * (comparison and copying) that if we stayed with strings.
  */
 typedef HTAtom* HTFormat;
 
@@ -228,7 +225,8 @@ float HTStackValue(
 		HTFormat format_in, HTFormat rep_out, float initial_value,
 		long int length);
 
-#define NO_VALUE_FOUND  -1e20           /* returned if none found */
+/* returned if none found */
+#define NO_VALUE_FOUND (-1e20)
 
 /*
 

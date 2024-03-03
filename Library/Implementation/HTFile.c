@@ -527,11 +527,11 @@ HTBool HTEditable(const char* filename) {
 
 	return HT_FALSE;        /* Safe answer till we find the correct algorithm */
 #else
-	int 	groups[NGROUPS];
-	uid_t	myUid;
-	int		ngroups;			/* The number of groups  */
+	unsigned groups[NGROUPS];
+	uid_t myUid;
+	int ngroups; /* The number of groups  */
 	struct stat	fileStatus;
-	int		i;
+	int i;
 
 	if (stat(filename, &fileStatus))		/* Get details of filename */
 		return HT_FALSE;				/* Can't even access file! */

@@ -30,7 +30,7 @@ void HTProgress(const char* Msg) {
 
 
 HTBool HTConfirm(const char* Msg) {
-	char Reply[3];
+	char Reply[4];
 	char* URep;
 
 	fprintf(stderr, "WWW: %s (y/n) ", Msg);

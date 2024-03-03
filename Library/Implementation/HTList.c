@@ -7,8 +7,7 @@
 */
 
 #include "HTList.h"
-
-#include <stdio.h>                /* joe@athena, TBL 921019 */
+#include "tcp.h"
 
 HTList* HTList_new(void) {
 	HTList* newList = malloc(sizeof(HTList));
