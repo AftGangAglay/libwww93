@@ -1,1 +1,0 @@
-../../All/src/Makefile.product
