@@ -39,14 +39,13 @@ static HTList** adult_table = 0;  /* Point to table of lists of all parents */
 */
 
 static HTParentAnchor* HTParentAnchor_new(void) {
-	HTParentAnchor* newAnchor = (HTParentAnchor*) calloc(
-			1, sizeof(HTParentAnchor));  /* zero-filled */
+	HTParentAnchor* newAnchor = calloc(1, sizeof(HTParentAnchor));
 	newAnchor->parent = newAnchor;
 	return newAnchor;
 }
 
 static HTChildAnchor* HTChildAnchor_new(void) {
-	return (HTChildAnchor*) calloc(1, sizeof(HTChildAnchor));  /* zero-filled */
+	return calloc(1, sizeof(HTChildAnchor));
 }
 
 
@@ -190,7 +189,7 @@ HTAnchor* HTAnchor_findAddress(const char* address) {
 			hash = (hash * 3 + (*(unsigned char*) p)) % HASH_SIZE;
 		}
 		if(!adult_table) {
-			adult_table = (HTList**) calloc(HASH_SIZE, sizeof(HTList*));
+			adult_table = calloc(HASH_SIZE, sizeof(HTList*));
 		}
 		if(!adult_table[hash]) adult_table[hash] = HTList_new();
 		adults = adult_table[hash];

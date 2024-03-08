@@ -110,7 +110,7 @@ void HTSetSuffix(
 	if(strcmp(suffix, "*") == 0) { suff = &no_suffix; }
 	else if(strcmp(suffix, "*.*") == 0) { suff = &unknown_suffix; }
 	else {
-		suff = (HTSuffix*) calloc(1, sizeof(HTSuffix));
+		suff = calloc(1, sizeof(HTSuffix));
 		if(suff == NULL) outofmem(__FILE__, "HTSetSuffix");
 
 		if(!HTSuffixes) HTSuffixes = HTList_new();
