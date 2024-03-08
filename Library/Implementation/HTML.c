@@ -13,9 +13,6 @@
 
 /* #define CAREFUL		 Check nesting here notreally necessary */
 
-#include <ctype.h>
-#include <stdio.h>
-
 #include "HTAtom.h"
 #include "HTChunk.h"
 #include "HText.h"
@@ -24,6 +21,8 @@
 #include "HTAlert.h"
 #include "HTMLGen.h"
 #include "HTParse.h"
+
+#include "tcp.h"
 
 extern HTStyleSheet* styleSheet;    /* Application-wide */
 
@@ -310,7 +309,7 @@ static void HTML_put_string(HTStructured* me, const char* s) {
 /*	Buffer write
 **	------------
 */
-static void HTML_write(HTStructured* me, const char* s, int l) {
+static void HTML_write(HTStructured* me, const char* s, unsigned l) {
 	const char* p;
 	const char* e = s + l;
 	for(p = s; p < e; p++) HTML_put_character(me, *p);

@@ -126,7 +126,7 @@ typedef struct _HTStructuredClass {
 
 	void (* put_string)(HTStructured* me, const char* str);
 
-	void (* write)(HTStructured* me, const char* str, int len);
+	void (* write)(HTStructured* me, const char* str, unsigned len);
 
 	void (* start_element)(
 			HTStructured* me, int element_number,

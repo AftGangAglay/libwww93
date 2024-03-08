@@ -16,7 +16,6 @@
 /* (c) CERN WorldWideWeb project 1990,91. See Copyright.html for details */
 #include "HTRules.h"
 
-#include <stdio.h>
 #include "tcp.h"
 #include "HTFile.h"
 
@@ -137,7 +136,7 @@ char* HTTranslate(const char* required) {
 
 	for(r = rules; r; r = r->next) {
 		char* p = r->pattern;
-		int m;   /* Number of characters matched against wildcard */
+		int m = 0;   /* Number of characters matched against wildcard */
 		const char* q = current;
 		for(; *p && *q; p++, q++) {   /* Find first mismatch */
 			if(*p != *q) break;
@@ -236,7 +235,9 @@ int HTSetConfiguration(const char* config) {
 	char* line = NULL;
 	char* pointer = line;
 	char* word1, * word2, * word3;
-	float quality, secs, secs_per_byte;
+	float quality = 0.0f;
+	float secs = 0.0f;
+	float secs_per_byte = 0.0f;
 	int status;
 
 	StrAllocCopy(line, config);

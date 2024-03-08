@@ -15,7 +15,6 @@
 
 #define HASH_SIZE 101        /* Arbitrary prime. Memory/speed tradeoff */
 
-#include <ctype.h>
 #include "tcp.h"
 #include "HTAnchor.h"
 #include "HTUtils.h"

@@ -72,7 +72,7 @@ void* HTList_removeLastObject(HTList* me) {
 
 void* HTList_removeFirstObject(HTList* me) {
 	if(me && me->next) {
-		HTList* prevNode;
+		HTList* prevNode = 0;
 		void* firstObject;
 		while(me->next) {
 			prevNode = me;

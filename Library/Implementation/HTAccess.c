@@ -41,13 +41,11 @@
 
 #endif
 
-#include <stdio.h>
-#include <time.h>
-
 #include "HTList.h"
 #include "HText.h"    /* See bugs above */
 #include "HTAlert.h"
 
+#include "tcp.h"
 
 /*	These flags may be set to modify the operation of this module
 */
@@ -68,8 +66,7 @@ static HTList* protocols = NULL;   /* List of registered protocol descriptors */
 **	-------------------
 */
 
-HTBool HTRegisterProtocol(protocol)HTProtocol* protocol;
-{
+HTBool HTRegisterProtocol(HTProtocol* protocol) {
 	if(!protocols) protocols = HTList_new();
 	HTList_addObject(protocols, protocol);
 	return HT_TRUE;

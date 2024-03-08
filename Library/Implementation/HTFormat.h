@@ -164,8 +164,8 @@ HTSetPresentation: Register a system command to present a format
                          
  */
 void HTSetPresentation(
-		const char* representation, const char* command, float quality,
-		float secs, float secs_per_byte);
+		const char* representation, const char* command, double quality,
+		double secs, double secs_per_byte);
 
 
 /*
@@ -184,7 +184,7 @@ HTSetConversion:   Register a converstion routine
 
 void HTSetConversion(
 		const char* rep_in, const char* rep_out, HTConverter* converter,
-		float quality, float secs, float secs_per_byte);
+		double quality, double secs, double secs_per_byte);
 
 
 /*

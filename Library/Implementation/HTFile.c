@@ -19,7 +19,7 @@
 #include "HTFile.h"        /* Implemented here */
 
 
-#define INFINITY 512        /* file name length @@ FIXME */
+#define HT_LINE_MAX 512        /* file name length @@ FIXME */
 #define MULTI_SUFFIX ".multi"   /* Extension for scanning formats */
 
 #include "HTUtils.h"
@@ -103,7 +103,7 @@ static HTSuffix unknown_suffix = { "*.*", NULL, NULL, 1.0 };
 */
 void HTSetSuffix(
 		const char* suffix, const char* representation, const char* encoding,
-		float value) {
+		double value) {
 
 	HTSuffix* suff;
 
@@ -125,11 +125,11 @@ void HTSetSuffix(
 		char* enc = NULL;
 		char* p;
 		StrAllocCopy(enc, encoding);
-		for(p = enc; *p; p++) *p = tolower(*p);
+		for(p = enc; *p; p++) *p = (char) tolower(*p);
 		suff->encoding = HTAtom_for(encoding);
 	}
 
-	suff->quality = value;
+	suff->quality = (char) value;
 }
 
 
@@ -149,7 +149,7 @@ static char * vms_name(const char * nn, const char * fn)
 **	The node is assumed to be local if the hostname WITHOUT DOMAIN
 **	matches the local one. @@@
 */
-	static char vmsname[INFINITY];	/* returned */
+	static char vmsname[HT_LINE_MAX];	/* returned */
 	char * filename = (char*)malloc(strlen(fn)+1);
 	char * nodename = (char*)malloc(strlen(nn)+2+1);	/* Copies to hack */
 	char *second;		/* 2nd slash */
@@ -493,7 +493,8 @@ float HTFileValue(const char* filename) {
 			return suff->quality;        /* OK -- found */
 		}
 	}
-	return 0.3;        /* Dunno! */
+
+	return 0.3f;        /* Dunno! */
 }
 
 
@@ -712,7 +713,7 @@ int HTLoadFile(
 	/*	If the file wasn't VMS syntax, then perhaps it is ultrix
 	*/
 		if (fd<0) {
-			char ultrixname[INFINITY];
+			char ultrixname[HT_LINE_MAX];
 			if (TRACE) fprintf(stderr, "HTFile: Can't open as %s\n", vmsname);
 			sprintf(ultrixname, "%s::\"%s\"", nodename, filename);
 			fd = open(ultrixname, O_RDONLY, 0);

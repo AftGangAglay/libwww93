@@ -22,8 +22,6 @@
 #include "HTAnchor.h"
 #include "HTTP.h"
 #include "HTFile.h"
-#include <errno.h>
-#include <stdio.h>
 
 #include "tcp.h"
 #include "HText.h"

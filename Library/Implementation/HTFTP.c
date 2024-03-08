@@ -420,9 +420,9 @@ static int get_connection(const char* arg) {
 /*	Now we log in		Look up username, prompt for pw.
 */
 		{
-			int status = response(NIL);    /* Get greeting */
+			int st = response(NIL);    /* Get greeting */
 
-			if(status == 2) {        /* Send username */
+			if(st == 2) {        /* Send username */
 				char* command;
 				if(username) {
 					command = malloc(10 + strlen(username) + 2 + 1);
@@ -434,10 +434,10 @@ static int get_connection(const char* arg) {
 					if(command == NULL) outofmem(__FILE__, "get_connection");
 					sprintf(command, "USER anonymous%c%c", '\r', '\n');
 				}
-				status = response(command);
+				st = response(command);
 				free(command);
 			}
-			if(status == 3) {        /* Send password */
+			if(st == 3) {        /* Send password */
 				char* command;
 				if(password) {
 					command = malloc(10 + strlen(password) + 2 + 1);
@@ -458,17 +458,17 @@ static int get_connection(const char* arg) {
 							command, "PASS %s@%s%c%c", user ? user : "WWWuser",
 							host, '\r', '\n'); /*@@*/
 				}
-				status = response(command);
+				st = response(command);
 				free(command);
 			}
 			if(username) free(username);
 
-			if(status == 3) {
+			if(st == 3) {
 				char temp[80];
 				sprintf(temp, "ACCT noaccount%c%c", '\r', '\n');
-				status = response(temp);
+				st = response(temp);
 			}
-			if(status != 2) {
+			if(st != 2) {
 				if(TRACE) fprintf(stderr, "FTP: Login fail: %s", response_text);
 				if(control) close_connection(control);
 				return -1;        /* Bad return */
@@ -502,7 +502,14 @@ static int get_connection(const char* arg) {
 */
 static int close_master_socket(void) {
 	int status;
+#ifdef _MSC_VER
+# pragma warning(push)
+# pragma warning(disable: 4389) /* Signed/Unsigned comparison mismatch. */
+#endif
 	FD_CLR(master_socket, &open_sockets);
+#ifdef _MSC_VER
+# pragma warning(pop)
+#endif
 	status = close(master_socket);
 	if(TRACE) fprintf(stderr, "FTP: Closed master socket %d\n", master_socket);
 	master_socket = -1;
@@ -686,7 +693,7 @@ static int read_directory(
 		START(HTML_DIR);
 		for(c = 0; c != (char) EOF;)   /* For each entry in the directory */
 		{
-			char* filename = NULL;
+			char* fnam = NULL;
 			HTChunkClear(chunk);
 			/*   read directory entry
 			 */
@@ -714,8 +721,8 @@ static int read_directory(
 						stderr, "HTFTP: file name in %s is %s\n", lastpath,
 						chunk->data);
 			}
-			StrAllocCopy(filename, chunk->data);
-			HTBTree_add(bt, filename); /* sort filename in the tree bt */
+			StrAllocCopy(fnam, chunk->data);
+			HTBTree_add(bt, fnam); /* sort filename in the tree bt */
 
 		}  /* next entry */
 		HTChunkFree(chunk);

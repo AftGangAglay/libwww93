@@ -114,7 +114,7 @@ HTSetSuffix: Define the representation for a file suffix
 
 void HTSetSuffix(
 		const char* suffix, const char* representation, const char* encoding,
-		float quality);
+		double quality);
 
 
 /*

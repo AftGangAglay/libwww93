@@ -185,18 +185,18 @@ char* HTParse(const char* aName, const char* relatedName, int wanted) {
 			/* Ignore default port numbers, and trailing dots on FQDNs
 			   which will only cause identical adreesses to look different */
 			{
-				char* p;
-				p = strchr(tail, ':');
-				if(p && access) {        /* Port specified */
-					if((strcmp(access, "http") == 0 && strcmp(p, ":80") == 0) ||
+				char* v;
+				v = strchr(tail, ':');
+				if(v && access) {        /* Port specified */
+					if((strcmp(access, "http") == 0 && strcmp(v, ":80") == 0) ||
 					   (strcmp(access, "gopher") == 0 &&
-						strcmp(p, ":70") == 0)) {
-						*p = (char) 0;
+						strcmp(v, ":70") == 0)) {
+						*v = (char) 0;
 					}    /* It is the default: ignore it */
 				}
-				if(!p) p = tail + strlen(tail); /* After hostname */
-				p--;                /* End of hostname */
-				if(*p == '.') *p = (char) 0; /* chop final . */
+				if(!v) v = tail + strlen(tail); /* After hostname */
+				v--;                /* End of hostname */
+				if(*v == '.') *v = (char) 0; /* chop final . */
 			}
 #endif
 		}

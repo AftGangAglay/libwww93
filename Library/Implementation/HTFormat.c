@@ -75,8 +75,8 @@ HTPresentation* default_presentation = 0;
 **	-------------------------------------------------------
 */
 void HTSetPresentation(
-		const char* representation, const char* command, float quality,
-		float secs, float secs_per_byte) {
+		const char* representation, const char* command, double quality,
+		double secs, double secs_per_byte) {
 
 	HTPresentation* pres = malloc(sizeof(HTPresentation));
 	if(pres == NULL) outofmem(__FILE__, "HTSetPresentation");
@@ -84,9 +84,9 @@ void HTSetPresentation(
 	pres->rep = HTAtom_for(representation);
 	pres->rep_out = WWW_PRESENT;        /* Fixed for now ... :-) */
 	pres->converter = HTSaveAndExecute;        /* Fixed for now ...     */
-	pres->quality = quality;
-	pres->secs = secs;
-	pres->secs_per_byte = secs_per_byte;
+	pres->quality = (float) quality;
+	pres->secs = (float) secs;
+	pres->secs_per_byte = (float) secs_per_byte;
 	pres->rep = HTAtom_for(representation);
 	pres->command = 0;
 	StrAllocCopy(pres->command, command);
@@ -108,8 +108,8 @@ void HTSetPresentation(
 */
 void HTSetConversion(
 		const char* representation_in, const char* representation_out,
-		HTConverter* converter, float quality, float secs,
-		float secs_per_byte) {
+		HTConverter* converter, double quality, double secs,
+		double secs_per_byte) {
 
 	HTPresentation* pres = malloc(sizeof(HTPresentation));
 	if(pres == NULL) outofmem(__FILE__, "HTSetPresentation");
@@ -118,9 +118,9 @@ void HTSetConversion(
 	pres->rep_out = HTAtom_for(representation_out);
 	pres->converter = converter;
 	pres->command = NULL;        /* Fixed */
-	pres->quality = quality;
-	pres->secs = secs;
-	pres->secs_per_byte = secs_per_byte;
+	pres->quality = (float) quality;
+	pres->secs = (float) secs;
+	pres->secs_per_byte = (float) secs_per_byte;
 	pres->command = 0;
 
 	if(!HTPresentations) HTPresentations = HTList_new();
@@ -197,7 +197,7 @@ int HTOutputBinary(int input, FILE* output) {
 				fprintf(
 						stderr, "HTFormat: File read error %d\n", status);
 			}
-			return 2;            /* Error */
+			return 2; /* Error */
 		}
 		fwrite(input_buffer, sizeof(char), status, output);
 	} while(HT_TRUE);
@@ -319,8 +319,7 @@ float HTStackValue(
 		}
 	}
 
-	return -1e30;        /* Really bad */
-
+	return -1e30f; /* Really bad */
 }
 
 

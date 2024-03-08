@@ -6,8 +6,7 @@
 
 #include "HTUtils.h"
 #include "HTBTree.h"
-#include <stdlib.h>
-#include <string.h>
+#include "tcp.h"
 
 #define MAXIMUM(a, b) ((a)>(b)?(a):(b))
 

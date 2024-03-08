@@ -115,9 +115,9 @@ int HTLoadHTTP(
 */
 	{
 		char* p1 = HTParse(gate ? gate : arg, "", HT_PARSE_HOST);
-		int status = HTParseInet(sin, p1);  /* TBL 920622 */
+		int st = HTParseInet(sin, p1);  /* TBL 920622 */
 		free(p1);
-		if(status) return status;   /* No such host for example */
+		if(st) return st;   /* No such host for example */
 	}
 
 	retry:

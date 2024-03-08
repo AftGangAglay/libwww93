@@ -9,8 +9,8 @@
 #define HTFWRITE_H
 
 #include "HTStream.h"
-#include <stdio.h>
 #include "HTFormat.h"
+#include "tcp.h"
 
 HTStream* HTFWriter_new(FILE* fp);
 

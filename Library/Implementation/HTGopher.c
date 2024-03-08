@@ -1,42 +1,43 @@
 /*			GOPHER ACCESS				HTGopher.c
-**			=============
-**
-** History:
-**	26 Sep 90	Adapted from other accesses (News, HTTP) TBL
-**	29 Nov 91	Downgraded to C, for portable implementation.
-*/
+ *			=============
+ *
+ * History:
+ *	26 Sep 90	Adapted from other accesses (News, HTTP) TBL
+ *	29 Nov 91	Downgraded to C, for portable implementation.
+ */
 
-/* Implements:
-*/
+/*
+ * Implements:
+ */
 #include "HTGopher.h"
 
 
-#define GOPHER_PORT 70        /* See protocol spec */
-#define BIG 1024        /* Bug */
-#define LINE_LENGTH 256        /* Bug */
+#define GOPHER_PORT (70) /* See protocol spec */
+#define BIG (1024) /* Bug */
+#define LINE_LENGTH (256) /* Bug */
 
-/*	Gopher entity types:
-*/
-#define GOPHER_TEXT        '0'
-#define GOPHER_MENU        '1'
-#define GOPHER_CSO        '2'
-#define GOPHER_ERROR        '3'
-#define GOPHER_MACBINHEX    '4'
-#define GOPHER_PCBINHEX        '5'
-#define GOPHER_UUENCODED    '6'
-#define GOPHER_INDEX        '7'
-#define GOPHER_TELNET        '8'
-#define GOPHER_BINARY           '9'
-#define GOPHER_GIF              'g'
-#define GOPHER_HTML        'h'            /* HTML */
-#define GOPHER_SOUND            's'
-#define GOPHER_WWW        'w'        /* W3 address */
-#define GOPHER_IMAGE            'I'
-#define GOPHER_TN3270           'T'
-#define GOPHER_DUPLICATE    '+'
+/*
+ * Gopher entity types:
+ */
+#define GOPHER_TEXT ('0')
+#define GOPHER_MENU ('1')
+#define GOPHER_CSO ('2')
+#define GOPHER_ERROR ('3')
+#define GOPHER_MACBINHEX ('4')
+#define GOPHER_PCBINHEX ('5')
+#define GOPHER_UUENCODED ('6')
+#define GOPHER_INDEX ('7')
+#define GOPHER_TELNET ('8')
+#define GOPHER_BINARY ('9')
+#define GOPHER_GIF ('g')
+#define GOPHER_HTML ('h') /* HTML */
+#define GOPHER_SOUND ('s')
+#define GOPHER_WWW ('w') /* W3 address */
+#define GOPHER_IMAGE ('I')
+#define GOPHER_TN3270 ('T')
+#define GOPHER_DUPLICATE ('+')
 
-#include <ctype.h>
-#include "HTUtils.h"        /* Coding convention macros */
+#include "HTUtils.h" /* Coding convention macros */
 #include "tcp.h"
 
 
@@ -44,8 +45,9 @@
 #include "HTFormat.h"
 #include "HTTCP.h"
 
-/*		Hypertext object building machinery
-*/
+/*
+ * Hypertext object building machinery
+ */
 #include "HTML.h"
 
 #define PUTC(c) (*targetClass.put_character)(target, c)
@@ -53,6 +55,7 @@
 #define START(e) (*targetClass.start_element)(target, e, 0, 0)
 #define END(e) (*targetClass.end_element)(target, e)
 #define FREE_TARGET (*targetClass.free)(target)
+
 struct _HTStructured {
 	const HTStructuredClass* isa;
 	/* ... */
@@ -147,8 +150,9 @@ static void parse_menu(const char* arg, HTParentAnchor* anAnchor) {
 	char ch;
 	char line[BIG];
 	char address[BIG];
-	char* name, * selector;        /* Gopher menu fields */
-	char* host;
+	char* name = 0;
+	char* selector = 0; /* Gopher menu fields */
+	char* host = 0;
 	char* port;
 	char* p = line;
 	const char* title;
@@ -165,8 +169,7 @@ static void parse_menu(const char* arg, HTParentAnchor* anAnchor) {
 		PUTS(title);
 		END(HTML_H1);
 	}
-	else
-		PUTS("Select one of:\n\n");
+	else PUTS("Select one of:\n\n");
 
 	START(HTML_MENU);
 	while((ch = NEXT_CHAR) != (char) EOF) {
@@ -230,15 +233,15 @@ static void parse_menu(const char* arg, HTParentAnchor* anAnchor) {
 				}
 				else {            /* If parsed ok */
 					char* q;
-					char* p;
+					char* v;
 					sprintf(address, "//%s/%c", host, gtype);
 					q = address + strlen(address);
-					for(p = selector; *p; p++) {    /* Encode selector string */
-						if(acceptable[(int) *p]) { *q++ = *p; }
+					for(v = selector; *v; v++) {    /* Encode selector string */
+						if(acceptable[(int) *v]) { *q++ = *v; }
 						else {
 							*q++ = HEX_ESCAPE;    /* Means hex coming */
-							*q++ = hex[((*p)) >> 4];
-							*q++ = hex[((*p)) & 15];
+							*q++ = hex[((*v)) >> 4];
+							*q++ = hex[((*v)) & 15];
 						}
 					}
 					*q++ = 0;            /* terminate address */
@@ -463,7 +466,7 @@ static void de_escape(char* command, const char* selector) {
 			b = from_hex(c);
 			c = *p++;
 			if(!c) break;    /* Odd number of chars! */
-			*q++ = ((b << 4) + from_hex(c));
+			*q++ = (char) ((b << 4) + from_hex(c));
 		}
 		else {
 			*q++ = *p++;    /* Record */
@@ -499,22 +502,25 @@ int HTLoadGopher(
 	if(TRACE) fprintf(stderr, "HTGopher: Looking for %s\n", arg);
 
 
-/*  Set up defaults:
-*/
-	sin->sin_family = AF_INET;                /* Family, host order  */
-	sin->sin_port = htons(GOPHER_PORT);            /* Default: new port,  */
+	/*
+	 * Set up defaults:
+	 */
+	sin->sin_family = AF_INET; /* Family, host order  */
+	sin->sin_port = htons(GOPHER_PORT); /* Default: new port,  */
 
-/* Get node name and optional port number:
-*/
+	/*
+	 * Get node name and optional port number:
+	 */
 	{
 		char* p1 = HTParse(arg, "", HT_PARSE_HOST);
-		int status = HTParseInet(sin, p1);
+		int st = HTParseInet(sin, p1);
 		free(p1);
-		if(status) return status;   /* Bad */
+		if(st) return st; /* Bad */
 	}
 
-/* Get entity type, and selector string.
-*/
+	/*
+	 * Get entity type, and selector string.
+	 */
 	{
 		char* p1 = HTParse(arg, "", HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 		gtype = '1';        /* Default = menu */

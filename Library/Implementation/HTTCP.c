@@ -138,7 +138,7 @@ int HTParseInet(struct sockaddr_in* sin, const char* str) {
 #ifdef DECNET
 			sin->sdn_objnum = (unsigned char) (strtol(port, (char**)0 , 10));
 #else
-			sin->sin_port = htons(strtol(port, (char**) 0, 10));
+			sin->sin_port = htons((u_short) strtol(port, (char**) 0, 10));
 #endif /* Decnet */
 #endif /* Unix vs. VMS */
 

@@ -40,7 +40,7 @@ HTBool HTConfirm(const char* Msg) {
 	URep = Reply;
 	while(*URep) {
 		URep++;
-		*URep = toupper(*URep);
+		*URep = (char) toupper(*URep);
 	}
 
 	if((strcmp(Reply, "HT_TRUE") == 0) || (strcmp(Reply, "Y") == 0)) {

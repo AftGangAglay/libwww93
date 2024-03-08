@@ -19,8 +19,17 @@
  * 		29 Apr 93	Windows/NT code from SCW
  */
 
-#ifndef TCP_H
-#define TCP_H
+#ifndef HT_TCP_H
+#define HT_TCP_H
+
+#ifdef _WIN32
+# ifndef _CRT_SECURE_NO_WARNINGS
+#  define _CRT_SECURE_NO_WARNINGS
+# endif
+# ifndef _CRT_NONSTDC_NO_WARNINGS
+#  define _CRT_NONSTDC_NO_WARNINGS
+# endif
+#endif
 
 #ifndef _SVID_SOURCE
 /*
@@ -29,6 +38,11 @@
  */
 # define _DEFAULT_SOURCE
 # define _SVID_SOURCE
+#endif
+
+#ifdef _MSC_VER
+# pragma warning(push)
+# pragma warning(disable: 4668) /* Symbol not defined as macro. */
 #endif
 
 #include <time.h>
@@ -68,6 +82,20 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <netdb.h>
+#endif
+
+#ifdef _MSC_VER
+# pragma warning(pop)
+#endif
+
+#ifndef _MSC_VER
+# undef _DEFAULT_SOURCE
+# undef _SVID_SOURCE
+#endif
+
+#ifdef _WIN32
+# undef _CRT_SECURE_NO_WARNINGS
+# undef _CRT_NONSTDC_NO_WARNINGS
 #endif
 
 #endif

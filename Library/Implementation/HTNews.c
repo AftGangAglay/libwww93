@@ -9,16 +9,16 @@
 */
 #include "HTNews.h"
 
-#define NEWS_PORT 119        /* See rfc977 */
-#define APPEND            /* Use append methods */
-#define MAX_CHUNK    40    /* Largest number of articles in one window */
-#define CHUNK_SIZE    20    /* Number of articles for quick display */
+#define NEWS_PORT (119) /* See rfc977 */
+#define MAX_CHUNK (40) /* Largest number of articles in one window */
+#define CHUNK_SIZE (20) /* Number of articles for quick display */
 
 #ifndef DEFAULT_NEWS_HOST
-#define DEFAULT_NEWS_HOST "news"
+# define DEFAULT_NEWS_HOST "news"
 #endif
+
 #ifndef SERVER_FILE
-#define SERVER_FILE "/usr/local/lib/rn/server"
+# define SERVER_FILE "/usr/local/lib/rn/server"
 #endif
 
 #include <ctype.h>
@@ -30,7 +30,7 @@
 #include "HTFormat.h"
 #include "HTAlert.h"
 
-#define BIG 1024 /* @@@ */
+#define BIG (1024) /* @@@ */
 
 struct _HTStructured {
 	const HTStructuredClass* isa;
@@ -48,9 +48,9 @@ struct _HTStructured {
 /*	Module-wide variables
 */
 char* HTNewsHost;
-static struct sockaddr_in soc_address;        /* Binary network address */
-static int s;                    /* Socket for NewsHost */
-static char response_text[LINE_LENGTH + 1];    /* Last response */
+static struct sockaddr_in soc_address; /* Binary network address */
+static int s; /* Socket for NewsHost */
+static char response_text[LINE_LENGTH + 1]; /* Last response */
 
 /* static HText *	HT;	*/        /* the new hypertext */
 static HTStructured* target;            /* The output sink */
@@ -261,18 +261,19 @@ static HTBool match(const char* unknown, const char* template) {
 **  or	" tim@online.cern.ch ( Tim Berners-Lee ) "
 */
 static char* author_name(char* email) {
-	char* s, * e;
+	char* x;
+	char* e;
 
-	if((s = strchr(email, '(')) && (e = strchr(email, ')'))) {
-		if(e > s) {
+	if((x = strchr(email, '(')) && (e = strchr(email, ')'))) {
+		if(e > x) {
 			*e = 0;            /* Chop off everything after the ')'  */
-			return HTStrip(s + 1);    /* Remove leading and trailing spaces */
+			return HTStrip(x + 1);    /* Remove leading and trailing spaces */
 		}
 	}
 
-	if((s = strchr(email, '<')) && (e = strchr(email, '>'))) {
-		if(e > s) {
-			strcpy(s, e + 1);        /* Remove <...> */
+	if((x = strchr(email, '<')) && (e = strchr(email, '>'))) {
+		if(e > x) {
+			strcpy(x, e + 1);        /* Remove <...> */
 			return HTStrip(email);    /* Remove leading and trailing spaces */
 		}
 	}
@@ -499,20 +500,20 @@ static void read_article(void) {
 **	Unfortunately, it will pick up mail addresses as well!
 */
 				char* l = line;
-				char* p;
-				while((p = strchr(l, '<'))) {
-					char* q = strchr(p, '>');
-					char* at = strchr(p, '@');
+				char* v;
+				while((v = strchr(l, '<'))) {
+					char* q = strchr(v, '>');
+					char* at = strchr(v, '@');
 					if(q && at && at < q) {
 						char c = q[1];
 						q[1] = 0;        /* chop up */
-						*p = 0;
+						*v = 0;
 						PUTS(l);
-						*p = '<';        /* again */
+						*v = '<';        /* again */
 						*q = 0;
-						start_anchor(p + 1);
+						start_anchor(v + 1);
 						*q = '>';        /* again */
-						PUTS(p);
+						PUTS(v);
 						(*targetClass.end_element)(target, HTML_A);
 						q[1] = c;        /* again */
 						l = q + 1;
@@ -521,7 +522,7 @@ static void read_article(void) {
 				}
 				PUTS(l);    /* Last bit of the line */
 			} /* if not dot */
-			p = line;                /* Restart at beginning */
+			p = line; /* Restart at beginning */
 		} /* if end of line */
 	} /* Loop over characters */
 
@@ -799,14 +800,13 @@ read_group(const char* groupName, int first_required, int last_required) {
 							case 'f':
 							case 'F':
 								if(match(line, "FROM:")) {
-									char* p;
+									char* v;
 									strcpy(
 											author,
 											author_name(strchr(line, ':') + 1));
-									p = author + strlen(author) - 1;
-									if(*p == '\n') {
-										*p = 0;
-									}    /* Chop off newline */
+									v = author + strlen(author) - 1;
+									if(*v == '\n') *v = 0;
+									/* Chop off newline */
 								}
 								break;
 
@@ -867,13 +867,14 @@ read_group(const char* groupName, int first_required, int last_required) {
 int HTLoadNews(
 		const char* arg, HTParentAnchor* anAnchor, HTFormat format_out,
 		HTStream* stream) {
-	char command[257];            /* The whole command */
-	char groupName[GROUP_NAME_LENGTH];    /* Just the group name */
-	int status;                /* tcp return */
-	int retries;            /* A count of how hard we have tried */
-	HTBool group_wanted;            /* Flag: group was asked for, not article */
-	HTBool list_wanted;            /* Flag: group was asked for, not article */
-	int first, last;            /* First and last articles asked for */
+	char command[257]; /* The whole command */
+	char groupName[GROUP_NAME_LENGTH]; /* Just the group name */
+	int status; /* tcp return */
+	int retries; /* A count of how hard we have tried */
+	HTBool group_wanted; /* Flag: group was asked for, not article */
+	HTBool list_wanted; /* Flag: group was asked for, not article */
+	int first = 0;
+	int last = 0; /* First and last articles asked for */
 
 	diagnostic = (format_out == WWW_SOURCE);    /* set global flag */
 
@@ -1012,9 +1013,9 @@ int HTLoadNews(
 */
 
 
-		if(list_wanted) { read_list(); }
-		else if(group_wanted) { read_group(groupName, first, last); }
-		else { read_article(); }
+		if(list_wanted) read_list();
+		else if(group_wanted) read_group(groupName, first, last);
+		else read_article();
 
 		(*targetClass.free)(target);
 		return HT_LOADED;

@@ -57,7 +57,7 @@ static void HTMLGen_put_string(HTStructured* me, const char* s) {
 	PUTS(s);
 }
 
-static void HTMLGen_write(HTStructured* me, const char* s, int l) {
+static void HTMLGen_write(HTStructured* me, const char* s, unsigned l) {
 	PUTB(s, l);
 }
 
