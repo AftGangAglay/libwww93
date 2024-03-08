@@ -508,22 +508,8 @@ float HTFileValue(const char* filename) {
 **	1.	No code for non-unix systems.
 **	2.	Isn't there a quicker way?
 */
-
-#ifdef vms
-#define NO_GROUPS
-#endif
-#ifdef NO_UNIX_IO
-#define NO_GROUPS
-#endif
-#ifdef PCNFS
-#define NO_GROUPS
-#endif
-#ifdef _WIN32
-#define NO_GROUPS
-#endif
-
 HTBool HTEditable(const char* filename) {
-#ifdef NO_GROUPS
+#ifdef _WIN32
 	(void) filename;
 
 	return HT_FALSE;        /* Safe answer till we find the correct algorithm */
@@ -618,29 +604,27 @@ void HTDirTitles(HTStructured* target, HTAnchor* anchor) {
 	char* logical = HTAnchor_address(anchor);
 	char* path = HTParse(logical, "", HT_PARSE_PATH + HT_PARSE_PUNCTUATION);
 	char* current;
+	char* printable = NULL;
 
-	current = strrchr(path, '/');    /* last part or "" */
+	current = strrchr(path, '/'); /* last part or "" */
 	free(logical);
 
-	{
-		char* printable = NULL;
-		StrAllocCopy(printable, (current + 1));
-		HTUnEscape(printable);
-		START(HTML_TITLE);
-		PUTS(*printable ? printable : "Welcome ");
-		PUTS(" directory");
-		END(HTML_TITLE);
+	StrAllocCopy(printable, (current + 1));
+	HTUnEscape(printable);
+	START(HTML_TITLE);
+	PUTS(*printable ? printable : "Welcome ");
+	PUTS(" directory");
+	END(HTML_TITLE);
 
-		START(HTML_H1);
-		PUTS(*printable ? printable : "Welcome");
-		END(HTML_H1);
-		free(printable);
-	}
+	START(HTML_H1);
+	PUTS(*printable ? printable : "Welcome");
+	END(HTML_H1);
+	free(printable);
 
 	/*  Make link back to parent directory
 	 */
 
-	if(current && current[1]) {   /* was a slash AND something else too */
+	if(current && current[1]) { /* was a slash AND something else too */
 		char* parent;
 		char* relative;
 		*current++ = 0;
@@ -686,9 +670,10 @@ void HTDirTitles(HTStructured* target, HTAnchor* anchor) {
 int HTLoadFile(
 		const char* addr, HTParentAnchor* anchor, HTFormat format_out,
 		HTStream* sink) {
+
 	char* filename;
 	HTFormat format;
-	char* nodename = 0;
+	char* nodename;
 	char* newname = 0;    /* Simplified name of file */
 	HTAtom* encoding;    /* @@ not used yet */
 

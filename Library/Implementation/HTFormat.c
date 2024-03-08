@@ -596,10 +596,11 @@ static HTStreamClass NetToTextClass = {
 HTStream* HTNetToText(HTStream* sink) {
 	HTStream* me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "NetToText");
-	me->isa = &NetToTextClass;
 
+	me->isa = &NetToTextClass;
 	me->had_cr = HT_FALSE;
 	me->sink = sink;
+
 	return me;
 }
 

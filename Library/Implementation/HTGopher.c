@@ -73,7 +73,7 @@ static HTStructuredClass targetClass;        /* Its action routines */
 
 /*	Module-wide variables
 */
-static int s;                    /* Socket for GopherHost */
+static int s; /* Socket for GopherHost */
 
 
 
@@ -179,9 +179,9 @@ static void parse_menu(const char* arg, HTParentAnchor* anAnchor) {
 
 		}
 		else {
-			*p++ = 0;        /* Terminate line */
-			p = line;        /* Scan it to parse it */
-			port = 0;        /* Flag "not parsed" */
+			*p++ = 0; /* Terminate line */
+			p = line; /* Scan it to parse it */
+			port = 0; /* Flag "not parsed" */
 			if(TRACE) fprintf(stderr, "HTGopher: Menu item: %s\n", line);
 			gtype = *p++;
 
@@ -211,55 +211,55 @@ static void parse_menu(const char* arg, HTParentAnchor* anAnchor) {
 				} /* selector ok */
 			} /* gtype and name ok */
 
-			if(gtype == GOPHER_WWW) {    /* Gopher pointer to W3 */
-				write_anchor(name, selector);
-
-			}
+			/* Gopher pointer to W3 */
+			if(gtype == GOPHER_WWW) write_anchor(name, selector);
 			else if(port) {        /* Other types need port */
 				if(gtype == GOPHER_TELNET) {
-					if(*selector) {
-						sprintf(
-								address, "telnet://%s@%s/", selector, host);
+					if(selector && *selector) {
+						sprintf(address, "telnet://%s@%s/", selector, host);
 					}
-					else { sprintf(address, "telnet://%s/", host); }
+					else sprintf(address, "telnet://%s/", host);
 				}
 				else if(gtype == GOPHER_TN3270) {
-					if(*selector) {
+					if(selector && *selector) {
 						sprintf(address, "tn3270://%s@%s/", selector, host);
 					}
-					else {
-						sprintf(address, "tn3270://%s/", host);
-					}
+					else sprintf(address, "tn3270://%s/", host);
 				}
-				else {            /* If parsed ok */
+				else { /* If parsed ok */
 					char* q;
 					char* v;
+
 					sprintf(address, "//%s/%c", host, gtype);
 					q = address + strlen(address);
-					for(v = selector; *v; v++) {    /* Encode selector string */
-						if(acceptable[(int) *v]) { *q++ = *v; }
+
+					/* Encode selector string */
+					for(v = selector; v && *v; v++) {
+						if(acceptable[(int) *v]) *q++ = *v;
 						else {
-							*q++ = HEX_ESCAPE;    /* Means hex coming */
+							*q++ = HEX_ESCAPE; /* Means hex coming */
 							*q++ = hex[((*v)) >> 4];
 							*q++ = hex[((*v)) & 15];
 						}
 					}
-					*q++ = 0;            /* terminate address */
+
+					*q++ = 0; /* terminate address */
 				}
 				PUTS("        "); /* Prettier JW/TBL */
-				/* Error response from Gopher doesn't deserve to
-				   be a hyperlink. */
+
+				/*
+				 * Error response from Gopher doesn't deserve to be a hyperlink
+				 */
 				if(strcmp(address, "gopher://error.host:1/0")) {
 					write_anchor(name, address);
 				}
-				else
-					PUTS(name);
+				else PUTS(name);
+
 				PUTS("\n");
 			}
 			else { /* parse error */
-				if(TRACE)fprintf(stderr, "HTGopher: Bad menu item.\n");
+				if(TRACE) fprintf(stderr, "HTGopher: Bad menu item.\n");
 				PUTS(line);
-
 			} /* parse error */
 
 			p = line;    /* Start again at beginning of line */
@@ -270,24 +270,22 @@ static void parse_menu(const char* arg, HTParentAnchor* anAnchor) {
 
 	END(HTML_MENU);
 	FREE_TARGET;
-
-	return;
 }
 
-/*	Parse a Gopher CSO document
- **	============================
- **
- **   Accepts an open socket to a CSO server waiting to send us
- **   data and puts it on the screen in a reasonable manner.
- **
- **   Perhaps this data can be automatically linked to some
- **   other source as well???
- **
- **  Taken from hacking by Lou Montulli@ukanaix.cc.ukans.edu
- **  on XMosaic-1.1, and put on libwww 2.11 by Arthur Secret, 
- **  secret@dxcern.cern.ch .
+/*
+ * Parse a Gopher CSO document
+ * ============================
+ *
+ * Accepts an open socket to a CSO server waiting to send us
+ * data and puts it on the screen in a reasonable manner.
+ *
+ * Perhaps this data can be automatically linked to some
+ * other source as well???
+ *
+ * Taken from hacking by Lou Montulli@ukanaix.cc.ukans.edu
+ * on XMosaic-1.1, and put on libwww 2.11 by Arthur Secret,
+ * secret@dxcern.cern.ch .
  */
-
 static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 	char ch;
 	char line[BIG];
@@ -305,27 +303,20 @@ static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 	/* start grabbing chars from the network */
 	while((ch = NEXT_CHAR) != (char) EOF) {
 		if(ch != '\n') {
-			*p = ch;        /* Put character in line */
+			*p = ch; /* Put character in line */
 			if(p < &line[BIG - 1]) p++;
 		}
 		else {
-			*p = 0;        /* Terminate line */
+			*p = 0; /* Terminate line */
 			p++;
-			p = line;        /* Scan it to parse it */
+			p = line; /* Scan it to parse it */
 
-			/* OK we now have a line in 'p' lets parse it and
-			   print it */
+			/* OK we now have a line in 'p' lets parse it and print it */
 
-			/* Break on line that begins with a 2. It's the end of
-			 * data.
-			 */
-			if(*p == '2') {
-				break;
-			}
+			/* Break on line that begins with a 2. It's the end of data. */
+			if(*p == '2') break;
 
-			/*  lines beginning with 5 are errors,
-			 *  print them and quit
-			 */
+			/* lines beginning with 5 are errors, print them and quit */
 			if(*p == '5') {
 				START(HTML_H2);
 				PUTS(p + 4);
@@ -334,13 +325,15 @@ static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 			}
 
 			if(*p == '-') {
-				/*  data lines look like  -200:#:
-				 *  where # is the search result number and can be
-				 *  multiple digits (infinate?)
-				 *  find the second colon and check the digit to the
-				 *  left of it to see if they are diferent
-				 *  if they are then a different person is starting.
-				 *  make this line an <h2>
+				/*
+				 * data lines look like  -200:#: where # is the search result
+				 * number and can be multiple digits (infinite?)
+				 *
+				 * find the second colon and check the digit to the left of it
+				 * to see if they are different if they are then a different
+				 * person is starting.
+				 *
+				 * make this line a <h2>
 				 */
 
 				/* find the second_colon */
@@ -348,15 +341,15 @@ static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 
 				if(second_colon != NULL) {  /* error check */
 
-					if(*(second_colon - 1) != last_char)
+					if(*(second_colon - 1) != last_char) {
 						/* print seperator */
-					{
 						END(HTML_PRE);
 						START(HTML_H2);
 					}
 
 
-					/* right now the record appears with the alias
+					/*
+					 * right now the record appears with the alias
 					 * (first line)
 					 * as the header and the rest as <pre> text
 					 * It might look better with the name as the
@@ -375,14 +368,14 @@ static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 					PUTS(second_colon + 1);
 					PUTS("\n");
 
-					if(*(second_colon - 1) != last_char)
-						/* end seperator */
-					{
+					/* end seperator */
+					if(*(second_colon - 1) != last_char) {
 						END(HTML_H2);
 						START(HTML_PRE);
 					}
 
-					/* save the char before the second colon
+					/*
+					 * save the char before the second colon
 					 * for comparison on the next pass
 					 */
 					last_char = *(second_colon - 1);
@@ -398,16 +391,15 @@ static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 	END(HTML_PRE);
 	PUTS("\n");
 	FREE_TARGET;
-
-	return;  /* all done */
+	/* all done */
 } /* end of procedure */
 
-/*	Display a Gopher Index document
- **	-------------------------------
+/*
+ * Display a Gopher Index document
+ * -------------------------------
  */
 
 static void display_index(const char* arg, HTParentAnchor* anAnchor) {
-
 	START(HTML_H1);
 	PUTS(arg);
 	PUTS(" index");
@@ -421,13 +413,13 @@ static void display_index(const char* arg, HTParentAnchor* anAnchor) {
 	}
 
 	FREE_TARGET;
-	return;
 }
 
 
-/*      Display a CSO index document
-**      -------------------------------
-*/
+/*
+ * Display a CSO index document
+ * -------------------------------
+ */
 
 static void display_cso(const char* arg, HTParentAnchor* anAnchor) {
 	START(HTML_H1);
@@ -439,150 +431,156 @@ static void display_cso(const char* arg, HTParentAnchor* anAnchor) {
 	PUTS(" Please enter keywords to search for. The keywords that you enter");
 	PUTS(" will allow you to search on a person's name in the database.\n");
 
-	if(!HTAnchor_title(anAnchor)) {
-		HTAnchor_setTitle(anAnchor, arg);
-	}
+	if(!HTAnchor_title(anAnchor)) HTAnchor_setTitle(anAnchor, arg);
 
 	FREE_TARGET;
-	return;
 }
 
 
-/*		De-escape a selector into a command
-**		-----------------------------------
-**
-**	The % hex escapes are converted. Otheriwse, the string is copied.
-*/
+/*
+ * De-escape a selector into a command
+ * -----------------------------------
+ *
+ * The % hex escapes are converted. Otheriwse, the string is copied.
+ */
 static void de_escape(char* command, const char* selector) {
 	const char* p = selector;
 	char* q = command;
+
 	if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
-	while(*p) {        /* Decode hex */
+
+	while(*p) { /* Decode hex */
 		if(*p == HEX_ESCAPE) {
 			char c;
 			unsigned b;
+
 			p++;
 			c = *p++;
 			b = from_hex(c);
 			c = *p++;
-			if(!c) break;    /* Odd number of chars! */
+			if(!c) break; /* Odd number of chars! */
+
 			*q++ = (char) ((b << 4) + from_hex(c));
 		}
-		else {
-			*q++ = *p++;    /* Record */
-		}
+		else *q++ = *p++; /* Record */
 	}
-	*q++ = 0;    /* Terminate command */
 
+	*q++ = 0; /* Terminate command */
 }
 
 
-/*		Load by name					HTLoadGopher
-**		============
-**
-**	 Bug:	No decoding of strange data types as yet.
-**
-*/
+/*
+ * Load by name		HTLoadGopher
+ * ============
+ * Bug:	No decoding of strange data types as yet.
+ */
 int HTLoadGopher(
 		const char* arg, HTParentAnchor* anAnchor, HTFormat format_out,
 		HTStream* sink) {
-	char* command;            /* The whole command */
-	int status;                /* tcp return */
-	char gtype;                /* Gopher Node type */
-	char* selector;            /* Selector string */
 
-	struct sockaddr_in soc_address;    /* Binary network address */
+	char* command; /* The whole command */
+	int status; /* tcp return */
+	char gtype; /* Gopher Node type */
+	char* selector; /* Selector string */
+
+	struct sockaddr_in soc_address; /* Binary network address */
 	struct sockaddr_in* sin = &soc_address;
 
 	if(!acceptable_inited) init_acceptable();
 
-	if(!arg) return -3;        /* Bad if no name sepcified	*/
-	if(!*arg) return -2;        /* Bad if name had zero length	*/
+	if(!arg) return -3; /* Bad if no name sepcified	*/
+	if(!*arg) return -2; /* Bad if name had zero length	*/
 
 	if(TRACE) fprintf(stderr, "HTGopher: Looking for %s\n", arg);
 
+	/* Set up defaults: */
+	sin->sin_family = AF_INET; /* Family, host order */
+	sin->sin_port = htons(GOPHER_PORT); /* Default: new port, */
 
-	/*
-	 * Set up defaults:
-	 */
-	sin->sin_family = AF_INET; /* Family, host order  */
-	sin->sin_port = htons(GOPHER_PORT); /* Default: new port,  */
-
-	/*
-	 * Get node name and optional port number:
-	 */
+	/* Get node name and optional port number: */
 	{
 		char* p1 = HTParse(arg, "", HT_PARSE_HOST);
 		int st = HTParseInet(sin, p1);
+
 		free(p1);
 		if(st) return st; /* Bad */
 	}
 
-	/*
-	 * Get entity type, and selector string.
-	 */
+	/* Get entity type, and selector string. */
 	{
 		char* p1 = HTParse(arg, "", HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
-		gtype = '1';        /* Default = menu */
+		gtype = '1'; /* Default = menu */
 		selector = p1;
-		if((*selector++ == '/') && (*selector)) {    /* Skip first slash */
-			gtype = *selector++;            /* Pick up gtype */
+
+		if((*selector++ == '/') && (*selector)) { /* Skip first slash */
+			gtype = *selector++; /* Pick up gtype */
 		}
+
 		if(gtype == GOPHER_INDEX) {
 			char* query;
-			HTAnchor_setIndex(anAnchor);    /* Search is allowed */
-			query = strchr(selector, '?');    /* Look for search string */
-			if(!query || !query[1]) {        /* No search required */
+
+			HTAnchor_setIndex(anAnchor); /* Search is allowed */
+			query = strchr(selector, '?'); /* Look for search string */
+
+			if(!query || !query[1]) { /* No search required */
 				target = HTML_new(anAnchor, format_out, sink);
 				targetClass = *target->isa;
-				display_index(arg, anAnchor);    /* Display "cover page" */
-				return HT_LOADED;        /* Local function only */
+				display_index(arg, anAnchor); /* Display "cover page" */
+				return HT_LOADED; /* Local function only */
 			}
-			*query++ = 0;            /* Skip '?' 	*/
+
+			*query++ = 0; /* Skip '?' */
 			command = malloc(strlen(selector) + 1 + strlen(query) + 2 + 1);
 			if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
 
-			de_escape(command, selector);    /* Bug fix TBL 921208 */
+			de_escape(command, selector); /* Bug fix TBL 921208 */
 
 			strcat(command, "\t");
 
-			{                    /* Remove plus signs 921006 */
+			/* Remove plus signs 921006 */
+			{
 				char* p;
 				for(p = query; *p; p++) {
 					if(*p == '+') *p = ' ';
 				}
 			}
+
 			strcat(command, query);
 		}
 		else if(gtype == GOPHER_CSO) {
 			char* query;
-			HTAnchor_setIndex(anAnchor);        /* Search is allowed */
-			query = strchr(selector, '?');      /* Look for search string */
-			if(!query || !query[1]) {          /* No search required */
+
+			HTAnchor_setIndex(anAnchor); /* Search is allowed */
+			query = strchr(selector, '?'); /* Look for search string */
+
+			if(!query || !query[1]) { /* No search required */
 				target = HTML_new(anAnchor, format_out, sink);
 				targetClass = *target->isa;
-				display_cso(arg, anAnchor);     /* Display "cover page" */
-				return HT_LOADED;                 /* Local function only */
+				display_cso(arg, anAnchor); /* Display "cover page" */
+
+				return HT_LOADED; /* Local function only */
 			}
-			*query++ = 0;                       /* Skip '?'     */
+
+			*query++ = 0; /* Skip '?' */
+
 			command = malloc(strlen("query") + 1 + strlen(query) + 2 + 1);
 			if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
 
-			de_escape(command, selector);       /* Bug fix TBL 921208 */
+			de_escape(command, selector); /* Bug fix TBL 921208 */
 
 			strcpy(command, "query ");
 
-			{                                   /* Remove plus signs 921006 */
+			/* Remove plus signs 921006 */
+			{
 				char* p;
 				for(p = query; *p; p++) {
 					if(*p == '+') *p = ' ';
 				}
 			}
+
 			strcat(command, query);
-
-
 		}
-		else {                /* Not index */
+		else { /* Not index */
 			command = malloc(strlen(selector) + 2 + 1);
 			de_escape(command, selector);
 		}
@@ -591,14 +589,15 @@ int HTLoadGopher(
 
 	{
 		char* p = command + strlen(command);
-		*p++ = '\r';        /* Macros to be correct on Mac */
+		*p++ = '\r'; /* Macros to be correct on Mac */
 		*p++ = '\n';
 		*p++ = 0;
 		/* strcat(command, "\r\n");	*/    /* '\r' '\n', as in rfc 977 */
 	}
 
-/*	Set up a socket to the server for the data:
-*/
+	/*
+	 * Set up a socket to the server for the data:
+	 */
 	s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	status = connect(s, (struct sockaddr*) &soc_address, sizeof(soc_address));
 	if(status < 0) {

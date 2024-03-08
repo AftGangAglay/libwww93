@@ -33,18 +33,11 @@
 
 #include "HTParse.h"
 #include "HTUtils.h"
-#include "HTML.h"        /* SCW */
-
-#ifndef NO_RULES
-
+#include "HTML.h" /* SCW */
 #include "HTRules.h"
-
-#endif
-
 #include "HTList.h"
-#include "HText.h"    /* See bugs above */
+#include "HText.h" /* See bugs above */
 #include "HTAlert.h"
-
 #include "tcp.h"
 
 /*	These flags may be set to modify the operation of this module
@@ -86,22 +79,15 @@ HTBool HTRegisterProtocol(HTProtocol* protocol) {
 */
 #ifndef NO_INIT
 
-static void HTAccessInit(void)            /* Call me once */
-{
-	extern HTProtocol HTTP, HTFile, HTTelnet, HTTn3270, HTRlogin;
-#ifndef DECNET
-	extern HTProtocol HTFTP, HTNews, HTGopher;
-#ifdef DIRECT_WAIS
-	extern HTProtocol HTWAIS;
-#endif
+/* TODO: WWW Global State. */
+extern HTProtocol HTTP, HTFile, HTTelnet, HTTn3270, HTRlogin;
+extern HTProtocol HTFTP, HTNews, HTGopher;
+
+/* Call me once */
+static void HTAccessInit(void) {
 	HTRegisterProtocol(&HTFTP);
 	HTRegisterProtocol(&HTNews);
 	HTRegisterProtocol(&HTGopher);
-#ifdef DIRECT_WAIS
-	HTRegisterProtocol(&HTWAIS);
-#endif
-#endif
-
 	HTRegisterProtocol(&HTTP);
 	HTRegisterProtocol(&HTFile);
 	HTRegisterProtocol(&HTTelnet);
@@ -126,22 +112,14 @@ static void HTAccessInit(void)            /* Call me once */
 **
 */
 static int get_physical(const char* addr, HTParentAnchor* anchor) {
-	char* access = 0;    /* Name of access method */
-	char* physical = 0;
+	char* access;    /* Name of access method */
+	char* physical = HTTranslate(addr);
+	if(!physical) return HT_FORBIDDEN;
 
-#ifndef NO_RULES
-	physical = HTTranslate(addr);
-	if(!physical) {
-		return HT_FORBIDDEN;
-	}
 	HTAnchor_setPhysical(anchor, physical);
-	free(physical);            /* free our copy */
-#else
-	HTAnchor_setPhysical(anchor, addr);
-#endif
+	free(physical); /* free our copy */
 
-	access = HTParse(
-			HTAnchor_physical(anchor), "file:", HT_PARSE_ACCESS);
+	access = HTParse(HTAnchor_physical(anchor), "file:", HT_PARSE_ACCESS);
 
 /*	Check whether gateway access has been set up for this
 **
@@ -409,23 +387,22 @@ HTBool HTLoadToStream(const char* addr, HTBool filter, HTStream* sink) {
 */
 
 HTBool HTLoadRelative(const char* relative_name, HTParentAnchor* here) {
-	char* full_address = 0;
+	char* full_address;
 	HTBool result;
 	char* mycopy = 0;
-	char* stripped = 0;
 	char* current_address = HTAnchor_address((HTAnchor*) here);
 
 	StrAllocCopy(mycopy, relative_name);
 
-	stripped = HTStrip(mycopy);
 	full_address = HTParse(
-			stripped, current_address,
+			HTStrip(mycopy), current_address,
 			HT_PARSE_ACCESS | HT_PARSE_HOST | HT_PARSE_PATH |
 			HT_PARSE_PUNCTUATION);
 	result = HTLoadAbsolute(full_address);
 	free(full_address);
 	free(current_address);
-	free(mycopy);  /* Memory leak fixed 10/7/92 -- JFG */
+	free(mycopy); /* Memory leak fixed 10/7/92 -- JFG */
+
 	return result;
 }
 

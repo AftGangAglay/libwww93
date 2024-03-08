@@ -319,7 +319,6 @@ void HTBTree_add(HTBTree* tree, void* object)
 																	->left_depth);
 					if(father_of_element->up != NULL) {
 						father_of_forefather = father_of_element->up;
-						forefather_of_element = added_element;
 						do {
 							if(father_of_forefather->left ==
 							   father_of_element) {
@@ -341,7 +340,6 @@ void HTBTree_add(HTBTree* tree, void* object)
 								depth2 = father_of_forefather->right_depth;
 							}
 							father_of_forefather = father_of_forefather->up;
-							forefather_of_element = father_of_forefather;
 						} while((depth != depth2) &&
 								(father_of_forefather != NULL));
 						father_of_forefather = father_of_element->up;

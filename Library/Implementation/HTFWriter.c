@@ -130,8 +130,8 @@ HTStream* HTFWriter_new(FILE* fp) {
 
 	me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
-	me->isa = &HTFWriter;
 
+	me->isa = &HTFWriter;
 	me->fp = fp;
 	me->end_command = NULL;
 	me->remove_command = NULL;
@@ -256,6 +256,7 @@ HTStream* HTSaveLocally(
 
 	me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "SaveLocally");
+
 	me->isa = &HTFWriter;
 	me->end_command = NULL;
 	me->remove_command = NULL;    /* If needed, put into end_command */

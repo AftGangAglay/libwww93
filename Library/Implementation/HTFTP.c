@@ -242,7 +242,7 @@ static int response(char* cmd) {
 			if(((*p++ = NEXT_CHAR) == '\n') ||
 			   (p == &response_text[LINE_LENGTH])) {
 				char continuation;
-				*p++ = 0;            /* Terminate the string */
+				*p++ = 0; /* Terminate the string */
 				if(TRACE) fprintf(stderr, "    Rx: %s", response_text);
 				sscanf(response_text, "%d%c", &result, &continuation);
 				if(continuation_response == -1) {
@@ -379,17 +379,21 @@ static int get_connection(const char* arg) {
 */
 	{
 		int status;
+
 		connection* con = malloc(sizeof(*con));
 		if(con == NULL) outofmem(__FILE__, "get_connection");
-		con->addr = sin->sin_addr.s_addr;    /* save it */
+
+		con->addr = sin->sin_addr.s_addr; /* save it */
 		con->binary = HT_FALSE;
 		status = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
 		if(status < 0) {
 			(void) HTInetStatus("socket");
 			free(con);
 			if(username) free(username);
 			return status;
 		}
+
 		con->socket = status;
 
 		status = connect(
@@ -447,16 +451,20 @@ static int get_connection(const char* arg) {
 				else {
 					char* user = getenv("USER");
 					const char* host = HTHostName();
+
 					if(!user) user = "WWWuser";
-					/* If not fully qualified, suppress it as ftp.uu.net
-					   prefers a blank to a bad name */
+
+					/*
+					 * If not fully qualified, suppress it as ftp.uu.net
+					 * prefers a blank to a bad name
+					 */
 					if(!strchr(host, '.')) host = "";
 
 					command = malloc(20 + strlen(host) + 2 + 1);
 					if(command == NULL) outofmem(__FILE__, "get_connection");
-					sprintf(
-							command, "PASS %s@%s%c%c", user ? user : "WWWuser",
-							host, '\r', '\n'); /*@@*/
+
+					/*@@*/
+					sprintf(command, "PASS %s@%s%c%c", user, host, '\r', '\n');
 				}
 				st = response(command);
 				free(command);
