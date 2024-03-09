@@ -638,11 +638,11 @@ void HTDirTitles(HTStructured* target, HTAnchor* anchor) {
 
 		PUTS("Up to ");
 		if(parent) {
-			char* printable = NULL;
-			StrAllocCopy(printable, parent + 1);
-			HTUnEscape(printable);
-			PUTS(printable);
-			free(printable);
+			char* p = NULL;
+			StrAllocCopy(p, parent + 1);
+			HTUnEscape(p);
+			PUTS(p);
+			free(p);
 		}
 		else {
 			PUTS("/");
