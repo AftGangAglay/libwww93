@@ -36,7 +36,7 @@ HTHistory_backtrack(void)  /* FIXME: Should we add a `sticky' option ? */
 }
 
 HTBool HTHistory_canBacktrack(void) {
-	return (HTList_objectAt(history, 1) != NULL);
+	return !!HTList_objectAt(history, 1);
 }
 
 /*		Browse through references in the same parent node
@@ -49,7 +49,7 @@ HTBool HTHistory_canBacktrack(void) {
 HTAnchor* HTHistory_moveBy(int offset) {
 	HTAnchor* last = HTList_objectAt(history, 1);
 	if(!last) {
-		return NULL;
+		return 0;
 	}  /* No last visited node */
 	if(last != (HTAnchor*) last->parent) {  /* Was a child */
 		HTList* kids = last->parent->children;
@@ -72,11 +72,11 @@ HTAnchor* HTHistory_moveBy(int offset) {
 						"HTHistory_moveBy: offset by %+d goes out of list %p.\n",
 						offset, (void*) kids);
 			}
-			return NULL;
+			return 0;
 		}
 	}
 	else {  /* Was a parent */
-		return NULL;  /* FIXME we could possibly follow the next link... */
+		return 0;  /* FIXME we could possibly follow the next link... */
 	}
 }
 
@@ -88,7 +88,7 @@ HTBool HTHistory_canMoveBy(int offset) {
 	if(last != (HTAnchor*) last->parent) {  /* Was a child */
 		HTList* kids = last->parent->children;
 		int i = HTList_indexOf(kids, last);
-		return (HTList_objectAt(kids, i - offset) != NULL);
+		return !!HTList_objectAt(kids, i - offset);
 	}
 	else {  /* Was a parent */
 		return HT_FALSE;  /* FIXME we could possibly follow the next link... */

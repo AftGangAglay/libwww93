@@ -111,7 +111,7 @@ char* HTNextField(char** pstr) {
 	while(*p && HT_WHITE(*p)) p++;        /* Strip white space */
 	if(!*p) {
 		*pstr = p;
-		return NULL;        /* No first field */
+		return 0;        /* No first field */
 	}
 	if(*p == '"') {            /* quoted field */
 		p++;

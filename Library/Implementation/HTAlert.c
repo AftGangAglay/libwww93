@@ -44,10 +44,10 @@ HTBool HTConfirm(const char* Msg) {
 	}
 
 	if((strcmp(Reply, "HT_TRUE") == 0) || (strcmp(Reply, "Y") == 0)) {
-		return (HT_TRUE);
+		return HT_TRUE;
 	}
 	else {
-		return (HT_FALSE);
+		return HT_FALSE;
 	}
 }
 

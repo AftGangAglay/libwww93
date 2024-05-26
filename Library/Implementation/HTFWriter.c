@@ -126,7 +126,7 @@ static const HTStreamClass HTFWriter = /* As opposed to print etc */
 HTStream* HTFWriter_new(FILE* fp) {
 	HTStream* me;
 
-	if(!fp) return NULL;
+	if(!fp) return 0;
 
 	me = malloc(sizeof(*me));
 	if(me == NULL) outofmem(__FILE__, "HTML_new");
@@ -192,7 +192,7 @@ HTStream* HTSaveAndExecute(
 	HTAlert("Can't open temporary file!");
 		free(fnam);
 	free(me);
-	return NULL;
+	return 0;
 	}
 
 /*	Make command to process file
@@ -227,7 +227,7 @@ HTStream* HTSaveAndExecute(
 	(void) anchor;
 	(void) sink;
 
-	return NULL;
+	return 0;
 }
 
 #endif
@@ -280,7 +280,7 @@ HTStream* HTSaveLocally(
 		HTAlert("Can't open local file to write into.");
 		free(answer);
 		free(me);
-		return NULL;
+		return 0;
 	}
 
 	free(answer);

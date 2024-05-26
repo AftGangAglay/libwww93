@@ -124,8 +124,8 @@ struct _HTStream {
 void showDiags(HTStream* target, diagnosticRecord** d) {
 	long i;
 
-	for(i = 0; d[i] != NULL; i++) {
-		if(d[i]->ADDINFO != NULL) {
+	for(i = 0; d[i]; i++) {
+		if(d[i]->ADDINFO) {
 			PUTS("Diagnostic code is ");
 			PUTS(d[i]->DIAG);
 			PUTC(' ');
@@ -407,7 +407,7 @@ void display_search_response(
 		info = (WAISSearchResponse*) response->DatabaseDiagnosticRecords;
 		i = 0;
 
-		if(info->Diagnostics != NULL) {
+		if(info->Diagnostics) {
 			showDiags((HTStream*) target, info->Diagnostics);
 		}
 

@@ -268,7 +268,7 @@ static HTTag* find_tag(const SGML_dtd* dtd, char* string) {
 			return &dtd->tags[i];
 		}
 	}
-	return NULL;
+	return 0;
 }
 
 /*________________________________________________________________________

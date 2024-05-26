@@ -315,7 +315,7 @@ char* HTLocalName(const char* name) {
 				fprintf(
 						stderr, "Node `%s' means path `%s'\n", name, path);
 			}
-			return (path);
+			return path;
 		}
 		else {
 			char* result = malloc(
@@ -569,7 +569,7 @@ HTStream* HTFileSaveStream(HTParentAnchor* anchor) {
 	char* localname = HTLocalName(addr);
 
 	FILE* fp = fopen(localname, "w");
-	if(!fp) return NULL;
+	if(!fp) return 0;
 
 	return HTFWriter_new(fp);
 
@@ -935,7 +935,7 @@ int HTLoadFile(
 
 					state = 'I';
 
-					while (next_element != NULL)
+					while (next_element)
 						{
 						StrAllocCopy(tmpfilename,localname);
 						if (strcmp(localname,"/"))

@@ -247,7 +247,7 @@ static HTBool match(const char* unknown, const char* template) {
 	const char* t = template;
 	for(; *u && *t && (toupper(*u) == *t);
 			u++, t++) { /* Find mismatch or end */ }
-	return (HTBool) (*t == 0);        /* OK if end of template */
+	return *t == 0;        /* OK if end of template */
 }
 
 /*	Find Author's name in mail address

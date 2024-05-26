@@ -183,7 +183,7 @@ char HTGetChararcter(void) {
 		ch = *input_pointer++;
 	} while(ch == (char) 13); /* Ignore ASCII carriage return */
 
-	return (ch);
+	return ch;
 }
 
 /*	Stream the data to an ouput file as binary
@@ -271,7 +271,7 @@ HTStream* HTStreamStack(
 #ifdef XMOSAIC_HACK_REMOVED_NOW  /* Use above source method instead */
 	return sink;
 #else
-	return NULL;
+	return 0;
 #endif
 }
 

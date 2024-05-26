@@ -18,7 +18,7 @@ HTBTree* HTBTree_new(HTComparer comp)
 */
 {
 	HTBTree* tree = malloc(sizeof(HTBTree));
-	if(tree == NULL) outofmem(__FILE__, "HTBTree_new");
+	if(!tree) outofmem(__FILE__, "HTBTree_new");
 
 	tree->compare = comp;
 	tree->top = NULL;
@@ -33,8 +33,8 @@ static void HTBTElement_free(HTBTElement* element)
 */
 {
 	if(element) {
-		if(element->left != NULL) HTBTElement_free(element->left);
-		if(element->right != NULL) HTBTElement_free(element->right);
+		if(element->left) HTBTElement_free(element->left);
+		if(element->right) HTBTElement_free(element->right);
 		free(element);
 	}
 }
@@ -55,8 +55,8 @@ static void HTBTElementAndObject_free(HTBTElement* element)
 */
 {
 	if(element) {     /* Just in case nothing was in the tree anyway */
-		if(element->left != NULL) HTBTElementAndObject_free(element->left);
-		if(element->right != NULL) {
+		if(element->left) HTBTElementAndObject_free(element->left);
+		if(element->right) {
 			HTBTElementAndObject_free(element->right);
 		}
 		free(element->object);
@@ -114,9 +114,9 @@ void HTBTree_add(HTBTree* tree, void* object)
 	** 1/ Adding of the element to the binary tree
 	*/
 
-	if(tree->top == NULL) {
+	if(!tree->top) {
 		tree->top = malloc(sizeof(HTBTElement));
-		if(tree->top == NULL) outofmem(__FILE__, "HTBTree_add");
+		if(!tree->top) outofmem(__FILE__, "HTBTree_add");
 		tree->top->up = NULL;
 		tree->top->object = object;
 		tree->top->left = NULL;
@@ -132,7 +132,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 		forefather_of_element = NULL;
 		while(father_found) {
 			if(tree->compare(object, father_of_element->object) < 0) {
-				if(father_of_element->left != NULL) {
+				if(father_of_element->left) {
 					father_of_element = father_of_element->left;
 				}
 				else {
@@ -150,7 +150,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 				}
 			}
 			if(tree->compare(object, father_of_element->object) >= 0) {
-				if(father_of_element->right != NULL) {
+				if(father_of_element->right) {
 					father_of_element = father_of_element->right;
 				}
 				else {
@@ -194,7 +194,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 			}
 			forefather_of_element = father_of_forefather;
 			father_of_forefather = father_of_forefather->up;
-		} while((depth != depth2) && (father_of_forefather != NULL));
+		} while((depth != depth2) && (father_of_forefather));
 
 
 		/*
@@ -206,7 +206,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 			if((abs(
 					father_of_element->left_depth -
 					father_of_element->right_depth)) < 2) {
-				if(father_of_element->up != NULL) {
+				if(father_of_element->up) {
 					father_of_element = father_of_element->up;
 				}
 				else { top_found = HT_FALSE; }
@@ -234,7 +234,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 																	 ->right_depth,
 															 father_of_element
 																	 ->left_depth);
-					if(father_of_element->up != NULL) {
+					if(father_of_element->up) {
 						father_of_forefather = father_of_element->up;
 						forefather_of_element = added_element;
 						do {
@@ -260,7 +260,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 							forefather_of_element = father_of_forefather;
 							father_of_forefather = father_of_forefather->up;
 						} while((depth != depth2) &&
-								(father_of_forefather != NULL));
+								(father_of_forefather));
 						father_of_forefather = father_of_element->up;
 						if(father_of_forefather->left == father_of_element) {
 							/*
@@ -306,7 +306,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 						added_element->right = father_of_element;
 					}
 					father_of_element->up = added_element;
-					if(father_of_element->left != NULL) {
+					if(father_of_element->left) {
 						father_of_element->left->up = father_of_element;
 					}
 				}
@@ -317,7 +317,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 																	->right_depth,
 															father_of_element
 																	->left_depth);
-					if(father_of_element->up != NULL) {
+					if(father_of_element->up) {
 						father_of_forefather = father_of_element->up;
 						do {
 							if(father_of_forefather->left ==
@@ -341,7 +341,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 							}
 							father_of_forefather = father_of_forefather->up;
 						} while((depth != depth2) &&
-								(father_of_forefather != NULL));
+								(father_of_forefather));
 						father_of_forefather = father_of_element->up;
 						if(father_of_forefather->left == father_of_element) {
 							/*
@@ -387,13 +387,13 @@ void HTBTree_add(HTBTree* tree, void* object)
 						added_element->left = father_of_element;
 					}
 					father_of_element->up = added_element;
-					if(father_of_element->right != NULL) {
+					if(father_of_element->right) {
 						father_of_element->right->up = father_of_element;
 					}
 				}
 			}
 		}
-		while(father_of_element->up != NULL) {
+		while(father_of_element->up) {
 			father_of_element = father_of_element->up;
 		}
 		tree->top = father_of_element;
@@ -413,16 +413,16 @@ HTBTElement* HTBTree_next(HTBTree* tree, HTBTElement* ele)
 
 	if(ele == NULL) {
 		father_of_element = tree->top;
-		if(father_of_element != NULL) {
-			while(father_of_element->left != NULL)
+		if(father_of_element) {
+			while(father_of_element->left)
 				father_of_element = father_of_element->left;
 		}
 	}
 	else {
 		father_of_element = ele;
-		if(father_of_element->right != NULL) {
+		if(father_of_element->right) {
 			father_of_element = father_of_element->right;
-			while(father_of_element->left != NULL)
+			while(father_of_element->left)
 				father_of_element = father_of_element->left;
 		}
 		else {
@@ -439,18 +439,18 @@ HTBTElement* HTBTree_next(HTBTree* tree, HTBTElement* ele)
 	/* The option -DBTREE_TRACE will give much more information
 	** about the way the process is running, for debugging matters
 	*/
-	if (father_of_element != NULL)
+	if (father_of_element)
 	{
 		printf("\nObject = %s\t",(char *)father_of_element->object);
-		if (father_of_element->up != NULL)
+		if (father_of_element->up)
 			printf("Objet du pere = %s\n",
 		   (char *)father_of_element->up->object);
 		else printf("Pas de Pere\n");
-		if (father_of_element->left != NULL)
+		if (father_of_element->left)
 			printf("Objet du fils gauche = %s\t",
 		   (char *)father_of_element->left->object);
 		else printf("Pas de fils gauche\t");
-		if (father_of_element->right != NULL)
+		if (father_of_element->right)
 			printf("Objet du fils droit = %s\n",
 		   (char *)father_of_element->right->object);
 		else printf("Pas de fils droit\n");
@@ -610,7 +610,7 @@ main ()
 	printf("\nTreeTopObject=%s\n\n",tree->top->object);
 #endif
 	next_element = HTBTree_next(tree,NULL);
-	while (next_element != NULL)
+	while (next_element)
 	{
 #ifndef BTREE_TRACE
 		printf("The next element is %s\n",next_element->object);

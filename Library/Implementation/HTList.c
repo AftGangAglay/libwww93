@@ -66,7 +66,7 @@ void* HTList_removeLastObject(HTList* me) {
 		return lastObject;
 	}
 	else {  /* Empty list */
-		return NULL;
+		return 0;
 	}
 }
 
@@ -84,7 +84,7 @@ void* HTList_removeFirstObject(HTList* me) {
 		return firstObject;
 	}
 	else {  /* Empty list */
-		return NULL;
+		return 0;
 	}
 }
 
@@ -112,7 +112,7 @@ int HTList_indexOf(HTList* me, void* object) {
 
 void* HTList_objectAt(HTList* me, int position) {
 	if(position < 0) {
-		return NULL;
+		return 0;
 	}
 	if(me) {
 		while((me = me->next)) {
@@ -122,5 +122,5 @@ void* HTList_objectAt(HTList* me, int position) {
 			position--;
 		}
 	}
-	return NULL;  /* Reached the end of the list */
+	return 0;  /* Reached the end of the list */
 }

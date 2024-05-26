@@ -150,7 +150,7 @@ static char next_data_char(void) {
 #ifdef NOT_ASCII
 	{
 		char c = *data_read_pointer++;
-	return (c);
+	return c;
 	}
 #else
 	return *data_read_pointer++;
@@ -739,7 +739,7 @@ static int read_directory(
 		 */
 		{
 			HTBTElement* ele;
-			for(ele = HTBTree_next(bt, NULL); ele != NULL;
+			for(ele = HTBTree_next(bt, NULL); ele;
 					ele = HTBTree_next(bt, ele)) {
 				START(HTML_LI);
 				HTDirEntry(target, lastpath, HTBTree_object(ele));

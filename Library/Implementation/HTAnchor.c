@@ -86,7 +86,7 @@ HTChildAnchor* HTAnchor_findChild(HTParentAnchor* parent, const char* tag) {
 
 	if(!parent) {
 		if(TRACE) printf("HTAnchor_findChild called with NULL parent.\n");
-		return NULL;
+		return 0;
 	}
 	if((kids = parent->children)) {  /* parent has children : search them */
 		if(tag && *tag) {        /* TBL */
@@ -449,7 +449,7 @@ HTAnchor* HTAnchor_followTypedLink(HTAnchor* me, HTLinkType* type) {
 				return link->dest;
 			}
 	}
-	return NULL;  /* No link of me type */
+	return 0;  /* No link of me type */
 }
 
 

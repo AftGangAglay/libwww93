@@ -174,7 +174,7 @@ static int get_physical(const char* addr, HTParentAnchor* anchor) {
 			if(strcmp(p->name, access) == 0) {
 				HTAnchor_setProtocol(anchor, p);
 				free(access);
-				return (HT_OK);
+				return HT_OK;
 			}
 		}
 	}
@@ -222,7 +222,7 @@ static int HTLoad(
 */
 HTStream* HTSaveStream(HTParentAnchor* anchor) {
 	HTProtocol* p = HTAnchor_protocol(anchor);
-	if(!p) return NULL;
+	if(!p) return 0;
 
 	return (*p->saveStream)(anchor);
 

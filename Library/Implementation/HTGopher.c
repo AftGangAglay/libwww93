@@ -339,7 +339,7 @@ static void parse_cso(const char* arg, HTParentAnchor* anAnchor) {
 				/* find the second_colon */
 				second_colon = strchr(strchr(p, ':') + 1, ':');
 
-				if(second_colon != NULL) {  /* error check */
+				if(second_colon) {  /* error check */
 
 					if(*(second_colon - 1) != last_char) {
 						/* print seperator */

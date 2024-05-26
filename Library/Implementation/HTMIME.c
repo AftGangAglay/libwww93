@@ -339,7 +339,7 @@ HTMIMEConvert(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 HTStream*
 HTNetMIME(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 	HTStream* me = HTMIMEConvert(pres, anchor, sink);
-	if(!me) return NULL;
+	if(!me) return 0;
 
 	me->net_ascii = HT_TRUE;
 	return me;
