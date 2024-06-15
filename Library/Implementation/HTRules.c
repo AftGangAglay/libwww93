@@ -159,8 +159,7 @@ char* HTTranslate(const char* required) {
 				/* Fall through ...to map and pass */
 
 				/* TODO: Attribute fallthrough. */
-				/* FALLTHRU */
-
+			/* FALLTHROUGH */
 			case HT_Map:
 				if(*p == *q) { /* End of both strings, no wildcard */
 					if(TRACE) {
