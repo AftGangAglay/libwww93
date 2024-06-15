@@ -7,8 +7,8 @@
 **	 6 Oct 92 (TBL) Moved WWW_TraceFlag in here to be in library
 */
 
-#include "HTUtils.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTSTD.h>
 
 int WWW_TraceFlag = 0;    /* Global trace flag for ALL W3 code */
 

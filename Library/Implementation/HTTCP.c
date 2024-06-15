@@ -7,8 +7,8 @@
 **	25 Jun 92  JFG  Added DECNET option through TCP socket emulation.
 */
 
-#include "HTUtils.h"
-#include "tcp.h"        /* Defines SHORT_NAMES if necessary */
+#include <HTUtils.h>
+#include <HTSTD.h>        /* Defines SHORT_NAMES if necessary */
 
 /*	Module-Wide variables
 */

@@ -51,7 +51,7 @@ BUGS:	@@@  	Limit connection cache size!
 **		same time.
 */
 
-#include "HTFTP.h"    /* Implemented here */
+#include <HTFTP.h>    /* Implemented here */
 
 #define REPEAT_PORT    /* Give the port number for each file */
 #define REPEAT_LISTEN    /* Close each listen socket and open a new one */
@@ -65,14 +65,14 @@ BUGS:	@@@  	Limit connection cache size!
 #define LINE_LENGTH 256
 #define COMMAND_LENGTH 256
 
-#include "HTParse.h"
-#include "HTUtils.h"
-#include "tcp.h"
-#include "HTTCP.h"
-#include "HTAnchor.h"
-#include "HTFile.h"    /* For HTFileFormat() */
-#include "HTBTree.h"
-#include "HTChunk.h"
+#include <HTParse.h>
+#include <HTUtils.h>
+#include <HTSTD.h>
+#include <HTTCP.h>
+#include <HTAnchor.h>
+#include <HTFile.h>    /* For HTFileFormat() */
+#include <HTBTree.h>
+#include <HTChunk.h>
 
 #ifndef IPPORT_FTP
 #define IPPORT_FTP	21
@@ -91,7 +91,7 @@ typedef struct _connection {
 
 /*		Hypertext object building machinery
 */
-#include "HTML.h"
+#include <HTML.h>
 
 #define PUTC(c) (*targetClass.put_character)(target, c)
 #define PUTS(s) (*targetClass.put_string)(target, s)

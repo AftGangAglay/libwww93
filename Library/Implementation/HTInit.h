@@ -9,7 +9,7 @@
 **      befoe you link with the library.
 */
 
-#include "HTUtils.h"
+#include <HTUtils.h>
 
 void HTFormatInit(void);
 

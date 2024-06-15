@@ -11,9 +11,9 @@
 #ifndef HTFILE_H
 #define HTFILE_H
 
-#include "HTFormat.h"
-#include "HTAccess.h"
-#include "HTML.h"               /* SCW */
+#include <HTFormat.h>
+#include <HTAccess.h>
+#include <HTML.h>               /* SCW */
 
 
 /*

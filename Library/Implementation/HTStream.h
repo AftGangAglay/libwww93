@@ -13,7 +13,7 @@
 #ifndef HTSTREAM_H
 #define HTSTREAM_H
 
-#include "HTUtils.h"
+#include <HTUtils.h>
 
 typedef struct _HTStream HTStream;
 

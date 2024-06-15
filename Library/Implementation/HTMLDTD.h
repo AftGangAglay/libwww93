@@ -11,8 +11,8 @@
 #ifndef HTMLDTD_H
 #define HTMLDTD_H
 
-#include "HTUtils.h"
-#include "SGML.h"
+#include <HTUtils.h>
+#include <SGML.h>
 
 /*
 

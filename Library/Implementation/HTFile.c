@@ -16,30 +16,30 @@
 **	target machine runs VMS?
 */
 
-#include "HTFile.h"        /* Implemented here */
+#include <HTFile.h>        /* Implemented here */
 
 
 #define HT_LINE_MAX 512        /* file name length @@ FIXME */
 #define MULTI_SUFFIX ".multi"   /* Extension for scanning formats */
 
-#include "HTUtils.h"
+#include <HTUtils.h>
 
-#include "HTParse.h"
-#include "tcp.h"
-#include "HTTCP.h"
+#include <HTParse.h>
+#include <HTSTD.h>
+#include <HTTCP.h>
 
 #ifndef DECNET
 
-#include "HTFTP.h"
+#include <HTFTP.h>
 
 #endif
 
-#include "HTAnchor.h"
-#include "HTAtom.h"
-#include "HTWriter.h"
-#include "HTFWriter.h"
-#include "HTInit.h"
-#include "HTBTree.h"
+#include <HTAnchor.h>
+#include <HTAtom.h>
+#include <HTWriter.h>
+#include <HTFWriter.h>
+#include <HTInit.h>
+#include <HTBTree.h>
 
 typedef struct _HTSuffix {
 	char* suffix;
@@ -55,7 +55,7 @@ typedef struct _HTSuffix {
 #define STRUCT_DIRENT struct direct
 #endif
 
-#include "HTML.h"        /* For directory object building */
+#include <HTML.h>        /* For directory object building */
 
 #define PUTC(c) (*target->isa->put_character)(target, c)
 #define PUTS(s) (*target->isa->put_string)(target, s)

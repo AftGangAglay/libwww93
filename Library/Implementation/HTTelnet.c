@@ -15,19 +15,19 @@
 
 /* Implements:
 */
-#include "HTTelnet.h"
+#include <HTTelnet.h>
 
-#include "HTParse.h"
-#include "HTUtils.h"
-#include "HTAnchor.h"
-#include "HTTP.h"
-#include "HTFile.h"
+#include <HTParse.h>
+#include <HTUtils.h>
+#include <HTAnchor.h>
+#include <HTTP.h>
+#include <HTFile.h>
 
-#include "tcp.h"
-#include "HText.h"
+#include <HTSTD.h>
+#include <HText.h>
 
-#include "HTAccess.h"
-#include "HTAlert.h"
+#include <HTAccess.h>
+#include <HTAlert.h>
 
 #define HT_NO_DATA -9999
 

@@ -6,7 +6,7 @@
 #ifndef HTTELNET_H
 #define HTTELNET_H
 
-#include "HTAccess.h"
+#include <HTAccess.h>
 
 extern HTProtocol HTTelnet;
 extern HTProtocol HTRlogin;

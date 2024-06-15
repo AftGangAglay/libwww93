@@ -10,9 +10,9 @@
 #ifndef HTFTP_H
 #define HTFTP_H
 
-#include "HTUtils.h"
-#include "HTAnchor.h"
-#include "HTStream.h"
+#include <HTUtils.h>
+#include <HTAnchor.h>
+#include <HTStream.h>
 
 /*
 

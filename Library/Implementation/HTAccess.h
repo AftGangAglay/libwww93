@@ -13,10 +13,10 @@
 
 /*      Definition uses:
 */
-#include "HTUtils.h"
-#include "tcp.h"
-#include "HTAnchor.h"
-#include "HTFormat.h"
+#include <HTUtils.h>
+#include <HTSTD.h>
+#include <HTAnchor.h>
+#include <HTFormat.h>
 
 
 /*      Return codes from load routines:

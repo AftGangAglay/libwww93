@@ -14,12 +14,12 @@
 
 /* Implements:
 */
-#include "HTMLGen.h"
+#include <HTMLGen.h>
 
-#include "HTMLDTD.h"
-#include "HTStream.h"
-#include "SGML.h"
-#include "HTFormat.h"
+#include <HTMLDTD.h>
+#include <HTStream.h>
+#include <SGML.h>
+#include <HTFormat.h>
 
 #define PUTC(c) (*me->targetClass.put_character)(me->target, c)
 #define PUTS(s) (*me->targetClass.put_string)(me->target, s)

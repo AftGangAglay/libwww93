@@ -13,7 +13,7 @@
 
 /* Implements:
 */
-#include "HTFormat.h"
+#include <HTFormat.h>
 
 float HTMaxSecs = 1e10;        /* No effective limit */
 float HTMaxLength = 1e10;    /* No effective limit */
@@ -28,22 +28,22 @@ float HTMaxLength = 1e10;    /* No effective limit */
 #endif
 
 
-#include "HTUtils.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTSTD.h>
 
-#include "HTML.h"
-#include "HTMLDTD.h"
-#include "HText.h"
-#include "HTAlert.h"
-#include "HTList.h"
-#include "HTInit.h"
+#include <HTML.h>
+#include <HTMLDTD.h>
+#include <HText.h>
+#include <HTAlert.h>
+#include <HTList.h>
+#include <HTInit.h>
 /*	Streams and structured streams which we use:
 */
-#include "HTFWriter.h"
-#include "HTPlain.h"
-#include "SGML.h"
-#include "HTML.h"
-#include "HTMLGen.h"
+#include <HTFWriter.h>
+#include <HTPlain.h>
+#include <SGML.h>
+#include <HTML.h>
+#include <HTMLGen.h>
 
 HTBool HTOutputSource = HT_FALSE;    /* Flag: shortcut parser to stdout */
 extern HTBool interactive;

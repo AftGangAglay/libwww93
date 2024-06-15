@@ -73,13 +73,13 @@
 
 #define HEX_ESCAPE '%'
 
-#include "HTUtils.h"
-#include "tcp.h"
-#include "HTParse.h"
-#include "HTAccess.h"        /* We implement a protocol */
-#include "HTML.h"        /* The object we will generate */
+#include <HTUtils.h>
+#include <HTSTD.h>
+#include <HTParse.h>
+#include <HTAccess.h>        /* We implement a protocol */
+#include <HTML.h>        /* The object we will generate */
 
-/* #include "ParseWSRC.h" */
+/* #include <ParseWSRC.h> */
 
 extern int WWW_TraceFlag;    /* Control diagnostic output */
 extern FILE* logfile;        /* Log file output */
@@ -91,14 +91,14 @@ static char line[2048];    /* For building strings to display */
 /* Must be able to take id */
 
 
-#include "HTParse.h"
-#include "HTFormat.h"
-#include "HTTCP.h"
-/* #include "HTWSRC.h"	*/    /* Need some bits from here */
+#include <HTParse.h>
+#include <HTFormat.h>
+#include <HTTCP.h>
+/* #include <HTWSRC.h>	*/    /* Need some bits from here */
 
 /*		Hypertext object building machinery
 */
-#include "HTML.h"
+#include <HTML.h>
 
 #define PUTC(c) (*target->isa->put_character)(target, c)
 #define PUTS(s) (*target->isa->put_string)(target, s)

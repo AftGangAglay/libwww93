@@ -10,8 +10,8 @@
       Feb 93 Portablized etc TBL
       
  */
-#include "HTUtils.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTSTD.h>
 
 /*
 

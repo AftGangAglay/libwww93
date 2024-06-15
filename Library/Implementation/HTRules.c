@@ -14,10 +14,10 @@
 */
 
 /* (c) CERN WorldWideWeb project 1990,91. See Copyright.html for details */
-#include "HTRules.h"
+#include <HTRules.h>
 
-#include "tcp.h"
-#include "HTFile.h"
+#include <HTSTD.h>
+#include <HTFile.h>
 
 #define LINE_LENGTH 256
 

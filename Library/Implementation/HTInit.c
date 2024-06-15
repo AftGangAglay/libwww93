@@ -8,16 +8,16 @@
 
 /* Implements:
 */
-#include "HTInit.h"
+#include <HTInit.h>
 
-#include "HTML.h"
-#include "HTPlain.h"
-#include "HTMLGen.h"
-#include "HTFile.h"
-#include "HTFormat.h"
-#include "HTMIME.h"
-#include "HTWSRC.h"
-#include "HTFWriter.h"
+#include <HTML.h>
+#include <HTPlain.h>
+#include <HTMLGen.h>
+#include <HTFile.h>
+#include <HTFormat.h>
+#include <HTMIME.h>
+#include <HTWSRC.h>
+#include <HTFWriter.h>
 
 void HTFormatInit(void) {
 #ifdef NeXT

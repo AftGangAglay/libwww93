@@ -9,11 +9,11 @@
 **	 6 Feb 93  Binary seraches used. Intreface modified.
 */
 
-#include "SGML.h"
+#include <SGML.h>
 
-#include "HTUtils.h"
-#include "HTChunk.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTChunk.h>
+#include <HTSTD.h>
 
 #define INVALID (-1)
 

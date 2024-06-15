@@ -15,8 +15,8 @@
 
 /* Version 1 of 24-Oct-1991 (JFG), written in C, browser-independant */
 
-#include "HTList.h"
-#include "HTAtom.h"
+#include <HTList.h>
+#include <HTAtom.h>
 
 /*                      Main definition of anchor
 **                      =========================
@@ -27,7 +27,7 @@ typedef struct _HTAnchor HTAnchor;
 typedef struct _HTParentAnchor HTParentAnchor;
 
 /*      After definition of HTFormat: */
-#include "HTFormat.h"
+#include <HTFormat.h>
 
 typedef HTAtom HTLinkType;
 

@@ -11,8 +11,8 @@
 #ifndef HTNEWS_H
 #define HTNEWS_H
 
-#include "HTAccess.h"
-#include "HTAnchor.h"
+#include <HTAccess.h>
+#include <HTAnchor.h>
 
 /* extern int HTLoadNews PARAMS((const char *arg,
         HTParentAnchor * anAnchor,

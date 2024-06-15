@@ -8,7 +8,7 @@
 #ifndef HTUTILS_H
 #define HTUTILS_H
 
-#include "HTString.h" /* String utilities */
+#include <HTString.h> /* String utilities */
 
 /*
  * Debug message control.

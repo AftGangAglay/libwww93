@@ -7,13 +7,13 @@
 **	Bugs:
 **		strings written must be less than buffer size.
 */
-#include "HTPlain.h"
+#include <HTPlain.h>
 
 #define BUFFER_SIZE 4096;    /* Tradeoff */
 
-#include "HTUtils.h"
-#include "HText.h"
-#include "HTStyle.h"
+#include <HTUtils.h>
+#include <HText.h>
+#include <HTStyle.h>
 
 extern HTStyleSheet* styleSheet;
 

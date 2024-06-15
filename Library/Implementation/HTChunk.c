@@ -3,9 +3,9 @@
 **
 */
 
-#include "HTUtils.h"
-#include "HTChunk.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTChunk.h>
+#include <HTSTD.h>
 
 /*	Create a chunk with a certain allocation unit
 **	--------------

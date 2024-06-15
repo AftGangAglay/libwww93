@@ -11,8 +11,8 @@
 **	   Feb 92	Written Tim Berners-Lee, CERN
 **
 */
-#include "HTMIME.h"        /* Implemented here */
-#include "HTAlert.h"
+#include <HTMIME.h>        /* Implemented here */
+#include <HTAlert.h>
 
 
 /*		MIME Object

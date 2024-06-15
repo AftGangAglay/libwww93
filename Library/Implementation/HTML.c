@@ -9,20 +9,20 @@
 **	Override this module if making a new GUI browser.
 **
 */
-#include "HTML.h"
+#include <HTML.h>
 
 /* #define CAREFUL		 Check nesting here notreally necessary */
 
-#include "HTAtom.h"
-#include "HTChunk.h"
-#include "HText.h"
-#include "HTStyle.h"
+#include <HTAtom.h>
+#include <HTChunk.h>
+#include <HText.h>
+#include <HTStyle.h>
 
-#include "HTAlert.h"
-#include "HTMLGen.h"
-#include "HTParse.h"
+#include <HTAlert.h>
+#include <HTMLGen.h>
+#include <HTParse.h>
 
-#include "tcp.h"
+#include <HTSTD.h>
 
 extern HTStyleSheet* styleSheet;    /* Application-wide */
 

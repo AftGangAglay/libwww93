@@ -2,12 +2,12 @@
 **		===========
 **
 */
-#include "HTWriter.h"
+#include <HTWriter.h>
 
 #define BUFFER_SIZE 4096    /* Tradeoff */
 
-#include "HTUtils.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTSTD.h>
 
 
 /*		HTML Object

@@ -15,9 +15,9 @@
 
 #define HASH_SIZE (101) /* Tunable */
 
-#include "HTAtom.h"
-#include "HTUtils.h"
-#include "tcp.h"
+#include <HTAtom.h>
+#include <HTUtils.h>
+#include <HTSTD.h>
 
 static HTAtom* hash_table[HASH_SIZE];
 static HTBool initialised = HT_FALSE;

@@ -9,7 +9,7 @@
 /*
  * Implements:
  */
-#include "HTGopher.h"
+#include <HTGopher.h>
 
 
 #define GOPHER_PORT (70) /* See protocol spec */
@@ -37,18 +37,18 @@
 #define GOPHER_TN3270 ('T')
 #define GOPHER_DUPLICATE ('+')
 
-#include "HTUtils.h" /* Coding convention macros */
-#include "tcp.h"
+#include <HTUtils.h> /* Coding convention macros */
+#include <HTSTD.h>
 
 
-#include "HTParse.h"
-#include "HTFormat.h"
-#include "HTTCP.h"
+#include <HTParse.h>
+#include <HTFormat.h>
+#include <HTTCP.h>
 
 /*
  * Hypertext object building machinery
  */
-#include "HTML.h"
+#include <HTML.h>
 
 #define PUTC(c) (*targetClass.put_character)(target, c)
 #define PUTS(s) (*targetClass.put_string)(target, s)

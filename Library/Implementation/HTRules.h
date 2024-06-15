@@ -16,7 +16,7 @@
 #ifndef HTRULE_H
 #define HTRULE_H
 
-#include "HTUtils.h"
+#include <HTUtils.h>
 
 typedef enum _HTRuleOp {
 	HT_Invalid, HT_Map, HT_Pass, HT_Fail

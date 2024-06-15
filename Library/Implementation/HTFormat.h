@@ -14,11 +14,11 @@ Preamble
 #ifndef HTFORMAT_H
 #define HTFORMAT_H
 
-#include "HTUtils.h"
-#include "HTStream.h"
-#include "HTAtom.h"
-#include "HTList.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTStream.h>
+#include <HTAtom.h>
+#include <HTList.h>
+#include <HTSTD.h>
 
 /*
  * The HTFormat type
@@ -110,7 +110,7 @@ typedef HTAtom* HTEncoding;
  */
 #define WWW_ENC_COMPRESS        HTAtom_for("compress")
 
-#include "HTAnchor.h"
+#include <HTAnchor.h>
 
 /*
 

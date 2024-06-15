@@ -1,6 +1,6 @@
-#include "HTHistory.h"
+#include <HTHistory.h>
 
-#include "tcp.h"        /* for standard io */
+#include <HTSTD.h>        /* for standard io */
 
 static HTList* history;    /* List of visited anchors */
 

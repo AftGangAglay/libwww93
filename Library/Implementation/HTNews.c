@@ -7,7 +7,7 @@
 */
 /* Implements:
 */
-#include "HTNews.h"
+#include <HTNews.h>
 
 #define NEWS_PORT (119) /* See rfc977 */
 #define MAX_CHUNK (40) /* Largest number of articles in one window */
@@ -22,13 +22,13 @@
 #endif
 
 #include <ctype.h>
-#include "HTUtils.h"        /* Coding convention macros */
-#include "tcp.h"
+#include <HTUtils.h>        /* Coding convention macros */
+#include <HTSTD.h>
 
-#include "HTML.h"
-#include "HTParse.h"
-#include "HTFormat.h"
-#include "HTAlert.h"
+#include <HTML.h>
+#include <HTParse.h>
+#include <HTFormat.h>
+#include <HTAlert.h>
 
 #define BIG (1024) /* @@@ */
 

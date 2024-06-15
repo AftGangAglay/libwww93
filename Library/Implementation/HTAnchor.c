@@ -15,10 +15,10 @@
 
 #define HASH_SIZE 101        /* Arbitrary prime. Memory/speed tradeoff */
 
-#include "tcp.h"
-#include "HTAnchor.h"
-#include "HTUtils.h"
-#include "HTParse.h"
+#include <HTSTD.h>
+#include <HTAnchor.h>
+#include <HTUtils.h>
+#include <HTParse.h>
 
 typedef struct _HyperDoc Hyperdoc;
 #ifdef vms

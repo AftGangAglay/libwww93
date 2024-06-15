@@ -16,7 +16,7 @@
 #ifndef HTWRITE_H
 #define HTWRITE_H
 
-#include "HTStream.h"
+#include <HTStream.h>
 
 HTStream* HTWriter_new(int soc);
 

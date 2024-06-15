@@ -7,7 +7,7 @@
 #ifndef HTSTRING_H
 #define HTSTRING_H
 
-#include "HTUtils.h"
+#include <HTUtils.h>
 
 extern const char* HTLibraryVersion;   /* String for help screen etc */
 

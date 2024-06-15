@@ -5,9 +5,9 @@
 #ifndef HTML_H
 #define HTML_H
 
-#include "HTUtils.h"
-#include "HTAnchor.h"
-#include "HTMLDTD.h"
+#include <HTUtils.h>
+#include <HTAnchor.h>
+#include <HTMLDTD.h>
 
 
 extern const HTStructuredClass HTMLPresentation;

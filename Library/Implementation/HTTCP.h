@@ -7,9 +7,9 @@
 #ifndef HTTCP_H
 #define HTTCP_H
 
-#include "HTUtils.h"
+#include <HTUtils.h>
 
-#include "tcp.h"
+#include <HTSTD.h>
 
 
 /*      Produce a string for an internet address

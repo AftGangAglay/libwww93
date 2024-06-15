@@ -8,8 +8,8 @@
 **	translation necessary to
 **	represent a document. It is a linked list of styles.
 */
-#include "HTStyle.h"
-#include "HTUtils.h"
+#include <HTStyle.h>
+#include <HTUtils.h>
 
 /*	Create a new style
 */

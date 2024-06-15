@@ -11,9 +11,9 @@
 #ifndef HTEXT_H
 #define HTEXT_H
 
-#include "HTAnchor.h"
-#include "HTStyle.h"
-#include "HTStream.h"
+#include <HTAnchor.h>
+#include <HTStyle.h>
+#include <HTStream.h>
 
 typedef struct _HText HText;    /* Normal Library */
 

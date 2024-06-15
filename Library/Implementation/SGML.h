@@ -20,8 +20,8 @@
 #ifndef SGML_H
 #define SGML_H
 
-#include "HTUtils.h"
-#include "HTStream.h"
+#include <HTUtils.h>
+#include <HTStream.h>
 
 /*
 

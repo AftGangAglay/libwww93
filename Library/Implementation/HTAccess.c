@@ -26,19 +26,19 @@
 
 /* Implements:
 */
-#include "HTAccess.h"
+#include <HTAccess.h>
 
 /* Uses:
 */
 
-#include "HTParse.h"
-#include "HTUtils.h"
-#include "HTML.h" /* SCW */
-#include "HTRules.h"
-#include "HTList.h"
-#include "HText.h" /* See bugs above */
-#include "HTAlert.h"
-#include "tcp.h"
+#include <HTParse.h>
+#include <HTUtils.h>
+#include <HTML.h> /* SCW */
+#include <HTRules.h>
+#include <HTList.h>
+#include <HText.h> /* See bugs above */
+#include <HTAlert.h>
+#include <HTSTD.h>
 
 /*	These flags may be set to modify the operation of this module
 */

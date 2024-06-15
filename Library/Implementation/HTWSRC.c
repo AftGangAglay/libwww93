@@ -8,13 +8,13 @@
 **	3 June 93	Bug fix: Won't crash if no description
 */
 
-#include "HTWSRC.h"
+#include <HTWSRC.h>
 
-#include "HTML.h"
+#include <HTML.h>
 
-#include "HTUtils.h"
-#include "tcp.h"
-#include "HTParse.h"
+#include <HTUtils.h>
+#include <HTSTD.h>
+#include <HTParse.h>
 
 #define BIG 10000        /* Arbitrary limit to value length */
 #define PARAM_MAX BIG

@@ -2,9 +2,9 @@
 **		================================
 */
 
-#include "HTUtils.h"
-#include "HTParse.h"
-#include "tcp.h"
+#include <HTUtils.h>
+#include <HTParse.h>
+#include <HTSTD.h>
 
 #define HEX_ESCAPE '%'
 

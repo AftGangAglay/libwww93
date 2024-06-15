@@ -25,8 +25,8 @@
 #ifndef HTWAIS_H
 #define HTWAIS_H
 
-#include "HTUtils.h"
-#include "HTAccess.h"
+#include <HTUtils.h>
+#include <HTAccess.h>
 
 extern HTProtocol HTWAIS;
 

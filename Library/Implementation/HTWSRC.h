@@ -11,9 +11,9 @@
 #ifndef HTWSRC_H
 #define HTWSRC_H
 
-#include "HTUtils.h"
+#include <HTUtils.h>
 
-#include "HTFormat.h"
+#include <HTFormat.h>
 
 HTStream*
 HTWSRCConvert(HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink);

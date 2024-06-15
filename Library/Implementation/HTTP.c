@@ -20,7 +20,7 @@
 
 /* Implements:
 */
-#include "HTTP.h"
+#include <HTTP.h>
 
 #define HTTP_VERSION    "HTTP/1.0"
 #define HTTP2                /* Version is greater than 0.9 */
@@ -31,16 +31,16 @@
 
 /* Uses:
 */
-#include "HTParse.h"
-#include "HTUtils.h"
-#include "tcp.h"
-#include "HTTCP.h"
-#include "HTFormat.h"
+#include <HTParse.h>
+#include <HTUtils.h>
+#include <HTSTD.h>
+#include <HTTCP.h>
+#include <HTFormat.h>
 #include <ctype.h>
-#include "HTAlert.h"
-#include "HTMIME.h"
-#include "HTML.h"        /* SCW */
-#include "HTInit.h"        /* SCW */
+#include <HTAlert.h>
+#include <HTMIME.h>
+#include <HTML.h>        /* SCW */
+#include <HTInit.h>        /* SCW */
 
 struct _HTStream {
 	HTStreamClass* isa;        /* all we need to know */

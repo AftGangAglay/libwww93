@@ -5,7 +5,7 @@
 /* Implements:
 */
 
-#include "HTMLDTD.h"
+#include <HTMLDTD.h>
 
 /* 	Entity Names
 **	------------

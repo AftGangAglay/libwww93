@@ -32,8 +32,8 @@ Overiding this module
 #ifndef HTStyle_H
 #define HTStyle_H
 
-#include "HTUtils.h"
-#include "HTAnchor.h"
+#include <HTUtils.h>
+#include <HTAnchor.h>
 
 typedef long int HTFont;        /* Dummy definition instead */
 

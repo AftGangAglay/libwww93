@@ -6,8 +6,8 @@
 #ifndef HTMLGEN_H
 #define HTMLGEN_H
 
-#include "HTML.h"
-#include "HTStream.h"
+#include <HTML.h>
+#include <HTStream.h>
 
 /* Subclass:
 */

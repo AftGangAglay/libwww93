@@ -10,8 +10,8 @@
 #ifndef HTGOPHER_H
 #define HTGOPHER_H
 
-#include "HTAccess.h"
-#include "HTAnchor.h"
+#include <HTAccess.h>
+#include <HTAnchor.h>
 
 extern HTProtocol HTGopher;
 

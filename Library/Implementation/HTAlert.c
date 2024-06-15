@@ -10,9 +10,9 @@
 */
 
 
-#include "HTAlert.h"
+#include <HTAlert.h>
 
-#include "tcp.h"        /* for toupper */
+#include <HTSTD.h>        /* for toupper */
 #include <ctype.h>        /* for toupper - should be in tcp.h */
 
 void HTAlert(const char* Msg) {

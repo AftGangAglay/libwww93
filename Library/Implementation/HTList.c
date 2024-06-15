@@ -6,8 +6,8 @@
 **	New nodes are inserted between the header and the rest of the list.
 */
 
-#include "HTList.h"
-#include "tcp.h"
+#include <HTList.h>
+#include <HTSTD.h>
 
 HTList* HTList_new(void) {
 	HTList* newList = malloc(sizeof(HTList));
