@@ -11,7 +11,7 @@
 
 HTList* HTList_new(void) {
 	HTList* newList = malloc(sizeof(HTList));
-	if(newList == NULL) outofmem(__FILE__, "HTList_new");
+	if(newList == NULL) HTOOM(__FILE__, "HTList_new");
 	newList->object = NULL;
 	newList->next = NULL;
 	return newList;
@@ -28,7 +28,7 @@ void HTList_delete(HTList* me) {
 void HTList_addObject(HTList* me, void* newObject) {
 	if(me) {
 		HTList* newNode = malloc(sizeof(HTList));
-		if(newNode == NULL) outofmem(__FILE__, "HTList_addObject");
+		if(newNode == NULL) HTOOM(__FILE__, "HTList_addObject");
 		newNode->object = newObject;
 		newNode->next = me->next;
 		me->next = newNode;

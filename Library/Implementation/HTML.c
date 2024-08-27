@@ -624,7 +624,7 @@ HTStructured* HTML_new(
 	}
 
 	me = malloc(sizeof(*me));
-	if(me == NULL) outofmem(__FILE__, "HTML_new");
+	if(me == NULL) HTOOM(__FILE__, "HTML_new");
 
 	if(!got_styles) get_styles();
 

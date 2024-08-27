@@ -434,7 +434,7 @@ HTStreamClass WSRCParserClass = {
 HTStream* HTWSRCConvert(
 		HTPresentation* pres, HTParentAnchor* anchor, HTStream* sink) {
 	HTStream* me = malloc(sizeof(*me));
-	if(!me) outofmem(__FILE__, "HTWSRCConvert");
+	if(!me) HTOOM(__FILE__, "HTWSRCConvert");
 
 	me->isa = &WSRCParserClass;
 	me->target = HTML_new(anchor, pres->rep_out, sink);

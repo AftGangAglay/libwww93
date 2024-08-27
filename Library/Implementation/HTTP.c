@@ -148,14 +148,14 @@ int HTLoadHTTP(
 */
 	if(gate) {
 		command = malloc(4 + strlen(arg) + 2 + 31);
-		if(command == NULL) outofmem(__FILE__, "HTLoadHTTP");
+		if(command == NULL) HTOOM(__FILE__, "HTLoadHTTP");
 		strcpy(command, "GET ");
 		strcat(command, arg);
 	}
 	else { /* not gatewayed */
 		char* p1 = HTParse(arg, "", HT_PARSE_PATH | HT_PARSE_PUNCTUATION);
 		command = malloc(4 + strlen(p1) + 2 + 31);
-		if(command == NULL) outofmem(__FILE__, "HTLoadHTTP");
+		if(command == NULL) HTOOM(__FILE__, "HTLoadHTTP");
 		strcpy(command, "GET ");
 		strcat(command, p1);
 		free(p1);
@@ -254,9 +254,9 @@ int HTLoadHTTP(
 		(void) HTAtom_for("7bit");
 
 		binary_buffer = malloc(buffer_length * sizeof(char));
-		if(!binary_buffer) outofmem(__FILE__, "HTLoadHTTP");
+		if(!binary_buffer) HTOOM(__FILE__, "HTLoadHTTP");
 		text_buffer = malloc(buffer_length * sizeof(char));
-		if(!text_buffer) outofmem(__FILE__, "HTLoadHTTP");
+		if(!text_buffer) HTOOM(__FILE__, "HTLoadHTTP");
 		length = 0;
 
 		do {    /* Loop to read in the first line */
@@ -267,10 +267,10 @@ int HTLoadHTTP(
 				buffer_length = buffer_length + buffer_length;
 				binary_buffer = realloc(
 						binary_buffer, buffer_length * sizeof(char));
-				if(!binary_buffer) outofmem(__FILE__, "HTLoadHTTP");
+				if(!binary_buffer) HTOOM(__FILE__, "HTLoadHTTP");
 				text_buffer = realloc(
 						text_buffer, buffer_length * sizeof(char));
-				if(!text_buffer) outofmem(__FILE__, "HTLoadHTTP");
+				if(!text_buffer) HTOOM(__FILE__, "HTLoadHTTP");
 			}
 			status = read(s, binary_buffer + length,
 							 buffer_length - length - 1);
@@ -416,7 +416,7 @@ int HTLoadHTTP(
 					char* p1 = HTParse(gate ? gate : arg, "", HT_PARSE_HOST);
 					char* message = malloc(
 							strlen(text_buffer) + strlen(p1) + 100);
-					if(!message) outofmem(__FILE__, "HTTP 5xx status");
+					if(!message) HTOOM(__FILE__, "HTTP 5xx status");
 					sprintf(
 							message, "HTTP server at %s replies:\n%s", p1,
 							text_buffer);

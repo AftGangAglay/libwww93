@@ -238,7 +238,7 @@ static void start_element(HTStream* context) {
 			(const char**) context->value);  /* coerce type for think c */
 	if(new_tag->contents != SGML_EMPTY) {        /* i.e. tag not empty */
 		HTElement* N = malloc(sizeof(HTElement));
-		if(N == NULL) outofmem(__FILE__, "start_element");
+		if(N == NULL) HTOOM(__FILE__, "start_element");
 		N->next = context->element_stack;
 		N->tag = new_tag;
 		context->element_stack = N;
@@ -658,7 +658,7 @@ const HTStreamClass SGMLParser = {
 HTStream* SGML_new(const SGML_dtd* dtd, HTStructured* target) {
 	int i;
 	HTStream* context = malloc(sizeof(*context));
-	if(!context) outofmem(__FILE__, "SGML_begin");
+	if(!context) HTOOM(__FILE__, "SGML_begin");
 
 	context->isa = &SGMLParser;
 	context->string = HTChunkCreate(128);    /* Grow by this much */

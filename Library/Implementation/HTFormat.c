@@ -79,7 +79,7 @@ void HTSetPresentation(
 		double secs, double secs_per_byte) {
 
 	HTPresentation* pres = malloc(sizeof(HTPresentation));
-	if(pres == NULL) outofmem(__FILE__, "HTSetPresentation");
+	if(pres == NULL) HTOOM(__FILE__, "HTSetPresentation");
 
 	pres->rep = HTAtom_for(representation);
 	pres->rep_out = WWW_PRESENT;        /* Fixed for now ... :-) */
@@ -112,7 +112,7 @@ void HTSetConversion(
 		double secs_per_byte) {
 
 	HTPresentation* pres = malloc(sizeof(HTPresentation));
-	if(pres == NULL) outofmem(__FILE__, "HTSetPresentation");
+	if(pres == NULL) HTOOM(__FILE__, "HTSetPresentation");
 
 	pres->rep = HTAtom_for(representation_in);
 	pres->rep_out = HTAtom_for(representation_out);
@@ -595,7 +595,7 @@ static HTStreamClass NetToTextClass = {
 */
 HTStream* HTNetToText(HTStream* sink) {
 	HTStream* me = malloc(sizeof(*me));
-	if(me == NULL) outofmem(__FILE__, "NetToText");
+	if(me == NULL) HTOOM(__FILE__, "NetToText");
 
 	me->isa = &NetToTextClass;
 	me->had_cr = HT_FALSE;

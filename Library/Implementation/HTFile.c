@@ -111,7 +111,7 @@ void HTSetSuffix(
 	else if(strcmp(suffix, "*.*") == 0) { suff = &unknown_suffix; }
 	else {
 		suff = calloc(1, sizeof(HTSuffix));
-		if(suff == NULL) outofmem(__FILE__, "HTSetSuffix");
+		if(suff == NULL) HTOOM(__FILE__, "HTSetSuffix");
 
 		if(!HTSuffixes) HTSuffixes = HTList_new();
 		HTList_addObject(HTSuffixes, suff);
@@ -157,7 +157,7 @@ static char * vms_name(const char * nn, const char * fn)
 
 	char * hostname = HTHostName();
 
-	if (!filename || !nodename) outofmem(__FILE__, "vms_name");
+	if (!filename || !nodename) HTOOM(__FILE__, "vms_name");
 	strcpy(filename, fn);
 	strcpy(nodename, "");	/* On same node? Yes if node names match */
 	{
@@ -270,7 +270,7 @@ char* HTCacheFileName(const char* name) {
 	result = malloc(
 			strlen(HTCacheRoot) + strlen(access) + strlen(host) + strlen(path) +
 			6 + 1);
-	if(result == NULL) outofmem(__FILE__, "HTCacheFileName");
+	if(result == NULL) HTOOM(__FILE__, "HTCacheFileName");
 	sprintf(result, "%s/WWW/%s/%s%s", HTCacheRoot, access, host, path);
 	free(path);
 	free(access);
@@ -320,7 +320,7 @@ char* HTLocalName(const char* name) {
 		else {
 			char* result = malloc(
 					strlen("/Net/") + strlen(host) + strlen(path) + 1);
-			if(result == NULL) outofmem(__FILE__, "HTLocalName");
+			if(result == NULL) HTOOM(__FILE__, "HTLocalName");
 			sprintf(result, "%s%s%s", "/Net/", host, path);
 			free(host);
 			free(path);
@@ -338,7 +338,7 @@ char* HTLocalName(const char* name) {
 		result = malloc(
 				strlen(home) + strlen(access) + strlen(host) + strlen(path) +
 				6 + 1);
-		if(result == NULL) outofmem(__FILE__, "HTLocalName");
+		if(result == NULL) HTOOM(__FILE__, "HTLocalName");
 		sprintf(result, "%s/WWW/%s/%s%s", home, access, host, path);
 		free(path);
 		free(access);
@@ -361,18 +361,18 @@ char* WWW_nameOfFile(const char* name) {
 #ifdef NeXT
 	if (0==strncmp("/private/Net/", name, 13)) {
 	result = (char *)malloc(7+strlen(name+13)+1);
-	if (result == NULL) outofmem(__FILE__, "WWW_nameOfFile");
+	if (result == NULL) HTOOM(__FILE__, "WWW_nameOfFile");
 	sprintf(result, "file://%s", name+13);
 	} else
 #endif
 	if(0 == strncmp(HTMountRoot, name, 5)) {
 		result = malloc(7 + strlen(name + 5) + 1);
-		if(result == NULL) outofmem(__FILE__, "WWW_nameOfFile");
+		if(result == NULL) HTOOM(__FILE__, "WWW_nameOfFile");
 		sprintf(result, "file://%s", name + 5);
 	}
 	else {
 		result = malloc(7 + strlen(HTHostName()) + strlen(name) + 1);
-		if(result == NULL) outofmem(__FILE__, "WWW_nameOfFile");
+		if(result == NULL) HTOOM(__FILE__, "WWW_nameOfFile");
 		sprintf(result, "file://%s%s", HTHostName(), name);
 	}
 	if(TRACE) fprintf(stderr, "File `%s'\n\tmeans node `%s'\n", name, result);
@@ -586,7 +586,7 @@ void HTDirEntry(
 	/* If empty tail, gives absolute ref below */
 	relative = malloc(
 			strlen(tail) + strlen(escaped) + 2);
-	if(relative == NULL) outofmem(__FILE__, "DirRead");
+	if(relative == NULL) HTOOM(__FILE__, "DirRead");
 	sprintf(relative, "%s/%s", tail, escaped);
 	HTStartAnchor(target, NULL, relative);
 	free(escaped);
@@ -631,7 +631,7 @@ void HTDirTitles(HTStructured* target, HTAnchor* anchor) {
 		parent = strrchr(path, '/');  /* penultimate slash */
 
 		relative = malloc(strlen(current) + 4);
-		if(relative == NULL) outofmem(__FILE__, "DirRead");
+		if(relative == NULL) HTOOM(__FILE__, "DirRead");
 		sprintf(relative, "%s/..", current);
 		HTStartAnchor(target, "", relative);
 		free(relative);
@@ -906,7 +906,7 @@ int HTLoadFile(
 
 					dirname = (HTBTElement *)malloc(
 							strlen(dirbuf->name) + 2);
-					if (dirname == NULL) outofmem(__FILE__,"DirRead");
+					if (dirname == NULL) HTOOM(__FILE__,"DirRead");
 					StrAllocCopy(tmpfilename,localname);
 					if (strcmp(localname,"/"))
 

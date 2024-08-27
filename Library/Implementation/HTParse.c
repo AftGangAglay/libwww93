@@ -150,7 +150,7 @@ char* HTParse(const char* aName, const char* relatedName, int wanted) {
 	*/
 	len = strlen(aName) + strlen(relatedName) + 10;
 	result = malloc(len);        /* Lots of space: more than enough */
-	if(result == NULL) outofmem(__FILE__, "HTParse");
+	if(result == NULL) HTOOM(__FILE__, "HTParse");
 
 	StrAllocCopy(name, aName);
 	StrAllocCopy(rel, relatedName);
@@ -350,7 +350,7 @@ char* HTRelative(const char* aName, const char* relatedName) {
 		int levels = 0;
 		for(; *q && (*q != '#'); q++) if(*q == '/') levels++;
 		result = malloc(3 * levels + strlen(last_slash) + 1);
-		if(result == NULL) outofmem(__FILE__, "HTRelative");
+		if(result == NULL) HTOOM(__FILE__, "HTRelative");
 		result[0] = 0;
 		for(; levels; levels--)strcat(result, "../");
 		strcat(result, last_slash + 1);
@@ -410,7 +410,7 @@ char* HTEscape(const char* str, unsigned char mask) {
 		}
 	}
 	result = malloc(p - str + unacceptable + unacceptable + 1);
-	if(result == NULL) outofmem(__FILE__, "HTEscape");
+	if(result == NULL) HTOOM(__FILE__, "HTEscape");
 	for(q = result, p = str; *p; p++) {
 		unsigned char a = (*p);
 		if(!ACCEPTABLE(a)) {

@@ -162,7 +162,7 @@ static const HTStructuredClass HTMLGeneration = /* As opposed to print etc */
 
 HTStructured* HTMLGenerator(HTStream* output) {
 	HTStructured* me = malloc(sizeof(*me));
-	if(me == NULL) outofmem(__FILE__, "HTMLGenerator");
+	if(me == NULL) HTOOM(__FILE__, "HTMLGenerator");
 	me->isa = &HTMLGeneration;
 
 	me->target = output;
@@ -196,7 +196,7 @@ HTStream* HTPlainToHTML(
 	(void) pres;
 	(void) anchor;
 
-	if(me == NULL) outofmem(__FILE__, "PlainToHTML");
+	if(me == NULL) HTOOM(__FILE__, "PlainToHTML");
 	me->isa = (HTStreamClass*) &PlainToHTMLConversion;
 
 	me->target = sink;

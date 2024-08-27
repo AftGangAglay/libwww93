@@ -64,7 +64,7 @@ char* HTSACopy(char** dest, const char* src) {
 	}
 	else {
 		*dest = malloc(strlen(src) + 1);
-		if(*dest == NULL) outofmem(__FILE__, "HTSACopy");
+		if(*dest == NULL) HTOOM(__FILE__, "HTSACopy");
 		strcpy(*dest, src);
 	}
 	return *dest;
@@ -77,12 +77,12 @@ char* HTSACat(char** dest, const char* src) {
 		if(*dest) {
 			int length = strlen(*dest);
 			*dest = realloc(*dest, length + strlen(src) + 1);
-			if(*dest == NULL) outofmem(__FILE__, "HTSACat");
+			if(*dest == NULL) HTOOM(__FILE__, "HTSACat");
 			strcpy(*dest + length, src);
 		}
 		else {
 			*dest = malloc(strlen(src) + 1);
-			if(*dest == NULL) outofmem(__FILE__, "HTSACat");
+			if(*dest == NULL) HTOOM(__FILE__, "HTSACat");
 			strcpy(*dest, src);
 		}
 	}

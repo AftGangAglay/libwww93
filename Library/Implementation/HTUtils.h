@@ -69,7 +69,7 @@ __attribute__((noreturn))
 #elif defined(_MSC_VER)
 __declspec(noreturn)
 #endif
-void outofmem(const char* file, const char* func);
+void HTOOM(const char* file, const char* func);
 
 #endif /* HTUTILS_H */
 

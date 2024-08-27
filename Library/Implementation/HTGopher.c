@@ -447,7 +447,7 @@ static void de_escape(char* command, const char* selector) {
 	const char* p = selector;
 	char* q = command;
 
-	if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
+	if(command == NULL) HTOOM(__FILE__, "HTLoadGopher");
 
 	while(*p) { /* Decode hex */
 		if(*p == HEX_ESCAPE) {
@@ -531,7 +531,7 @@ int HTLoadGopher(
 
 			*query++ = 0; /* Skip '?' */
 			command = malloc(strlen(selector) + 1 + strlen(query) + 2 + 1);
-			if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
+			if(command == NULL) HTOOM(__FILE__, "HTLoadGopher");
 
 			de_escape(command, selector); /* Bug fix TBL 921208 */
 
@@ -564,7 +564,7 @@ int HTLoadGopher(
 			*query++ = 0; /* Skip '?' */
 
 			command = malloc(strlen("query") + 1 + strlen(query) + 2 + 1);
-			if(command == NULL) outofmem(__FILE__, "HTLoadGopher");
+			if(command == NULL) HTOOM(__FILE__, "HTLoadGopher");
 
 			de_escape(command, selector); /* Bug fix TBL 921208 */
 

@@ -129,7 +129,7 @@ HTStream* HTFWriter_new(FILE* fp) {
 	if(!fp) return 0;
 
 	me = malloc(sizeof(*me));
-	if(me == NULL) outofmem(__FILE__, "HTML_new");
+	if(me == NULL) HTOOM(__FILE__, "HTML_new");
 
 	me->isa = &HTFWriter;
 	me->fp = fp;
@@ -176,7 +176,7 @@ HTStream* HTSaveAndExecute(
 	HTStream* me;
 
 	me = (HTStream*)malloc(sizeof(*me));
-	if (me == NULL) outofmem(__FILE__, "Save and execute");
+	if (me == NULL) HTOOM(__FILE__, "Save and execute");
 	me->isa = &HTFWriter;
 
 	/* Save the file under a suitably suffixed name */
@@ -200,7 +200,7 @@ HTStream* HTSaveAndExecute(
 	me->end_command = (char *)malloc (
 				(strlen (pres->command) + 10+ 3*strlen(fnam))
 				 * sizeof (char));
-	if (me == NULL) outofmem(__FILE__, "SaveAndExecute");
+	if (me == NULL) HTOOM(__FILE__, "SaveAndExecute");
 
 	sprintf (me->end_command, pres->command, fnam, fnam, fnam);
 
@@ -211,7 +211,7 @@ HTStream* HTSaveAndExecute(
 	me->remove_command = (char *)malloc (
 				(strlen (REMOVE_COMMAND) + 10+ strlen(fnam))
 				 * sizeof (char));
-	if (me == NULL) outofmem(__FILE__, "SaveAndExecute");
+	if (me == NULL) HTOOM(__FILE__, "SaveAndExecute");
 
 	sprintf (me->remove_command, REMOVE_COMMAND, fnam);
 #endif
@@ -255,7 +255,7 @@ HTStream* HTSaveLocally(
 	(void) sink;
 
 	me = malloc(sizeof(*me));
-	if(me == NULL) outofmem(__FILE__, "SaveLocally");
+	if(me == NULL) HTOOM(__FILE__, "SaveLocally");
 
 	me->isa = &HTFWriter;
 	me->end_command = NULL;

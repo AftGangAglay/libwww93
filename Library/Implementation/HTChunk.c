@@ -12,7 +12,7 @@
 */
 HTChunk* HTChunkCreate(int grow) {
 	HTChunk* ch = malloc(sizeof(HTChunk));
-	if(ch == NULL) outofmem(__FILE__, "cretion of chunk");
+	if(ch == NULL) HTOOM(__FILE__, "cretion of chunk");
 
 	ch->data = 0;
 	ch->growby = grow;
@@ -52,7 +52,7 @@ void HTChunkPutc(HTChunk* ch, char c) {
 		ch->allocated = ch->allocated + ch->growby;
 		ch->data = ch->data ? realloc(ch->data, ch->allocated) : malloc(
 				ch->allocated);
-		if(!ch->data) outofmem(__FILE__, "HTChunkPutc");
+		if(!ch->data) HTOOM(__FILE__, "HTChunkPutc");
 	}
 	ch->data[ch->size++] = c;
 }
@@ -67,7 +67,7 @@ void HTChunkEnsure(HTChunk* ch, int needed) {
 					ch->growby; /* Round up */
 	ch->data = ch->data ? realloc(ch->data, ch->allocated) : malloc(
 			ch->allocated);
-	if(ch->data == NULL) outofmem(__FILE__, "HTChunkEnsure");
+	if(ch->data == NULL) HTOOM(__FILE__, "HTChunkEnsure");
 }
 
 

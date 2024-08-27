@@ -101,7 +101,7 @@ HTStream* HTPlainPresent(
 	(void) pres;
 	(void) sink;
 
-	if(me == NULL) outofmem(__FILE__, "HTPlain_new");
+	if(me == NULL) HTOOM(__FILE__, "HTPlain_new");
 	me->isa = &HTPlain;
 
 	me->text = HText_new(anchor);

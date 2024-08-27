@@ -381,7 +381,7 @@ static int get_connection(const char* arg) {
 		int status;
 
 		connection* con = malloc(sizeof(*con));
-		if(con == NULL) outofmem(__FILE__, "get_connection");
+		if(con == NULL) HTOOM(__FILE__, "get_connection");
 
 		con->addr = sin->sin_addr.s_addr; /* save it */
 		con->binary = HT_FALSE;
@@ -430,12 +430,12 @@ static int get_connection(const char* arg) {
 				char* command;
 				if(username) {
 					command = malloc(10 + strlen(username) + 2 + 1);
-					if(command == NULL) outofmem(__FILE__, "get_connection");
+					if(command == NULL) HTOOM(__FILE__, "get_connection");
 					sprintf(command, "USER %s%c%c", username, '\r', '\n');
 				}
 				else {
 					command = malloc(25);
-					if(command == NULL) outofmem(__FILE__, "get_connection");
+					if(command == NULL) HTOOM(__FILE__, "get_connection");
 					sprintf(command, "USER anonymous%c%c", '\r', '\n');
 				}
 				st = response(command);
@@ -445,7 +445,7 @@ static int get_connection(const char* arg) {
 				char* command;
 				if(password) {
 					command = malloc(10 + strlen(password) + 2 + 1);
-					if(command == NULL) outofmem(__FILE__, "get_connection");
+					if(command == NULL) HTOOM(__FILE__, "get_connection");
 					sprintf(command, "PASS %s%c%c", password, '\r', '\n');
 				}
 				else {
@@ -461,7 +461,7 @@ static int get_connection(const char* arg) {
 					if(!strchr(host, '.')) host = "";
 
 					command = malloc(20 + strlen(host) + 2 + 1);
-					if(command == NULL) outofmem(__FILE__, "get_connection");
+					if(command == NULL) HTOOM(__FILE__, "get_connection");
 
 					/*@@*/
 					sprintf(command, "PASS %s@%s%c%c", user, host, '\r', '\n');
@@ -688,7 +688,7 @@ static int read_directory(
 	else {
 		char* p = strrchr(filename, '/');  /* find lastslash */
 		lastpath = malloc(strlen(p));
-		if(!lastpath) outofmem(__FILE__, "read_directory");
+		if(!lastpath) HTOOM(__FILE__, "read_directory");
 		strcpy(lastpath, p + 1);    /* take slash off the beginning */
 	}
 	free(filename);

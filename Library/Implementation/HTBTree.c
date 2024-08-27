@@ -18,7 +18,7 @@ HTBTree* HTBTree_new(HTComparer comp)
 */
 {
 	HTBTree* tree = malloc(sizeof(HTBTree));
-	if(!tree) outofmem(__FILE__, "HTBTree_new");
+	if(!tree) HTOOM(__FILE__, "HTBTree_new");
 
 	tree->compare = comp;
 	tree->top = NULL;
@@ -116,7 +116,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 
 	if(!tree->top) {
 		tree->top = malloc(sizeof(HTBTElement));
-		if(!tree->top) outofmem(__FILE__, "HTBTree_add");
+		if(!tree->top) HTOOM(__FILE__, "HTBTree_add");
 		tree->top->up = NULL;
 		tree->top->object = object;
 		tree->top->left = NULL;
@@ -138,7 +138,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 				else {
 					father_found = HT_FALSE;
 					father_of_element->left = malloc(sizeof(HTBTElement));
-					if(father_of_element->left == NULL) outofmem(__FILE__,
+					if(father_of_element->left == NULL) HTOOM(__FILE__,
 																 "HTBTree_add");
 					added_element = father_of_element->left;
 					added_element->up = father_of_element;
@@ -156,7 +156,7 @@ void HTBTree_add(HTBTree* tree, void* object)
 				else {
 					father_found = HT_FALSE;
 					father_of_element->right = malloc(sizeof(HTBTElement));
-					if(father_of_element->right == NULL) outofmem(__FILE__,
+					if(father_of_element->right == NULL) HTOOM(__FILE__,
 																  "HTBTree_add");
 					added_element = father_of_element->right;
 					added_element->up = father_of_element;

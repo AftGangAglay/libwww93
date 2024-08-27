@@ -147,7 +147,7 @@ static const HTStreamClass HTWriter = /* As opposed to print etc */
 
 HTStream* HTWriter_new(int soc) {
 	HTStream* me = malloc(sizeof(*me));
-	if(me == NULL) outofmem(__FILE__, "HTML_new");
+	if(me == NULL) HTOOM(__FILE__, "HTML_new");
 	me->isa = &HTWriter;
 
 #ifdef NOT_ASCII
@@ -164,7 +164,7 @@ HTStream* HTWriter_new(int soc) {
 
 HTStream* HTASCIIWriter(int soc) {
 	HTStream* me = malloc(sizeof(*me));
-	if(me == NULL) outofmem(__FILE__, "HTML_new");
+	if(me == NULL) HTOOM(__FILE__, "HTML_new");
 	me->isa = &HTWriter;
 
 #ifdef NOT_ASCII

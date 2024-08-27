@@ -343,7 +343,7 @@ char* HTAnchor_address(HTAnchor* me) {
 			addr = malloc(
 					2 + strlen(me->parent->address) +
 					strlen(((HTChildAnchor*) me)->tag));
-			if(addr == NULL) outofmem(__FILE__, "HTAnchor_address");
+			if(addr == NULL) HTOOM(__FILE__, "HTAnchor_address");
 			sprintf(
 					addr, "%s#%s", me->parent->address,
 					((HTChildAnchor*) me)->tag);
@@ -413,7 +413,7 @@ HTBool HTAnchor_link(
 	}
 	else {
 		HTLink* newLink = malloc(sizeof(HTLink));
-		if(newLink == NULL) outofmem(__FILE__, "HTAnchor_link");
+		if(newLink == NULL) HTOOM(__FILE__, "HTAnchor_link");
 		newLink->dest = destination;
 		newLink->type = type;
 		if(!source->links) {
@@ -463,7 +463,7 @@ HTBool HTAnchor_makeMainLink(HTAnchor* me, HTLink* movingLink) {
 	else {
 		/* First push current main link onto top of links list */
 		HTLink* newLink = malloc(sizeof(HTLink));
-		if(newLink == NULL) outofmem(__FILE__, "HTAnchor_makeMainLink");
+		if(newLink == NULL) HTOOM(__FILE__, "HTAnchor_makeMainLink");
 		memcpy(newLink, &me->mainLink, sizeof(HTLink));
 		HTList_addObject(me->links, newLink);
 

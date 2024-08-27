@@ -130,7 +130,7 @@ static int get_physical(const char* addr, HTParentAnchor* anchor) {
 	{
 		char* gateway_parameter, * gateway;
 		gateway_parameter = malloc(strlen(access) + 20);
-		if(gateway_parameter == NULL) outofmem(__FILE__, "HTLoad");
+		if(gateway_parameter == NULL) HTOOM(__FILE__, "HTLoad");
 		strcpy(gateway_parameter, "WWW_");
 		strcat(gateway_parameter, access);
 		strcat(gateway_parameter, "_GATEWAY");
@@ -498,7 +498,7 @@ HTBool HTSearch(const char* keywords, HTParentAnchor* here) {
 					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
 					0 };    /* 7X  pqrstuvwxyz{\}~	DEL */
 
-	if(escaped == NULL) outofmem(__FILE__, "HTSearch");
+	if(escaped == NULL) HTOOM(__FILE__, "HTSearch");
 
 
 /*	Convert spaces to + and hex escape unacceptable characters
@@ -606,7 +606,7 @@ HTParentAnchor* HTHomeAnchor(void) {
 	if (home) { 
 		my_home_document = (char *)malloc(
 		strlen(home)+1+ strlen(PERSONAL_DEFAULT)+1);
-		if (my_home_document == NULL) outofmem(__FILE__, "HTLocalName");
+		if (my_home_document == NULL) HTOOM(__FILE__, "HTLocalName");
 		sprintf(my_home_document, "%s/%s", home, PERSONAL_DEFAULT);
 		fp = fopen(my_home_document, "r");
 	}
