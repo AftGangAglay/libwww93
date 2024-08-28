@@ -13,7 +13,7 @@
 /*
  * Debug message control.
  */
-#ifdef _DEBUG
+#ifndef NDEBUG
 # define TRACE (WWW_TraceFlag)
 # define PROGRESS(str) printf(str)
 extern int WWW_TraceFlag;
