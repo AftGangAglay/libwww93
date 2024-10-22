@@ -213,7 +213,7 @@ static void end_element(HTStream* context, HTTag* old_tag) {
 		context->element_stack = N->next;        /* Remove from stack */
 		free(N);
 		(*context->actions->end_element)(
-				context->target, t - context->dtd->tags);
+				context->target, (int) (t - context->dtd->tags));
 		if(old_tag == t) return;  /* Correct sequence */
 
 		/* Syntax error path only */
@@ -233,9 +233,10 @@ static void start_element(HTStream* context) {
 	HTTag* new_tag = context->current_tag;
 
 	if(TRACE) fprintf(stderr, "SGML: Start <%s>\n", new_tag->name);
+	/* coerce type for think c */
 	(*context->actions->start_element)(
-			context->target, new_tag - context->dtd->tags, context->present,
-			(const char**) context->value);  /* coerce type for think c */
+			context->target, (int) (new_tag - context->dtd->tags),
+			context->present, (const char**) context->value);
 	if(new_tag->contents != SGML_EMPTY) {        /* i.e. tag not empty */
 		HTElement* N = malloc(sizeof(HTElement));
 		if(N == NULL) HTOOM(__FILE__, "start_element");

@@ -392,7 +392,7 @@ void HTFileCopy(FILE* fp, HTStream* sink) {
 	/*	Push binary from socket down sink
 	*/
 	for(;;) {
-		int status = fread(
+		int status = (int) fread(
 				input_buffer, 1, INPUT_BUFFER_SIZE, fp);
 		if(status == 0) { /* EOF or error */
 			if(ferror(fp) == 0) break;

@@ -127,7 +127,7 @@ int HTLoadHTTP(
 #ifdef DECNET
 	s = socket(AF_DECnet, SOCK_STREAM, 0);
 #else
-	s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	s = (int) socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 #endif
 	status = connect(s, (struct sockaddr*) &soc_address, sizeof(soc_address));
 	if(status < 0) {
@@ -466,7 +466,7 @@ int HTLoadHTTP(
 
 	(*target->isa->put_block)(
 			target, binary_buffer + (start_of_data - text_buffer),
-			length - (start_of_data - text_buffer));
+			(int) (length - (start_of_data - text_buffer)));
 	HTCopy(s, target);
 
 	(*target->isa->free)(target);

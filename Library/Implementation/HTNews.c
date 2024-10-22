@@ -189,7 +189,7 @@ static int response(const char* command) {
 	char* p = response_text;
 	if(command) {
 		int status;
-		int length = strlen(command);
+		int length = (int) strlen(command);
 		if(TRACE) fprintf(stderr, "NNTP command to be sent: %s", command);
 #ifdef NOT_ASCII
 		{
@@ -955,7 +955,7 @@ int HTLoadNews(
 
 		if(s < 0) {
 			NEWS_PROGRESS("Connecting to NewsHost ...");
-			s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+			s = (int) socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 			status = connect(
 					s, (struct sockaddr*) &soc_address, sizeof(soc_address));
 			if(status < 0) {

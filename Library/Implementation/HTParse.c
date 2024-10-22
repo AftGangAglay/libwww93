@@ -54,7 +54,7 @@ char* HTStrip(char* s) {
 static void scan(char* name, struct struct_parts* parts) {
 	char* after_access;
 	char* p;
-	int length = strlen(name);
+	int length = (int) strlen(name);
 
 	parts->access = 0;
 	parts->host = 0;
@@ -148,7 +148,7 @@ char* HTParse(const char* aName, const char* relatedName, int wanted) {
 
 	/* Make working copies of input strings to cut up:
 	*/
-	len = strlen(aName) + strlen(relatedName) + 10;
+	len = (int) (strlen(aName) + strlen(relatedName) + 10);
 	result = malloc(len);        /* Lots of space: more than enough */
 	if(result == NULL) HTOOM(__FILE__, "HTParse");
 

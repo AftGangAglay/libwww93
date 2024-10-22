@@ -143,7 +143,8 @@ char* HTTranslate(const char* required) {
 		}
 
 		if(*p == '*') {        /* Match up to wildcard */
-			m = strlen(q) - strlen(p + 1); /* Amount to match to wildcard */
+			/* Amount to match to wildcard */
+			m = (unsigned) (strlen(q) - strlen(p + 1));
 			if(m < 0) continue;           /* tail is too short to match */
 			if(0 != strcmp(q + m, p + 1)) continue;    /* Tail mismatch */
 		}

@@ -598,7 +598,7 @@ int HTLoadGopher(
 	/*
 	 * Set up a socket to the server for the data:
 	 */
-	s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	s = (int) socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	status = connect(s, (struct sockaddr*) &soc_address, sizeof(soc_address));
 	if(status < 0) {
 		if(TRACE) {

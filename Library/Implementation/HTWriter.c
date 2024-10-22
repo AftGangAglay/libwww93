@@ -43,7 +43,11 @@ static void flush(HTStream* me) {
 #endif
 	while(read_pointer < write_pointer) {
 		int status;
-		status = write(me->soc, me->buffer, write_pointer - read_pointer);
+
+		status = write(
+				me->soc, me->buffer,
+				(unsigned) (write_pointer - read_pointer));
+
 		if(status < 0) {
 			if(TRACE) {
 				fprintf(
@@ -80,7 +84,7 @@ static void HTWriter_put_character(HTStream* me, char c) {
 **	Strings must be smaller than this buffer size.
 */
 static void HTWriter_put_string(HTStream* me, const char* s) {
-	int l = strlen(s);
+	int l = (int) strlen(s);
 	if(me->write_pointer + l > &me->buffer[BUFFER_SIZE]) flush(me);
 	strcpy(me->write_pointer, s);
 	me->write_pointer = me->write_pointer + l;
@@ -99,7 +103,7 @@ static void HTWriter_write(HTStream* me, const char* s, int l) {
 
 	while(read_pointer < write_pointer) {
 		int status = write(me->soc, read_pointer,
-							  write_pointer - read_pointer);
+						   (unsigned) (write_pointer - read_pointer));
 		if(status < 0) {
 			if(TRACE) {
 				fprintf(

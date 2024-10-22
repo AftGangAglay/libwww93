@@ -385,7 +385,7 @@ static int get_connection(const char* arg) {
 
 		con->addr = sin->sin_addr.s_addr; /* save it */
 		con->binary = HT_FALSE;
-		status = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		status = (int) socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if(status < 0) {
 			(void) HTInetStatus("socket");
@@ -512,6 +512,7 @@ static int close_master_socket(void) {
 	int status;
 #ifdef _MSC_VER
 # pragma warning(push)
+# pragma warning(disable: 4388) /* Signed/Unsigned comparison mismatch. */
 # pragma warning(disable: 4389) /* Signed/Unsigned comparison mismatch. */
 #endif
 	FD_CLR(master_socket, &open_sockets);
@@ -555,7 +556,7 @@ static int get_listen_socket(void) {
 
 /*  Create internet socket
 */
-	new_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	new_socket = (int) socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 	if(new_socket < 0) {
 		return HTInetStatus("socket for master socket");
@@ -897,7 +898,7 @@ int HTFTPLoad(
 	{
 		struct sockaddr_in soc_address;
 		unsigned soc_addrlen = sizeof(soc_address);
-		status = accept(
+		status = (int) accept(
 				master_socket, (struct sockaddr*) &soc_address,
 				(void*) &soc_addrlen);
 		if(status < 0) {

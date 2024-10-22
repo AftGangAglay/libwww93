@@ -10,6 +10,8 @@
 #include <HTUtils.h>
 #include <HTSTD.h>
 
+/* TODO: Use these in AGA? */
+
 int WWW_TraceFlag = 0;    /* Global trace flag for ALL W3 code */
 
 #ifndef VC
@@ -75,7 +77,7 @@ char* HTSACopy(char** dest, const char* src) {
 char* HTSACat(char** dest, const char* src) {
 	if(src && *src) {
 		if(*dest) {
-			int length = strlen(*dest);
+			int length = (int) strlen(*dest);
 			*dest = realloc(*dest, length + strlen(src) + 1);
 			if(*dest == NULL) HTOOM(__FILE__, "HTSACat");
 			strcpy(*dest + length, src);
