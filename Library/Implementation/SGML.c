@@ -176,7 +176,6 @@ static void handle_entity(HTStream* context, char term) {
 **	-----------
 */
 static void end_element(HTStream* context, HTTag* old_tag) {
-	if(TRACE) fprintf(stderr, "SGML: End   </%s>\n", old_tag->name);
 	if(old_tag->contents == SGML_EMPTY) {
 		if(TRACE) {
 			fprintf(
@@ -232,7 +231,6 @@ static void end_element(HTStream* context, HTTag* old_tag) {
 static void start_element(HTStream* context) {
 	HTTag* new_tag = context->current_tag;
 
-	if(TRACE) fprintf(stderr, "SGML: Start <%s>\n", new_tag->name);
 	/* coerce type for think c */
 	(*context->actions->start_element)(
 			context->target, (int) (new_tag - context->dtd->tags),
