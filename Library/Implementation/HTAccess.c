@@ -79,7 +79,6 @@ HTBool HTRegisterProtocol(HTProtocol* protocol) {
 */
 #ifndef NO_INIT
 
-/* TODO: WWW Global State. */
 extern HTProtocol HTTP, HTFile, HTTelnet, HTTn3270, HTRlogin;
 extern HTProtocol HTFTP, HTNews, HTGopher;
 

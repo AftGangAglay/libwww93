@@ -10,8 +10,6 @@
 #include <HTUtils.h>
 #include <HTSTD.h>
 
-/* TODO: Use these in AGA? */
-
 int WWW_TraceFlag = 0;    /* Global trace flag for ALL W3 code */
 
 #ifndef VC

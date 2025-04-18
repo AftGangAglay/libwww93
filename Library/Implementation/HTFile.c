@@ -19,7 +19,7 @@
 #include <HTFile.h>        /* Implemented here */
 
 
-#define HT_LINE_MAX 512        /* file name length @@ FIXME */
+#define HT_LINE_MAX 512        /* file name length */
 #define MULTI_SUFFIX ".multi"   /* Extension for scanning formats */
 
 #include <HTUtils.h>

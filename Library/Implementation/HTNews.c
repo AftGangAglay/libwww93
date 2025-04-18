@@ -609,7 +609,6 @@ read_group(const char* groupName, int first_required, int last_required) {
 	char* p;
 	HTBool done;
 
-	/* TODO: This is a janky solution to buffer safety here. */
 	char buffer[LINE_LENGTH * 3 + 1];
 	char* reference = 0;            /* Href for article */
 	int art;                /* Article number WITHIN GROUP */

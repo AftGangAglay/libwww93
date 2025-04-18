@@ -27,7 +27,7 @@ void HTHistory_record(HTAnchor* destination) {
 */
 
 HTAnchor*
-HTHistory_backtrack(void)  /* FIXME: Should we add a `sticky' option ? */
+HTHistory_backtrack(void)
 {
 	if(HTHistory_canBacktrack()) {
 		HTList_removeLastObject(history);
@@ -76,7 +76,7 @@ HTAnchor* HTHistory_moveBy(int offset) {
 		}
 	}
 	else {  /* Was a parent */
-		return 0;  /* FIXME we could possibly follow the next link... */
+		return 0;
 	}
 }
 
@@ -91,7 +91,7 @@ HTBool HTHistory_canMoveBy(int offset) {
 		return !!HTList_objectAt(kids, i - offset);
 	}
 	else {  /* Was a parent */
-		return HT_FALSE;  /* FIXME we could possibly follow the next link... */
+		return HT_FALSE;
 	}
 }
 

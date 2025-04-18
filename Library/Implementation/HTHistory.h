@@ -20,7 +20,7 @@ void HTHistory_record(HTAnchor* destination);
 */
 
 HTAnchor*
-HTHistory_backtrack(void);  /* FIXME: Should we add a `sticky' option ? */
+HTHistory_backtrack(void);
 
 HTBool HTHistory_canBacktrack(void);
 
