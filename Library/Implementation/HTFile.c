@@ -509,7 +509,7 @@ float HTFileValue(const char* filename) {
 **	2.	Isn't there a quicker way?
 */
 HTBool HTEditable(const char* filename) {
-#ifdef _WIN32
+#ifdef ASYS_WIN32
 	(void) filename;
 
 	return HT_FALSE;        /* Safe answer till we find the correct algorithm */
