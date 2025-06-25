@@ -25,4 +25,8 @@
 #define ASYS_FORCE_STD_INCLUDE
 #include <asys/system.h>
 
+#ifdef ASYS_WIN32
+# define NO_UNIX_IO
+#endif
+
 #endif

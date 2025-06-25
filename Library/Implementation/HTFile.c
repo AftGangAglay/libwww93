@@ -677,6 +677,8 @@ int HTLoadFile(
 	char* newname = 0;    /* Simplified name of file */
 	HTAtom* encoding;    /* @@ not used yet */
 
+	(void) format;
+
 /*	Reduce the filename to a basic form (hopefully unique!)
 */
 	StrAllocCopy(newname, addr);
